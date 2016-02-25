@@ -1,4 +1,4 @@
-package com.derby.nuke
+package com.derby.nuke.wheatgrass
 
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
