@@ -12,6 +12,11 @@ import javax.persistence.Id
 
 import org.hibernate.annotations.GenericGenerator
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
+
 @Entity
 @EqualsAndHashCode
 @ToString
@@ -28,6 +33,8 @@ class User {
 	String name;
 	String department;
 	String imageUrl;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	LocalDate birthday;
 	String birthplace;
 }
