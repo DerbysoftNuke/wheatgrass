@@ -1,5 +1,8 @@
 package com.derby.nuke.wheatgrass
 
+import java.time.LocalDate
+
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,7 +23,17 @@ class DefaultApplicationTests {
 
 	@Test
 	void contextLoads() {
-		User user = userRepository.findOne("8a4818ac531be72b01531be746f70000");
-		println user.email;
+		User user = new User();
+		user.birthday = LocalDate.now();
+		user.email = "test@test.com";
+		user.name = "test";
+		user.openId = "openId";
+		
+		userRepository.save(user);
+		Assert.assertNotNull(user.id);
+		
+		User dbUser = userRepository.findOne(user.id);
+		println user;
+		Assert.assertTrue(user == dbUser);
 	}
 }

@@ -1,5 +1,8 @@
 package com.derby.nuke.wheatgrass.entity;
 
+import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
+
 import java.time.LocalDate
 
 import javax.persistence.Column
@@ -7,16 +10,11 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
-import lombok.Data
-import lombok.NoArgsConstructor
-import lombok.RequiredArgsConstructor
-
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@Data
-@NoArgsConstructor
-@RequiredArgsConstructor
+@EqualsAndHashCode
+@ToString
 class User {
 
 	@GeneratedValue(generator = "uuid")
