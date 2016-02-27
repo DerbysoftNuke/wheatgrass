@@ -7,6 +7,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationConfiguration
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.web.WebAppConfiguration
 
@@ -20,6 +22,8 @@ class DefaultApplicationTests {
 	
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	JavaMailSender javaMailSender;
 
 	@Test
 	void contextLoads() {
@@ -35,5 +39,15 @@ class DefaultApplicationTests {
 		User dbUser = userRepository.findOne(user.id);
 		println user;
 		Assert.assertTrue(user == dbUser);
+	}
+	
+	@Test
+	void sendMail(){
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.from = "passyt@gmail.com";
+		message.to = "passyt@qq.xom";
+		message.subject = "test";
+		message.text= "test";
+		javaMailSender.send(message);
 	}
 }

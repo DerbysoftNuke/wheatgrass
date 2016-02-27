@@ -1,0 +1,4 @@
+handlers:
+  - matchers:
+      type: .+
+    service: robotService
