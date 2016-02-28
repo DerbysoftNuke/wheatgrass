@@ -7,19 +7,24 @@ import javax.xml.bind.JAXBContext
 import org.apache.commons.codec.digest.DigestUtils
 import org.codehaus.groovy.runtime.InvokerHelper
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.http.MediaType
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.ModelAndView
 import org.yaml.snakeyaml.Yaml
 
+import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.webchat.model.Message
 import com.derby.nuke.wheatgrass.webchat.model.MessageContext
+import com.derby.nuke.wheatgrass.webchat.model.Message.MessageType
 import com.google.common.base.Joiner
 
 @RestController
@@ -32,7 +37,11 @@ class MessageController implements ApplicationContextAware {
 	def token;
 	@Value('${wechat.message.verify}')
 	def boolean verify = false;
+	@Value('${web.external.url}')
+	def externalUrl;
 	def ApplicationContext applicationContext;
+	@Autowired
+	def UserRepository userRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	def valid(@RequestParam signature, @RequestParam timestamp, @RequestParam nonce, @RequestParam echostr){
@@ -47,7 +56,7 @@ class MessageController implements ApplicationContextAware {
 
 		return "";
 	}
-
+	
 	@RequestMapping(method = RequestMethod.POST, produces=MediaType.TEXT_XML_VALUE)
 	def Message receive(@RequestParam(required=false) signature, @RequestParam(required=false) timestamp, @RequestParam(required=false) nonce, @RequestParam(value="encrypt_type", required=false) encryptType, @RequestParam(value="msg_signature", required=false) msgSignature, @RequestBody Message message){
 		if(log.isInfoEnabled()){
@@ -62,25 +71,31 @@ class MessageController implements ApplicationContextAware {
 				throw new IllegalArgumentException("Invalid signature");
 			}
 		}
-
+		
 		try{
 			MessageContext.put(new MessageContext(userId: message.from, inputMessage: message));
 			def from = message.from;
 			def to = message.to;
-	
-			Yaml yaml = new Yaml();
-			def configuration = yaml.load(new InputStreamReader(MessageController.class.getClassLoader().getResourceAsStream("wechat.yaml"),"UTF-8"));
-			def handler = find(configuration.handlers, message);
-			def result = [type: "text", content: "请输入帮助命令: help"];
-			if(handler != null){
-				result = invoke(message, handler.params, handler.service);
-			}
-	
-			if(result.properties != null){
-				InvokerHelper.setProperties(message, result.properties);
+			
+			def user = userRepository.getByOpenId(message.from);
+			if(user == null){
+				message.type = MessageType.text;
+				message.content = "请<a href='${externalUrl}/wechat/bind?openId=${from}'>绑定邮箱</a>";
 			}else{
-				result.each{name,value->
+				Yaml yaml = new Yaml();
+				def configuration = yaml.load(new InputStreamReader(MessageController.class.getClassLoader().getResourceAsStream("wechat.yaml"),"UTF-8"));
+				def handler = find(configuration.handlers, message);
+				def result = [type: "text", content: "请输入帮助命令: help"];
+				if(handler != null){
+					result = invoke(message, handler.params, handler.service);
+				}
+				
+				if(result.properties != null){
+					InvokerHelper.setProperties(message, result.properties);
+				}else{
+					result.each{name,value->
 					message[name] = value;
+					}
 				}
 			}
 			
@@ -96,6 +111,37 @@ class MessageController implements ApplicationContextAware {
 		}finally{
 			MessageContext.remove();
 		}
+	}
+	
+	@RequestMapping(value="/bind", method = RequestMethod.GET)
+	def bind(@RequestParam(value="openId") openId, Model model){
+		def user = userRepository.getByOpenId(openId);
+		if(user != null){
+			return new ModelAndView("wechat/bind_successful");
+		}
+		
+		model.addAttribute("openId", openId);
+		return new ModelAndView("wechat/bind");
+	}
+	
+	@RequestMapping(value="/bind", method = RequestMethod.POST)
+	def bind(@RequestParam(value="openId") openId, @RequestParam(value="emailPrefix") emailPrefix, @RequestParam(value="emailSufix") emailSufix){
+		//TODO send email
+		return new ModelAndView("wechat/mail_successful");
+	}
+	
+	@RequestMapping(value="/verifyemail")
+	def verifyEmail(@RequestParam(value="token") token, @RequestParam(value="email") email){
+		def user = userRepository.getByEmail(email);
+		if(user == null){
+			throw new IllegalArgumentException("Unknown email address ${email}");
+		}
+		
+		if(user.token != token){
+			throw new IllegalArgumentException("Invalid token, please re-bind");
+		}
+		
+		return new ModelAndView("wechat/bind_successful");
 	}
 
 	def invoke(message, params, serviceText){
