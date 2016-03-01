@@ -3,6 +3,7 @@ package com.derby.nuke.wheatgrass.wechat;
 import java.util.regex.Pattern
 
 import javax.mail.internet.MimeUtility
+import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBContext
 
 import org.apache.commons.codec.digest.DigestUtils
@@ -123,17 +124,10 @@ class MessageController implements ApplicationContextAware {
 	}
 	
 	@RequestMapping(value="/bind_email", method = RequestMethod.GET)
-	def bindEmail(@RequestParam(value="code", required=false) code,@RequestParam(value="openId", required=false) openId, Model model){
-		if(code == null && openId == null){
-			throw new IllegalArgumentException("Invalid url");
-		}
-		
-		if(code != null){
-			openId = wechatService.getOpenId(code);
-		}
-		
+	def bindEmail(HttpSession session, Model model){
+		def openId = session.getAttribute("wechat.openId");
 		if(openId == null){
-			throw new IllegalArgumentException("Invalid open id ${openId}");
+			throw new IllegalArgumentException("OpenId not found");
 		}
 		
 		def user = userRepository.getByOpenId(openId);
@@ -148,7 +142,12 @@ class MessageController implements ApplicationContextAware {
 	}
 	
 	@RequestMapping(value="/bind_email", method = RequestMethod.POST)
-	def bindEmail(@RequestParam(value="openId") openId, @RequestParam(value="emailPrefix") emailPrefix, @RequestParam(value="emailSufix") emailSufix){
+	def bindEmail(HttpSession session, @RequestParam(value="emailPrefix") emailPrefix, @RequestParam(value="emailSufix") emailSufix){
+		def openId = session.getAttribute("wechat.openId");
+		if(openId == null){
+			throw new IllegalArgumentException("OpenId not found");
+		}
+		
 		def user = userRepository.getByOpenId(openId);
 		if(user != null){
 			if(user.validation){

@@ -11,7 +11,6 @@
 </head>
 <body>
 	<form th:action="@{/wechat/bind_email}" method="POST">
-		<input type="hidden" name="openId" th:value="${openId}"/>
 		<div class="weui_cells_title">输入要绑定的Email</div>
 		<div class="weui_cells weui_cells_form">
 			<div class="weui_cell weui_cell_select weui_select_after">

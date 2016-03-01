@@ -47,6 +47,10 @@ class WechatService{
 		}
 	}
 	
+	def getUrlForCode(redirectUri){
+		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_base";
+	}
+	
 	private def invoke(code){
 		def response = client.execute(RequestBuilder.get().setUri("${url}/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code").build());
 		return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);

@@ -38,6 +38,7 @@ class MenuTools{
 	
 	static void main(String[] args) {
 		println URLEncoder.encode("https://54.248.83.126/wheatgrass/wechat/mine_skill", "UTF-8");
+		println URLDecoder.decode("https%3A%2F%2F54.248.83.126%2Fwheatgrass%2Fwechat%2Fbind_email", "UTF-8");
 	}
 	
 }
