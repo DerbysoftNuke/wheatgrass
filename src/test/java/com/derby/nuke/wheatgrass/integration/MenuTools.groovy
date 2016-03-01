@@ -23,6 +23,19 @@ class MenuTools{
 		println IOUtils.toString(response.getEntity().getContent());
 	}
 	
+	@Test
+	void getMenu(){
+		def token = wechatService.getAccessToken();
+		println "token: ${token}";
+		def response = client.execute(RequestBuilder.get().setUri("https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${token}").addHeader("Content-Type", "applicatoin/json;charset=UTF-8").build());
+		println IOUtils.toString(response.getEntity().getContent());
+	}
+	
+	@Test
+	void getOpenId(){
+		println wechatService.getOpenId("0319e473f9560df234932f61e202cf1H");	
+	}
+	
 	static void main(String[] args) {
 		println URLEncoder.encode("https://54.248.83.126/wheatgrass/wechat/mine_skill", "UTF-8");
 	}

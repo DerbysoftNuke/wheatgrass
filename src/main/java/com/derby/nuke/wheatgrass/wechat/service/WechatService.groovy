@@ -25,11 +25,13 @@ class WechatService{
 	private final def cache = CacheBuilder.from("expireAfterWrite=5m").build();
 	
 	def getOpenId(code){
-		return cache.get(code, {key -> doCall(code)}).openid;
+		def result = cache.get(code, {key -> invoke(code)});
+		return result.openid;
 	}
 	
 	def getAccessToken(code){
-		return cache.get(code, {key -> doCall(code)}).access_token;
+		def result = cache.get(code, {key -> invoke(code)});
+		return result.access_token;
 	}
 	
 	def getAccessToken(){
@@ -45,8 +47,8 @@ class WechatService{
 		}
 	}
 	
-	private def doCall(code){
-		def response = client.execute(RequestBuilder.get().setUri("${url}/sns/oauth2/access_token?appid=${appId}&secret=SECRET&code=${code}&grant_type=authorization_code").build());
+	private def invoke(code){
+		def response = client.execute(RequestBuilder.get().setUri("${url}/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code").build());
 		return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);
 	}
 

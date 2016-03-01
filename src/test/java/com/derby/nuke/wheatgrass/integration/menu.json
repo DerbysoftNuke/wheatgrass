@@ -10,13 +10,28 @@
         },
         {
           "type": "view",
-          "name": "我的专家",
+          "name": "我的资料",
           "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa334e1b73137720&redirect_uri=https%3A%2F%2F54.248.83.126%2Fwheatgrass%2Fwechat%2Fmine_skill&response_type=code&scope=snsapi_base"
+        },
+        {
+          "type": "view",
+          "name": "我的提问",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa334e1b73137720&redirect_uri=https%3A%2F%2F54.248.83.126%2Fwheatgrass%2Fwechat%2Fmine_skill&response_type=code&scope=snsapi_base"
+        }
+      ]
+    },
+    {
+      "name": "其它",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "百度",
+          "url": "https://www.baidu.com/"
         },
         {
           "type": "click",
           "name": "赞一下我们",
-          "key": "V1001_GOOD"
+          "key": "V1002_GOOD"
         }
       ]
     }

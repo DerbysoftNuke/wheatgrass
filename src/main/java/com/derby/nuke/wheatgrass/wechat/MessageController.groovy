@@ -89,8 +89,8 @@ class MessageController implements ApplicationContextAware {
 			def user = userRepository.getByOpenId(message.from);
 			if(user == null){
 				message.type = MessageType.text;
-				message.content = "请<a href='${externalUrl}/wechat/bind?openId=${from}'>绑定邮箱</a>";
-			}else{
+				message.content = "请<a href='${externalUrl}/wechat/bind_email?openId=${from}'>绑定邮箱</a>";
+			}else if(message.type != null){
 				Yaml yaml = new Yaml();
 				def configuration = yaml.load(new InputStreamReader(MessageController.class.getClassLoader().getResourceAsStream("wechat.yaml"),"UTF-8"));
 				def handler = find(configuration.handlers, message);
