@@ -16,7 +16,7 @@ class OpenIdInterceptor implements HandlerInterceptor  {
 
 	@Override
 	boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if(request.getRequestURI().contains("/wechat") && !request.getRequestURI().contains("/wechat/verify_email")){
+		if(request.getRequestURI().contains("/wechat") && !request.getRequestURI().endsWith("/wechat") && !request.getRequestURI().contains("/wechat/verify_email") ){
 			String openId = request.getSession().getAttribute("wechat.openId");
 			if(openId == null){
 				String code = request.getParameter("code");
