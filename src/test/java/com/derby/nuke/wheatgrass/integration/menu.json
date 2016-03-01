@@ -1,0 +1,24 @@
+{
+  "button": [
+    {
+      "name": "我的",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "绑定邮箱",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa334e1b73137720&redirect_uri=https%3A%2F%2F54.248.83.126%2Fwheatgrass%2Fwechat%2Fbind_email&response_type=code&scope=snsapi_base"
+        },
+        {
+          "type": "view",
+          "name": "我的专家",
+          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa334e1b73137720&redirect_uri=https%3A%2F%2F54.248.83.126%2Fwheatgrass%2Fwechat%2Fmine_skill&response_type=code&scope=snsapi_base"
+        },
+        {
+          "type": "click",
+          "name": "赞一下我们",
+          "key": "V1001_GOOD"
+        }
+      ]
+    }
+  ]
+}

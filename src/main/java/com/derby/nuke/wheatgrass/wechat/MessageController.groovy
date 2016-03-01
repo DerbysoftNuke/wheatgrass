@@ -123,10 +123,17 @@ class MessageController implements ApplicationContextAware {
 	}
 	
 	@RequestMapping(value="/bind_email", method = RequestMethod.GET)
-	def bindEmail(@RequestParam(value="code") code, Model model){
-		def openId = wechatService.getOpenId(code);
+	def bindEmail(@RequestParam(value="code", required=false) code,@RequestParam(value="openId", required=false) openId, Model model){
+		if(code == null && openId == null){
+			throw new IllegalArgumentException("Invalid url");
+		}
+		
+		if(code != null){
+			openId = wechatService.getOpenId(code);
+		}
+		
 		if(openId == null){
-			throw new IllegalArgumentException("Invalid code ${code}");
+			throw new IllegalArgumentException("Invalid open id ${openId}");
 		}
 		
 		def user = userRepository.getByOpenId(openId);
