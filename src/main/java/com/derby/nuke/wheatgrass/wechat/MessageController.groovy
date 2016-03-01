@@ -29,6 +29,7 @@ import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.wechat.model.Message
 import com.derby.nuke.wheatgrass.wechat.model.MessageContext
 import com.derby.nuke.wheatgrass.wechat.model.Message.MessageType
+import com.derby.nuke.wheatgrass.wechat.service.WechatService
 import com.google.common.base.Joiner
 
 @RestController
@@ -48,6 +49,8 @@ class MessageController implements ApplicationContextAware {
 	def UserRepository userRepository;
 	@Autowired
 	def JavaMailSender mailSender;
+	@Autowired
+	def WechatService wechatService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	def valid(@RequestParam signature, @RequestParam timestamp, @RequestParam nonce, @RequestParam echostr){
@@ -120,7 +123,12 @@ class MessageController implements ApplicationContextAware {
 	}
 	
 	@RequestMapping(value="/bind_email", method = RequestMethod.GET)
-	def bindEmail(@RequestParam(value="openId") openId, Model model){
+	def bindEmail(@RequestParam(value="code") code, Model model){
+		def openId = wechatService.getOpenId(code);
+		if(openId == null){
+			throw new IllegalArgumentException("Invalid code ${code}");
+		}
+		
 		def user = userRepository.getByOpenId(openId);
 		if(user != null){
 			if(user.validation){

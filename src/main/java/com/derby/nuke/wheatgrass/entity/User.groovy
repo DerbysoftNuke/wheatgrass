@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.Type
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
@@ -38,5 +39,6 @@ class User {
 	LocalDate birthday;
 	String birthplace;
 	String token;
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	boolean validation;
 }
