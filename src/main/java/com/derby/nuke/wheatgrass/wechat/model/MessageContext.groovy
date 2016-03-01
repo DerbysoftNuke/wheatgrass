@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.webchat.model;
+package com.derby.nuke.wheatgrass.wechat.model;
 
 class MessageContext{
 	

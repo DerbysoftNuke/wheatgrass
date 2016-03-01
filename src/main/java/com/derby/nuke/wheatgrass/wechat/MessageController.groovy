@@ -1,7 +1,8 @@
-package com.derby.nuke.wheatgrass.webchat;
+package com.derby.nuke.wheatgrass.wechat;
 
 import java.util.regex.Pattern
 
+import javax.mail.internet.MimeUtility
 import javax.xml.bind.JAXBContext
 
 import org.apache.commons.codec.digest.DigestUtils
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.http.MediaType
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,10 +24,11 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 import org.yaml.snakeyaml.Yaml
 
+import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.repository.UserRepository
-import com.derby.nuke.wheatgrass.webchat.model.Message
-import com.derby.nuke.wheatgrass.webchat.model.MessageContext
-import com.derby.nuke.wheatgrass.webchat.model.Message.MessageType
+import com.derby.nuke.wheatgrass.wechat.model.Message
+import com.derby.nuke.wheatgrass.wechat.model.MessageContext
+import com.derby.nuke.wheatgrass.wechat.model.Message.MessageType
 import com.google.common.base.Joiner
 
 @RestController
@@ -42,6 +46,8 @@ class MessageController implements ApplicationContextAware {
 	def ApplicationContext applicationContext;
 	@Autowired
 	def UserRepository userRepository;
+	@Autowired
+	def JavaMailSender mailSender;
 
 	@RequestMapping(method = RequestMethod.GET)
 	def valid(@RequestParam signature, @RequestParam timestamp, @RequestParam nonce, @RequestParam echostr){
@@ -113,35 +119,73 @@ class MessageController implements ApplicationContextAware {
 		}
 	}
 	
-	@RequestMapping(value="/bind", method = RequestMethod.GET)
-	def bind(@RequestParam(value="openId") openId, Model model){
+	@RequestMapping(value="/bind_email", method = RequestMethod.GET)
+	def bindEmail(@RequestParam(value="openId") openId, Model model){
 		def user = userRepository.getByOpenId(openId);
 		if(user != null){
-			return new ModelAndView("wechat/bind_successful");
+			if(user.validation){
+				return new ModelAndView("wechat/warning", "message", "邮箱已激活: ${user.email}");
+			}
 		}
 		
 		model.addAttribute("openId", openId);
-		return new ModelAndView("wechat/bind");
+		return new ModelAndView("wechat/bind_email");
 	}
 	
-	@RequestMapping(value="/bind", method = RequestMethod.POST)
-	def bind(@RequestParam(value="openId") openId, @RequestParam(value="emailPrefix") emailPrefix, @RequestParam(value="emailSufix") emailSufix){
-		//TODO send email
-		return new ModelAndView("wechat/mail_successful");
+	@RequestMapping(value="/bind_email", method = RequestMethod.POST)
+	def bindEmail(@RequestParam(value="openId") openId, @RequestParam(value="emailPrefix") emailPrefix, @RequestParam(value="emailSufix") emailSufix){
+		def user = userRepository.getByOpenId(openId);
+		if(user != null){
+			if(user.validation){
+				return new ModelAndView("wechat/warning", "message", "邮箱已经绑定: ${user.email}");
+			}
+		}
+		
+		def email = emailPrefix+emailSufix;
+		def token = UUID.randomUUID().toString();
+		
+		def emailUser = userRepository.getByEmail(email);
+		if(emailUser != null){
+			return new ModelAndView("wechat/warning", "message", "邮箱地址已经被使用!");
+		}
+		
+		if(user == null){
+			user = new User(email:email, token:token, openId:openId);
+		}else{
+			user.email = email;
+			user.token = token;
+			user.openId = openId;
+		}
+		
+		def message = new SimpleMailMessage();
+		message.from = "nuke.wiki@derbygroupmail.com";
+		message.to = new String[1];
+		message.to[0] = email;
+		message.subject = MimeUtility.encodeText("激活邮箱", "UTF-8", "B");
+		message.text= "${externalUrl}/wechat/verify_email?token=${token}&email=${email}";
+		mailSender.send(message);
+		userRepository.save(user);
+		return new ModelAndView("wechat/successful", "message", "请前往邮箱激活!");
 	}
 	
-	@RequestMapping(value="/verifyemail")
+	@RequestMapping(value="/verify_email")
 	def verifyEmail(@RequestParam(value="token") token, @RequestParam(value="email") email){
 		def user = userRepository.getByEmail(email);
 		if(user == null){
-			throw new IllegalArgumentException("Unknown email address ${email}");
+			throw new IllegalArgumentException("不存在的邮箱地址, 请重新绑定邮箱");
+		}
+		
+		if(user.validation){
+			return new ModelAndView("wechat/warning", "message", "邮箱已经激活");
 		}
 		
 		if(user.token != token){
-			throw new IllegalArgumentException("Invalid token, please re-bind");
+			throw new IllegalArgumentException("无效请求, 请重新绑定邮箱");
 		}
 		
-		return new ModelAndView("wechat/bind_successful");
+		user.validation = true;
+		userRepository.save(user);
+		return new ModelAndView("wechat/successful", "message", "激活成功!");
 	}
 
 	def invoke(message, params, serviceText){

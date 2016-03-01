@@ -2,6 +2,8 @@ package com.derby.nuke.wheatgrass
 
 import java.time.LocalDate
 
+import javax.mail.internet.MimeUtility
+
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +21,7 @@ import com.derby.nuke.wheatgrass.repository.UserRepository
 @SpringApplicationConfiguration(classes = DefaultApplication)
 @WebAppConfiguration
 class DefaultApplicationTests {
-	
+
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -32,22 +34,24 @@ class DefaultApplicationTests {
 		user.email = "test@test.com";
 		user.name = "test";
 		user.openId = "openId";
-		
+
 		userRepository.save(user);
 		Assert.assertNotNull(user.id);
-		
+
 		User dbUser = userRepository.findOne(user.id);
 		println user;
 		Assert.assertTrue(user == dbUser);
 	}
-	
+
 	@Test
 	void sendMail(){
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.from = "passyt@gmail.com";
-		message.to = "passyt@qq.xom";
-		message.subject = "test";
-		message.text= "test";
+		def message = new SimpleMailMessage();
+		message.from = "nuke.wiki@derbygroupmail.com";
+		message.to = new String[2];
+		message.to[0] = "passyt@qq.xom";
+		message.to[1] = "passyt@gmail.com";
+		message.subject = MimeUtility.encodeText("test", "UTF-8", "B");
+		message.text= "test123";
 		javaMailSender.send(message);
 	}
 }

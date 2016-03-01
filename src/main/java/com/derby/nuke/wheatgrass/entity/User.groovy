@@ -37,4 +37,6 @@ class User {
 	@JsonSerialize(using = LocalDateSerializer.class)
 	LocalDate birthday;
 	String birthplace;
+	String token;
+	boolean validation;
 }

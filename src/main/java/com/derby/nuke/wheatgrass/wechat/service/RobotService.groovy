@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.webchat.service
+package com.derby.nuke.wheatgrass.wechat.service
 
 import javax.xml.bind.JAXBContext
 
@@ -9,8 +9,8 @@ import org.apache.http.impl.client.HttpClients
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
-import com.derby.nuke.wheatgrass.webchat.model.Message
-import com.derby.nuke.wheatgrass.webchat.model.MessageContext
+import com.derby.nuke.wheatgrass.wechat.model.Message
+import com.derby.nuke.wheatgrass.wechat.model.MessageContext
 
 @Service
 class RobotService{
