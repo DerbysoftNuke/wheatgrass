@@ -34,10 +34,7 @@ import com.derby.nuke.wheatgrass.wechat.service.WechatService
 import com.google.common.base.Joiner
 
 @RestController
-@RequestMapping("/wechat")
-class MessageController implements ApplicationContextAware {
-
-	private static final def log = LoggerFactory.getLogger(MessageController.class);
+class MessageController extends WechatController implements ApplicationContextAware {
 
 	@Value('${wechat.token}')
 	def token;
@@ -45,13 +42,10 @@ class MessageController implements ApplicationContextAware {
 	def boolean verify = false;
 	@Value('${web.external.url}')
 	def externalUrl;
+	@Autowired
 	def ApplicationContext applicationContext;
 	@Autowired
 	def UserRepository userRepository;
-	@Autowired
-	def JavaMailSender mailSender;
-	@Autowired
-	def WechatService wechatService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	def valid(@RequestParam signature, @RequestParam timestamp, @RequestParam nonce, @RequestParam echostr){
@@ -88,9 +82,9 @@ class MessageController implements ApplicationContextAware {
 			def to = message.to;
 			
 			def user = userRepository.getByOpenId(message.from);
-			if(user == null){
+			if(user == null || !user.validation){
 				message.type = MessageType.text;
-				message.content = "请<a href='${externalUrl}/wechat/bind_email?openId=${from}'>绑定邮箱</a>";
+				message.content = "请<a href='${externalUrl}/wechat/email/bind?openId=${from}'>绑定邮箱</a>";
 			}else if(message.type != null){
 				Yaml yaml = new Yaml();
 				def configuration = yaml.load(new InputStreamReader(MessageController.class.getClassLoader().getResourceAsStream("wechat.yaml"),"UTF-8"));
@@ -123,85 +117,6 @@ class MessageController implements ApplicationContextAware {
 		}
 	}
 	
-	@RequestMapping(value="/bind_email", method = RequestMethod.GET)
-	def bindEmail(HttpSession session, Model model){
-		def openId = session.getAttribute("wechat.openId");
-		if(openId == null){
-			throw new IllegalArgumentException("OpenId not found");
-		}
-		
-		def user = userRepository.getByOpenId(openId);
-		if(user != null){
-			if(user.validation){
-				return new ModelAndView("wechat/warning", "message", "邮箱已激活: ${user.email}");
-			}
-		}
-		
-		model.addAttribute("openId", openId);
-		return new ModelAndView("wechat/bind_email");
-	}
-	
-	@RequestMapping(value="/bind_email", method = RequestMethod.POST)
-	def bindEmail(HttpSession session, @RequestParam(value="emailPrefix") emailPrefix, @RequestParam(value="emailSufix") emailSufix){
-		def openId = session.getAttribute("wechat.openId");
-		if(openId == null){
-			throw new IllegalArgumentException("OpenId not found");
-		}
-		
-		def user = userRepository.getByOpenId(openId);
-		if(user != null){
-			if(user.validation){
-				return new ModelAndView("wechat/warning", "message", "邮箱已经绑定: ${user.email}");
-			}
-		}
-		
-		def email = emailPrefix+emailSufix;
-		def token = UUID.randomUUID().toString();
-		
-		def emailUser = userRepository.getByEmail(email);
-		if(emailUser != null){
-			return new ModelAndView("wechat/warning", "message", "邮箱地址已经被使用!");
-		}
-		
-		if(user == null){
-			user = new User(email:email, token:token, openId:openId);
-		}else{
-			user.email = email;
-			user.token = token;
-			user.openId = openId;
-		}
-		
-		def message = new SimpleMailMessage();
-		message.from = "nuke.wiki@derbygroupmail.com";
-		message.to = new String[1];
-		message.to[0] = email;
-		message.subject = MimeUtility.encodeText("激活邮箱", "UTF-8", "B");
-		message.text= "${externalUrl}/wechat/verify_email?token=${token}&email=${email}";
-		mailSender.send(message);
-		userRepository.save(user);
-		return new ModelAndView("wechat/successful", "message", "请前往邮箱激活!");
-	}
-	
-	@RequestMapping(value="/verify_email")
-	def verifyEmail(@RequestParam(value="token") token, @RequestParam(value="email") email){
-		def user = userRepository.getByEmail(email);
-		if(user == null){
-			throw new IllegalArgumentException("不存在的邮箱地址, 请重新绑定邮箱");
-		}
-		
-		if(user.validation){
-			return new ModelAndView("wechat/warning", "message", "邮箱已经激活");
-		}
-		
-		if(user.token != token){
-			throw new IllegalArgumentException("无效请求, 请重新绑定邮箱");
-		}
-		
-		user.validation = true;
-		userRepository.save(user);
-		return new ModelAndView("wechat/successful", "message", "激活成功!");
-	}
-
 	def invoke(message, params, serviceText){
 		def beanAndMethods = serviceText.trim().split("\\.");
 		def bean = applicationContext.getBean(beanAndMethods[0]);
@@ -251,8 +166,4 @@ class MessageController implements ApplicationContextAware {
 		return [params: params, service: handler.service];
 	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext context){
-		applicationContext = context;
-	}
 }

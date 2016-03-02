@@ -1,4 +1,8 @@
 handlers:
   - matchers:
+      type: event
+      event: unsubscribe
+    service: unsubscribeService
+  - matchers:
       type: .+
     service: robotService

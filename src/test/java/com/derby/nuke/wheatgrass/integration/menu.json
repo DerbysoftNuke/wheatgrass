@@ -6,17 +6,17 @@
         {
           "type": "view",
           "name": "绑定邮箱",
-          "url": "https://54.248.83.126/wheatgrass/wechat/bind_email"
+          "url": "http://54.248.83.126/wheatgrass/wechat/email/bind"
         },
         {
           "type": "view",
           "name": "我的资料",
-          "url": "https://54.248.83.126/wheatgrass/wechat/my_profile"
+          "url": "https://54.248.83.126/wheatgrass/wechat/profile/mine"
         },
         {
           "type": "view",
           "name": "我的提问",
-          "url": "https://54.248.83.126/wheatgrass/wechat/my_question"
+          "url": "https://54.248.83.126/wheatgrass/wechat/question/mine"
         }
       ]
     },
