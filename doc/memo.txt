@@ -1,0 +1,3 @@
+curl -v -X PUT -H "Content-Type: text/uri-list" \
+     -d "http://localhost:8080/skill/8a1e415e533666c30153368d9d680000" \
+     http://localhost:8080/userskill/8a1e415e5336d7b3015336ef86bf0000/skill
