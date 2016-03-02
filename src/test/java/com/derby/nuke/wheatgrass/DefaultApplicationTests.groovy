@@ -13,6 +13,7 @@ import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.transaction.annotation.Transactional;
 
 import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.repository.UserRepository
@@ -28,6 +29,7 @@ class DefaultApplicationTests {
 	JavaMailSender javaMailSender;
 
 	@Test
+	@Transactional
 	void contextLoads() {
 		User user = new User();
 		user.birthday = LocalDate.now();

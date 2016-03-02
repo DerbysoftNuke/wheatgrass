@@ -44,8 +44,6 @@ class MessageController extends WechatController implements ApplicationContextAw
 	def externalUrl;
 	@Autowired
 	def ApplicationContext applicationContext;
-	@Autowired
-	def UserRepository userRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	def valid(@RequestParam signature, @RequestParam timestamp, @RequestParam nonce, @RequestParam echostr){

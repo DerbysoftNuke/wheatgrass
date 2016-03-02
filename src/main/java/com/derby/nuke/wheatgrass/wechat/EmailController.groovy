@@ -24,14 +24,10 @@ class EmailController extends WechatController{
 	@Value('${web.external.url}')
 	def externalUrl;
 	@Autowired
-	def UserRepository userRepository;
-	@Autowired
 	def JavaMailSender mailSender;
-	@Autowired
-	def WechatService wechatService;
 
 	@RequestMapping(value="/email/bind", method = RequestMethod.GET)
-	def bindEmail(HttpSession session, Model model){
+	def bindEmail(HttpSession session){
 		def openId = session.getAttribute("wechat.openId");
 		if(openId == null){
 			throw new IllegalArgumentException("OpenId not found");
@@ -44,7 +40,6 @@ class EmailController extends WechatController{
 			}
 		}
 
-		model.addAttribute("openId", openId);
 		return new ModelAndView("wechat/bind_email");
 	}
 
