@@ -21,7 +21,22 @@
       ]
     },
     {
-      "name": "其它",
+      "name": "奖励",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "积分",
+          "url": "http://54.248.83.126/wheatgrass/wechat/email/bind"
+        },
+        {
+          "type": "view",
+          "name": "勋章",
+          "url": "http://54.248.83.126/wheatgrass/wechat/profile"
+        }
+      ]
+    },
+    {
+      "name": "关于",
       "sub_button": [
         {
           "type": "view",
