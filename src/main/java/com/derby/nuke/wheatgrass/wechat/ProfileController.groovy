@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView
 
 import com.derby.nuke.wheatgrass.repository.UserRepository
 
-@RestController
+@RestController("UserProfileController")
 class ProfileController extends WechatController{
 
-	@RequestMapping(value="/profile/mine", method = RequestMethod.GET)
+	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	def profile(HttpSession session, @RequestParam(value="id", required=false) id){
 		def openId = session.getAttribute("wechat.openId");
 		if(openId == null){

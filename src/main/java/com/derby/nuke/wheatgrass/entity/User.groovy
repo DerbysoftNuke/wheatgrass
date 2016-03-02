@@ -8,6 +8,9 @@ import java.time.LocalDate
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
@@ -21,7 +24,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(excludes=["skills"])
 @ToString
 class User{
 
@@ -42,9 +45,11 @@ class User{
 	@JsonSerialize(using = LocalDateSerializer.class)
 	LocalDate birthday;
 	String birthplace;
+	@Enumerated(EnumType.STRING)
+	Sex sex = Sex.Unknown;
 	String token;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	boolean validation;
-	@OneToMany(cascade = CascadeType.ALL)
-	Set<Skill> skills = new HashSet<>();
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	Set<UserSkill> skills = new HashSet<>();
 }

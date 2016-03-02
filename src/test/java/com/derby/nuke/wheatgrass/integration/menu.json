@@ -11,12 +11,12 @@
         {
           "type": "view",
           "name": "我的资料",
-          "url": "https://54.248.83.126/wheatgrass/wechat/profile/mine"
+          "url": "http://54.248.83.126/wheatgrass/wechat/profile"
         },
         {
           "type": "view",
           "name": "我的提问",
-          "url": "https://54.248.83.126/wheatgrass/wechat/question/mine"
+          "url": "http://54.248.83.126/wheatgrass/wechat/question"
         }
       ]
     },
