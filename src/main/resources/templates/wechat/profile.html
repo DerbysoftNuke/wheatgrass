@@ -33,8 +33,9 @@
 		<div class="weui_panel_bd">
 			<div class="weui_media_box weui_media_text" th:each="userSkill : ${user.skills}">
 				<h4 class="weui_media_title" th:text="${userSkill.skill.name}">技能名称</h4>
+				<p class="weui_media_desc" th:text="${userSkill.skill.description}">技能描述</p>
 				<ul class="weui_media_info">
-					<li class="weui_media_info_meta" th:text="${userSkill.point}">评分</li>
+					<li class="weui_media_info_meta" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 18px;">☆</li>
 					<!-- 
 					<li class="weui_media_info_meta">文字来源</li>
 					<li class="weui_media_info_meta weui_media_info_meta_extra">其它信息</li>
