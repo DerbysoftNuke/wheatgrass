@@ -44,30 +44,40 @@
 						</div>
 						<div class="weui_cell">
 							<div class="weui_cell_bd weui_cell_primary">
-								<p>出生日期</p>
+								<p>生日</p>
 							</div>
 							<div class="weui_cell_ft" th:text="${user.birthday}">${user.birthday}</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<a class="weui_panel_ft weui_cell js_tab" href="javascript:$('#more_profile').toggle();">查看更多</a>
+			<a class="weui_panel_ft weui_cell" href="javascript:$('#more_profile').toggle();">查看更多</a>
 		</div>
-		<div class="weui_panel">
-			<div class="weui_panel_hd">技能列表</div>
-			<div class="weui_panel_bd">
-				<div class="weui_media_box weui_media_text" th:each="userSkill : ${user.skills}">
-					<h4 class="weui_media_title" th:text="${userSkill.skill.name}">技能名称</h4>
-					<p class="weui_media_desc" th:text="${userSkill.skill.description}">技能描述</p>
-					<ul class="weui_media_info">
-						<li class="weui_media_info_meta" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
-						<!-- 
-					<li class="weui_media_info_meta">文字来源</li>
-					<li class="weui_media_info_meta weui_media_info_meta_extra">其它信息</li>
-					 -->
-					</ul>
+		<div class="weui_panel weui_panel_access">
+			<form action="" th:action="@{/wechat/profile}" method="POST">
+				<div class="weui_panel_hd">技能列表</div>
+				<div class="weui_panel_bd">
+					<div class="weui_media_box weui_media_text weui_cell_switch" th:each="userSkill : ${user.skills}">
+						<h4 class="weui_media_title" th:text="${userSkill.skill.name}">技能名称</h4>
+						<p class="weui_media_desc" th:text="${userSkill.skill.description}">技能描述</p>
+						<div class="weui_cell_ft skill_edit" style="display: none;">
+		                    <input class="weui_switch" type="checkbox" th:checked="true" name="skills" th:value="${userSkill.skill.id}" />
+		                </div>
+						<ul class="weui_media_info skill_point" th:if="${userSkill.point} gt 0">
+							<li class="weui_media_info_meta" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
+						</ul>
+					</div>
+					<div class="weui_media_box weui_media_text weui_cell_switch other_skills" th:each="skill : ${skills}" style="display: none;">
+						<h4 class="weui_media_title" th:text="${skill.name}">技能名称</h4>
+						<p class="weui_media_desc" th:text="${skill.description}">技能描述</p>
+						<div class="weui_cell_ft skill_edit" style="display: none;">
+		                    <input class="weui_switch" type="checkbox" th:checked="false" name="skills" th:value="${skill.id}" />
+		                </div>
+					</div>
 				</div>
-			</div>
+				<button type="submit" class="weui_btn weui_btn_primary skill_submit" style="display: none;">提交</button>
+				<a class="weui_panel_ft weui_cell" href="javascript:$('.skill_edit').toggle();$('.skill_point').toggle();$('.other_skills').toggle();$('.skill_submit').toggle();">编辑</a>
+			</form>
 		</div>
 	</body>
 </html>

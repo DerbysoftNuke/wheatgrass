@@ -12,7 +12,6 @@ import javax.persistence.UniqueConstraint
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
-@EqualsAndHashCode
 @ToString
 class Skill {
 
@@ -25,4 +24,5 @@ class Skill {
 	String name;
 	String description;
 	int star;
+	
 }
