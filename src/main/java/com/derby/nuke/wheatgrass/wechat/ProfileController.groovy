@@ -3,6 +3,7 @@ package com.derby.nuke.wheatgrass.wechat;
 import javax.servlet.http.HttpSession
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -73,7 +74,7 @@ class ProfileController extends WechatController{
 		addedSkills.each {skill->
 			user.skills.add(new UserSkill(user: user, skill: skill));
 		}
-		userRepository.save(user);
+		userRepository.saveAndFlush(user);
 		return getProfile(session, null);
 	}
 }
