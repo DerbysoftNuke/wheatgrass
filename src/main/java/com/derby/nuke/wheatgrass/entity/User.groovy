@@ -26,7 +26,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 
 @Entity
 @EqualsAndHashCode(excludes=["skills"])
-@ToString
+@ToString(excludes=["skills"])
 class User{
 
 	@GeneratedValue(generator = "uuid")
