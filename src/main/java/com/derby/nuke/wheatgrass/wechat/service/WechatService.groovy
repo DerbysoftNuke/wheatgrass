@@ -51,6 +51,16 @@ class WechatService{
 		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_base";
 	}
 	
+	def getUrlForProfile(redirectUri){
+		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_userinfo";
+	}
+	
+	def getUserInfo(code){
+		def result = cache.get(code, {key -> invoke(code)});
+		def response = client.execute(RequestBuilder.get().setUri("${url}/sns/userinfo?access_token=${result.access_token}&openid=${result.openid}&lang=zh_CN").build());
+		return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);
+	}
+	
 	private def invoke(code){
 		def response = client.execute(RequestBuilder.get().setUri("${url}/sns/oauth2/access_token?appid=${appId}&secret=${appSecret}&code=${code}&grant_type=authorization_code").build());
 		return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);

@@ -6,7 +6,7 @@
         {
           "type": "view",
           "name": "绑定邮箱",
-          "url": "http://54.248.83.126/wheatgrass/wechat/email/bind"
+          "url": "http://54.248.83.126/wheatgrass/wechat/email/bind?fetch_userinfo=true"
         },
         {
           "type": "view",
@@ -25,12 +25,12 @@
       "sub_button": [
         {
           "type": "view",
-          "name": "积分",
+          "name": "积分兑换",
           "url": "http://54.248.83.126/wheatgrass/wechat/email/bind"
         },
         {
           "type": "view",
-          "name": "勋章",
+          "name": "勋章排名",
           "url": "http://54.248.83.126/wheatgrass/wechat/profile"
         }
       ]

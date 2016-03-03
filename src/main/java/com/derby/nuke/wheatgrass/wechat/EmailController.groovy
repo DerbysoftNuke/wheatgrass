@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
+import com.derby.nuke.wheatgrass.entity.Sex;
 import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.wechat.service.WechatService
@@ -33,11 +34,25 @@ class EmailController extends WechatController{
 			throw new IllegalArgumentException("OpenId not found");
 		}
 
+		def userInfo = session.getAttribute("wechat.userInfo");
 		def user = userRepository.getByOpenId(openId);
 		if(user != null){
 			if(user.validation){
 				return new ModelAndView("wechat/warning", "message", "邮箱已激活: ${user.email}");
 			}
+		}else{
+			user = new User();
+		}
+		
+		if(userInfo != null){
+			user.nickName = userInfo.nickname;
+			if(userInfo.sex == "1"){
+				user.sex = Sex.Male; 
+			} else if(userInfo.sex == "2"){
+				user.sex = Sex.Female; 
+			}
+			user.imageUrl = userInfo.headimgurl;
+			userRepository.save(user);
 		}
 
 		return new ModelAndView("wechat/bind_email");

@@ -41,6 +41,7 @@ class User{
 	@JsonIgnore
 	String password;
 	String name;
+	String nickName;
 	String department;
 	String imageUrl;
 	@JsonDeserialize(using = LocalDateDeserializer.class)

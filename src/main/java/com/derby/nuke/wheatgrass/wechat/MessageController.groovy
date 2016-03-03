@@ -82,7 +82,7 @@ class MessageController extends WechatController implements ApplicationContextAw
 			def user = userRepository.getByOpenId(message.from);
 			if(user == null || !user.validation){
 				message.type = MessageType.text;
-				message.content = "请<a href='${externalUrl}/wechat/email/bind?openId=${from}'>绑定邮箱</a>";
+				message.content = "请<a href='${externalUrl}/wechat/email/bind?fetch_userinfo=true'>绑定邮箱</a>";
 			}else if(message.type != null){
 				Yaml yaml = new Yaml();
 				def configuration = yaml.load(new InputStreamReader(MessageController.class.getClassLoader().getResourceAsStream("wechat.yaml"),"UTF-8"));
