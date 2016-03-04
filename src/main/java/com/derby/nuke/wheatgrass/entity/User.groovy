@@ -53,6 +53,6 @@ class User{
 	String token;
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	boolean validation;
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserSkill> skills = new HashSet<>();
 }

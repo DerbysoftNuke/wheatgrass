@@ -28,19 +28,19 @@
 							<div class="weui_cell_bd weui_cell_primary">
 								<p>微信名</p>
 							</div>
-							<div class="weui_cell_ft" th:text="${user.nickName}"></div>
+							<div class="weui_cell_ft" th:text="${user.nickName}">NickName</div>
 						</div>
 						<div class="weui_cell">
 							<div class="weui_cell_bd weui_cell_primary">
 								<p>性别</p>
 							</div>
-							<div class="weui_cell_ft" th:text="${user.sex}">${user.sex}</div>
+							<div class="weui_cell_ft" th:text="${user.sex}">Male</div>
 						</div>
 						<div class="weui_cell">
 							<div class="weui_cell_bd weui_cell_primary">
 								<p>Email</p>
 							</div>
-							<div class="weui_cell_ft" th:text="${user.email}">${user.email}</div>
+							<div class="weui_cell_ft" th:text="${user.email}">unknown@unknown.com</div>
 						</div>
 						<div class="weui_cell">
 							<div class="weui_cell_bd weui_cell_primary">
@@ -55,7 +55,7 @@
 		</div>
 		<div class="weui_panel weui_panel_access">
 			<form action="" th:action="@{/wechat/profile}" method="POST">
-				<div class="weui_panel_hd">技能列表</div>
+				<div class="weui_panel_hd">Get到的技能</div>
 				<div class="weui_panel_bd">
 					<div class="weui_media_box weui_media_text weui_cell_switch" th:each="userSkill : ${user.skills}">
 						<h4 class="weui_media_title" th:text="${userSkill.skill.name}">技能名称</h4>

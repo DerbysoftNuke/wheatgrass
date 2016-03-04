@@ -63,17 +63,21 @@ class ProfileController extends WechatController{
 		}
 		def user = userRepository.getByOpenId(openId);
 		def allSkills = skillRepository.findAll(skillIds);
-		def addedSkills = allSkills.findAll {skill->
-			!skillIds.contains(skill.id);
-		}
-		def deletedUserSkills = user.skills.findAll {userSkill->
-			!skillIds.contains(userSkill.skill.id);
+		
+		def deletedUserSkills = Sets.newHashSet();
+		user.skills.each {userSkill->
+			if(!skillIds.contains(userSkill.skill.id)){
+				deletedUserSkills.add(userSkill);
+			}else{
+				skillIds.remove(userSkill.skill.id);
+			}
 		}
 		
 		user.skills.removeAll(deletedUserSkills);
-		addedSkills.each {skill->
-			user.skills.add(new UserSkill(user: user, skill: skill));
+		skillIds.each {skillId->
+			user.skills.add(new UserSkill(user: user, skill: skillRepository.getOne(skillId)));
 		}
+		
 		userRepository.saveAndFlush(user);
 		return getProfile(session, null);
 	}

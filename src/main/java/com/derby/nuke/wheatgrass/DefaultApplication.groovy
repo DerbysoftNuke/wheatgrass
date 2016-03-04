@@ -19,11 +19,6 @@ class DefaultApplication {
 		"Welcome to wheatgrass";
 	}
 	
-	@Bean
-	public PlatformTransactionManager transactionManager() {
-		return new JpaTransactionManager();
-	}
-
 	static void main(String[] args) {
 		SpringApplication.run DefaultApplication, args
 	}
