@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+		<script type="text/javascript" th:src="@{/js/angular.min.js}"/>
+		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
+		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
+	</head>
+	<body>
+		<div class="weui_panel weui_panel_access" th:each="user : ${users}">
+			<div class="weui_panel_bd">
+				<a th:hred="@{/wechat/profile(openId=${user.openId})}" href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+					<div class="weui_media_hd">
+						<img class="weui_media_appmsg_thumb" th:src="${user.imageUrl}" height="80" width="80"/>
+					</div>
+					<div class="weui_media_bd">
+						<h4 class="weui_media_title" th:text="${user.name}">姓名</h4>
+						<p class="weui_media_desc" th:text="${user.department}">部门</p>
+					</div>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>

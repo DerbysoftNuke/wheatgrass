@@ -24,6 +24,8 @@ class ProfileController extends WechatController{
 	
 	@RequestMapping(value="/profiles", method = RequestMethod.GET)
 	def listUsers(){
+		def users = userRepository.findAll();
+		return new ModelAndView("wechat/users", ["users": users]);
 	}
 	
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
