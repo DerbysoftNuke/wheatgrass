@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.wechat;
+package com.derby.nuke.wheatgrass.wechat.controller;
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired;

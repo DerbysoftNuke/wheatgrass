@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.wechat;
+package com.derby.nuke.wheatgrass.wechat.controller;
 
 import javax.mail.internet.MimeUtility
 import javax.servlet.http.HttpSession

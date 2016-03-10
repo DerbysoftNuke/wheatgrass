@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView
 
 import com.derby.nuke.wheatgrass.wechat.service.WechatService
 
-class OpenIdInterceptor implements HandlerInterceptor  {
+class LoginInterceptor implements HandlerInterceptor  {
 
 	@Autowired
 	def WechatService wechatService;
