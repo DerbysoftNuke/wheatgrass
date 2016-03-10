@@ -11,13 +11,13 @@ import com.derby.nuke.wheatgrass.wechat.LoginInterceptor
 class WebConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Bean
-	public LoginInterceptor openIdInterceptor() {
+	public LoginInterceptor loginInterceptor() {
 		return new LoginInterceptor();
 	}
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(openIdInterceptor());
+		registry.addInterceptor(loginInterceptor());
 	}
 	
 }

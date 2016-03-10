@@ -3,16 +3,19 @@ package com.derby.nuke.wheatgrass.wechat;
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.HandlerInterceptor
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 
+import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.wechat.service.WechatService
 
-class LoginInterceptor implements HandlerInterceptor  {
+class LoginInterceptor extends HandlerInterceptorAdapter  {
 
 	@Autowired
 	def WechatService wechatService;
+	@Autowired
+	def UserRepository userRepository;
 
 	@Override
 	boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -41,23 +44,16 @@ class LoginInterceptor implements HandlerInterceptor  {
 					}else{
 						openId = wechatService.getOpenId(code);
 					}
+					def user = userRepository.getByOpenId(openId);
 					request.getSession().setAttribute("wechat.openId", openId);
+					
+					if(!request.getRequestURI().endsWith("/email/bind") && (user == null || !user.validation)){
+						response.sendRedirect(request.getContextPath()+"/email/bind");
+					}
 					return true;
 				}
 			}
 		}
 		return true;
-	}
-
-	@Override
-	void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 }

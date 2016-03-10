@@ -22,6 +22,10 @@ class ProfileController extends WechatController{
 	@Autowired
 	def SkillRepository skillRepository;
 	
+	@RequestMapping(value="/profiles", method = RequestMethod.GET)
+	def listUsers(){
+	}
+	
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	def getProfile(HttpSession session, @RequestParam(value="id", required=false) id){
 		def openId = session.getAttribute("wechat.openId");
