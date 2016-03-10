@@ -43,8 +43,8 @@ class LoginInterceptor extends HandlerInterceptorAdapter  {
 					request.getSession().setAttribute("wechat.userInfo", userInfo);
 					def user = userRepository.getByOpenId(openId);
 					
-					if(!request.getRequestURI().endsWith("/email/bind") && (user == null || !user.validation)){
-						response.sendRedirect(request.getContextPath()+"/wechat/email/bind?fetch_userinfo=true");
+					if(!request.getRequestURI().contains("/wechat/email/bind") && (user == null || !user.validation)){
+						response.sendRedirect(request.getContextPath()+"/wechat/email/bind");
 						return false;
 					}else{
 						request.getSession().setAttribute("wechat.openId", openId);
