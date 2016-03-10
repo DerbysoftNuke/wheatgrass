@@ -27,7 +27,7 @@ class ProfileController extends WechatController{
 	}
 	
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
-	def getProfile(HttpSession session, @RequestParam(value="id", required=false) id){
+	def getProfile(HttpSession session, @RequestParam(value="openId", required=false) id){
 		def openId = session.getAttribute("wechat.openId");
 		if(openId == null){
 			throw new IllegalArgumentException("OpenId not found");
@@ -35,7 +35,7 @@ class ProfileController extends WechatController{
 
 		def user;
 		if(id != null){
-			user = userRepository.findOne(id);
+			user = userRepository.getByOpenId(id);
 		}else{
 			user = userRepository.getByOpenId(openId);
 		}
