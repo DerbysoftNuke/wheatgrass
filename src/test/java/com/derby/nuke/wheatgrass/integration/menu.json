@@ -17,6 +17,11 @@
           "type": "view",
           "name": "我的提问",
           "url": "http://54.248.83.126/wheatgrass/wechat/question"
+        },
+        {
+          "type": "view",
+          "name": "成员列表",
+          "url": "http://54.248.83.126/wheatgrass/wechat/profiles"
         }
       ]
     },
