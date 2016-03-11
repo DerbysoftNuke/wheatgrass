@@ -41,6 +41,12 @@ class WechatService{
 		return true;
 	}
 	
+	def getUserId(code){
+		def accessToken = getAccessToken();
+		def result = get("/cgi-bin/user/getuserinfo?access_token=${accessToken}&code=${code}&agentid=${agentId}");
+		return result.UserId;
+	}
+	
 	def getOpenId(userId){
 		def accessToken = getAccessToken();
 		def result = post("/cgi-bin/user/convert_to_openid?access_token=${accessToken}", [userid: userId]);

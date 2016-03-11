@@ -23,7 +23,7 @@ class RegisterController extends WechatController{
 
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	def register(@RequestParam String code){
-		def userId = wechatService.getUserInfo(code).UserId;
+		def userId = wechatService.getUserId(code);
 		def user = userRepository.getByUserId(userId);
 		if(user == null){
 			user = new User();
