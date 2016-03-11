@@ -51,7 +51,7 @@ class MessageController extends WechatController implements ApplicationContextAw
 	}
 
 	@RequestMapping(method = RequestMethod.POST, produces=MediaType.TEXT_XML_VALUE)
-	def Message receive(@RequestParam(value="msg_signature") msgSignature, @RequestParam timestamp, @RequestParam nonce, @RequestBody String request){
+	def String receive(@RequestParam(value="msg_signature") msgSignature, @RequestParam timestamp, @RequestParam nonce, @RequestBody String request){
 		if(log.isDebugEnabled()){
 			log.debug("Receive request <<| ${request}");
 		}
