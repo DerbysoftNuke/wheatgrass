@@ -15,10 +15,10 @@ class UnsubscribeService {
 	def UserRepository userRepository;
 
 	def invoke(params){
-		def user = userRepository.getByOpenId(MessageContext.get().userId);
-		if(user != null){
-			userRepository.delete(user);
-		}
+//		def user = userRepository.getByUserId(MessageContext.get().userId);
+//		if(user != null){
+//			userRepository.delete(user);
+//		}
 		
 		return [
 			type: MessageType.text,
