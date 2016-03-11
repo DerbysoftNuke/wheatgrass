@@ -1,12 +1,8 @@
 package com.derby.nuke.wheatgrass.wechat.controller;
 
-import javax.mail.internet.MimeUtility
-import javax.servlet.http.HttpSession
+import java.time.LocalDate
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.mail.SimpleMailMessage
-import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -16,36 +12,48 @@ import org.springframework.web.servlet.ModelAndView
 import com.derby.nuke.wheatgrass.entity.Sex
 import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.repository.UserRepository
-import com.derby.nuke.wheatgrass.wechat.Consts
+import com.derby.nuke.wheatgrass.wechat.OAuthRequired
 
 @RestController
+@OAuthRequired(false)
 class RegisterController extends WechatController{
 	
 	@Value('${web.external.url}')
 	def externalUrl;
 
 	@RequestMapping(value="/register", method = RequestMethod.GET)
-	def register(HttpSession session, @RequestParam String code){
-		def userId = session.getAttribute(Consts.USER_ID);
-		if(userId == null){
-			throw new IllegalArgumentException("UserId not found");
-		}
-
+	def register(@RequestParam String code){
+		def userId = wechatService.getUserInfo(code).UserId;
 		def user = userRepository.getByUserId(userId);
-		if(user != null){
-			return new ModelAndView("wechat/successful", "message", "加入成功!");
+		if(user == null){
+			user = new User();
 		}
 		
-		//TODO
-		user = new User();
-		def userInfo = wechatService.getUserInfo(code);
-		user.nickName = userInfo.nickname;
-		if(userInfo.sex == "1"){
+		def userInfo = wechatService.getUserInfo(userId);
+		user.userId = userInfo.userid;
+		user.name = userInfo.name;
+		user.email = userInfo.email;
+		user.nickName = userInfo.weixinid;
+		user.position = userInfo.position;
+		if(userInfo.gender == "1"){
 			user.sex = Sex.Male; 
-		} else if(userInfo.sex == "2"){
+		} else if(userInfo.gender == "2"){
 			user.sex = Sex.Female; 
 		}
-		user.imageUrl = userInfo.headimgurl;
+		if(user.imageUrl == null){
+			user.imageUrl = userInfo.avatar;
+		}
+		userInfo.extattr.attrs.each{attr->
+			if(attr.name == "生日"){
+				user.birthday = new LocalDate(attr.value);
+			}else if(attr.name == "籍贯"){
+				user.birthplace = attr.value;
+			}
+		}
+		if(userInfo.department!=null && userInfo.department.length > 0){
+			def department = wechatService.getDepartment(userInfo.department[0]);
+			user.department = department.name;
+		}
 		
 		wechatService.register(userId);
 		userRepository.save(user);

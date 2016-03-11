@@ -32,17 +32,6 @@ class WechatService{
 		return result.access_token;
 	}
 	
-	def getOpenId(userId){
-		def accessToken = getAccessToken();
-		def result = post("/cgi-bin/user/convert_to_openid?access_token=${accessToken}", [userid: userId]);
-		return result.openid;
-	}
-	
-	def getUserInfo(code){
-		def accessToken = getAccessToken();
-		return get("/cgi-bin/user/getuserinfo?access_token=${accessToken}&code=${code}&agentid=${agentId}");
-	}
-	
 	def register(userId){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/user/authsucc?access_token=${accessToken}&userid=${userId}");
@@ -50,6 +39,23 @@ class WechatService{
 			throw new WechatException(result.errcode, result.errmsg);
 		}
 		return true;
+	}
+	
+	def getOpenId(userId){
+		def accessToken = getAccessToken();
+		def result = post("/cgi-bin/user/convert_to_openid?access_token=${accessToken}", [userid: userId]);
+		return result.openid;
+	}
+	
+	def getUserInfo(userId){
+		def accessToken = getAccessToken();
+		return get("/cgi-bin/user/get?access_token=${accessToken}&userid=${userId}");
+	}
+	
+	def getDepartment(departmentId){
+		def accessToken = getAccessToken();
+		def result = get("/cgi-bin/department/list?access_token=${accessToken}&id=${departmentId}");
+		return result.department[0];
 	}
 	
 	def getDepartments(){

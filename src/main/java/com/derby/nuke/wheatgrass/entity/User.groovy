@@ -44,6 +44,7 @@ class User{
 	String name;
 	String nickName;
 	String department;
+	String position;
 	String imageUrl;
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)

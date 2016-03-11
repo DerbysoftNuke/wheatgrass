@@ -22,7 +22,7 @@ class WechatServiceTools {
 	
 	@Test
 	void getUserInfo(){
-		println wechatService.getAccessToken();//.getUserInfoByOpenId("o6vr2we8hPQOTvCwD1SwN5SaGvH4");
+		println wechatService.getUserInfo("eric.kuang");
 	}
 
 }
