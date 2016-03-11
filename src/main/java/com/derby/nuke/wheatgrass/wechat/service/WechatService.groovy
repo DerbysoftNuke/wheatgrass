@@ -35,7 +35,7 @@ class WechatService{
 	def register(userId){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/user/authsucc?access_token=${accessToken}&userid=${userId}");
-		if(result.errcode != "0"){
+		if(result.errcode != 0){
 			throw new WechatException(result.errcode, result.errmsg);
 		}
 		return true;
