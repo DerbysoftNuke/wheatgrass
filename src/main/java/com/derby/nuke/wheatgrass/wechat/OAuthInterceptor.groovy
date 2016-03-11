@@ -24,10 +24,20 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 		if(isOAuthRequired(handler)){
 			def userId = request.getSession().getAttribute(Consts.USER_ID);
 			if(userId == null){
-				def redirectUrl = buildRedirectUrl(request);
-				log.debug("Start oauth to redirect to []", redirectUrl);
-				response.sendRedirect(wechatService.getUrlForCode(URLEncoder.encode(redirectUrl, "UTF-8")));
-				return false
+				def code = request.getParameter("code");
+				if(code == null){
+					def redirectUrl = buildRedirectUrl(request);
+					log.debug("Start oauth to redirect to {}", redirectUrl);
+					response.sendRedirect(wechatService.getUrlForCode(URLEncoder.encode(redirectUrl, "UTF-8")));
+					return false;
+				}else{
+					userId = wechatService.getUserId(code);
+					if(userId == null){
+						throw new IllegalStateException("UserId not found");
+					}
+					
+					request.getSession().setAttribute(Consts.USER_ID, userId);
+				}
 			}
 		}
 		return true;
