@@ -12,7 +12,7 @@ import com.derby.nuke.wheatgrass.wechat.service.WechatService
 class MenuTools{
 
 	def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
-	def WechatService wechatService = new WechatService(url:"https://api.weixin.qq.com", appId: "wxfa334e1b73137720", appSecret:"d4624c36b6795d1d99dcf0547af5443d");
+	def WechatService wechatService = new WechatService(url:"https://qyapi.weixin.qq.com", appId: "wx6cf7c599aa792ce2", appSecret:"Hf6ktqrHU4FyI95NucAjTsxMgSEv4xMQ_3r9X2ogzlMVALcFZEDka0twc3ZmGZ8H");
 
 	@Test
 	void createMenu(){

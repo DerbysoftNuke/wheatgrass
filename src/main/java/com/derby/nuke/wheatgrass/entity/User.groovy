@@ -35,9 +35,10 @@ class User{
 	@Id
 	String id;
 	@Column(unique=true)
-	String openId;
+	String userId;
 	@Column(unique=true)
 	String email;
+	
 	@JsonIgnore
 	String password;
 	String name;
@@ -49,10 +50,8 @@ class User{
 	LocalDate birthday;
 	String birthplace;
 	@Enumerated(EnumType.STRING)
-	Sex sex = Sex.Unknown;
-	String token;
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	boolean validation;
+	Sex sex;
+	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserSkill> skills = new HashSet<>();
 }

@@ -12,7 +12,6 @@ import com.derby.nuke.wheatgrass.entity.User
 interface UserRepository extends JpaRepository<User, String> {
 
 	User getByEmail(@Param("email") String email);
-	
-	User getByOpenId(@Param("openId") String openId);
-	
+
+	User getByUserId(@Param("userId") String userId);
 }

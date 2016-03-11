@@ -76,7 +76,7 @@
 					</div>
 				</div>
 				<button type="submit" class="weui_btn weui_btn_primary skill_submit" style="display: none;">提交</button>
-				<a class="weui_panel_ft weui_cell" href="javascript:$('.skill_edit').toggle();$('.skill_point').toggle();$('.other_skills').toggle();$('.skill_submit').toggle();" th:if="${user.openId} == ${session['wechat.openId']}">编辑</a>
+				<a class="weui_panel_ft weui_cell" href="javascript:$('.skill_edit').toggle();$('.skill_point').toggle();$('.other_skills').toggle();$('.skill_submit').toggle();" th:if="${user.userId} == ${session['wechat.userId']}">编辑</a>
 			</form>
 		</div>
 	</body>

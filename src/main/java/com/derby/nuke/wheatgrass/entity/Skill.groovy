@@ -1,17 +1,18 @@
 package com.derby.nuke.wheatgrass.entity;
 
-import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.Table
 import javax.persistence.UniqueConstraint
 
 import org.hibernate.annotations.GenericGenerator
 
 @Entity
+@Table(uniqueConstraints=[@UniqueConstraint(columnNames=["category", "name"])])
 @ToString
 class Skill {
 
@@ -20,9 +21,8 @@ class Skill {
 	@Column(columnDefinition = "CHAR(32)")
 	@Id
 	String id;
-	@Column(unique=true)
+	String category;
 	String name;
 	String description;
 	int star;
-	
 }

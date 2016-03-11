@@ -5,14 +5,14 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
-import com.derby.nuke.wheatgrass.wechat.LoginInterceptor
+import com.derby.nuke.wheatgrass.wechat.OAuthInterceptor
 
 @Configuration
 class WebConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Bean
-	public LoginInterceptor loginInterceptor() {
-		return new LoginInterceptor();
+	public OAuthInterceptor loginInterceptor() {
+		return new OAuthInterceptor();
 	}
 	
 	@Override

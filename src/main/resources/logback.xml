@@ -1,17 +1,58 @@
 <configuration>
+	<property name="app.name" value="wheatgrass" />
 
-  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-    <!-- encoders are assigned the type
-         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
-    <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-  </appender>
-  
-  <logger name="org.springframework.web" level="INFO"/>
+	<appender name="console" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/usr/local/logs/${app.name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/usr/local/logs/${app.name}.log.%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>31</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[${app.name}] %d{yyyy-MM-dd'T'HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
 
-  <root level="INFO">
-    <appender-ref ref="STDOUT" />
-  </root>
-  
+	<appender name="http.StreamLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/usr/local/logs/${app.name}.http.stream.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/usr/local/logs/${app.name}.http.stream.log.%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>31</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSS} [%thread] %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="http.accessLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/usr/local/logs/${app.name}.http.access.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/usr/local/logs/${app.name}.http.access.log.%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>31</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSS} %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework.web" level="INFO" />
+	<logger name="org.apache.http.wire" level="DEBUG">
+		<appender-ref ref="http.StreamLog" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+
 </configuration>

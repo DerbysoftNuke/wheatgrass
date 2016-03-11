@@ -3,7 +3,6 @@ package com.derby.nuke.wheatgrass.wechat.controller;
 import javax.servlet.http.HttpSession
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
@@ -13,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView
 import com.derby.nuke.wheatgrass.entity.UserSkill
 import com.derby.nuke.wheatgrass.repository.SkillRepository
 import com.derby.nuke.wheatgrass.repository.UserRepository
+import com.derby.nuke.wheatgrass.wechat.Consts
 import com.google.common.collect.Lists
 import com.google.common.collect.Sets
 
@@ -29,17 +29,17 @@ class ProfileController extends WechatController{
 	}
 	
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
-	def getProfile(HttpSession session, @RequestParam(value="openId", required=false) id){
-		def openId = session.getAttribute("wechat.openId");
-		if(openId == null){
-			throw new IllegalArgumentException("OpenId not found");
+	def getProfile(HttpSession session, @RequestParam(value="userId", required=false) id){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
 		}
 
 		def user;
 		if(id != null){
-			user = userRepository.getByOpenId(id);
+			user = userRepository.getByUserId(id);
 		}else{
-			user = userRepository.getByOpenId(openId);
+			user = userRepository.getByUserId(userId);
 		}
 		
 		def allSkills = Lists.newArrayList(skillRepository.findAll());

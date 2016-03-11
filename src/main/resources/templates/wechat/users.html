@@ -10,7 +10,7 @@
 	<body>
 		<div class="weui_panel weui_panel_access" th:each="user : ${users}">
 			<div class="weui_panel_bd">
-				<a th:href="@{/wechat/profile(openId=${user.openId})}" href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+				<a th:href="@{/wechat/profile(userId=${user.userId})}" href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
 					<div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${user.imageUrl}" height="80" width="80"/>
 					</div>
