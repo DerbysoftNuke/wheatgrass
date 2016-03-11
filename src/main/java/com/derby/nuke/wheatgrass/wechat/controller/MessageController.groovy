@@ -56,21 +56,8 @@ class MessageController extends WechatController implements ApplicationContextAw
 			log.debug("Receive request <<| ${request}");
 		}
 		
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		def document = builder.parse(new InputSource(new StringReader(request)));
-		def root = document.getDocumentElement();
-		def encryptedRequestMessage = root.getElementsByTagName("Encrypt").item(0).getTextContent();
-		
-		def array = [token, timestamp, nonce, encryptedRequestMessage];
-		Collections.sort(array);
-		def signature = DigestUtils.sha1Hex(Joiner.on("").join(array));
-		if(signature != msgSignature){
-			throw new IllegalArgumentException("Invalide signature");
-		}
-		
 		WXBizMsgCrypt tool = new WXBizMsgCrypt(token, encodingAesKey, appId);
-		def requestMessage = tool.decryptMsg(msgSignature, timestamp, nonce, encryptedRequestMessage);
+		def requestMessage = tool.decryptMsg(msgSignature, timestamp, nonce, request);
 		if(log.isInfoEnabled()){
 			log.info("Receive message <<| ${requestMessage}");
 		}
@@ -81,11 +68,7 @@ class MessageController extends WechatController implements ApplicationContextAw
 			def from = message.from;
 			def to = message.to;
 
-			def user = userRepository.getByOpenId(message.from);
-			if(user == null || !user.validation){
-				message.type = MessageType.text;
-				message.content = "请<a href='${externalUrl}/wechat/email/bind'>绑定邮箱</a>";
-			}else if(message.type != null){
+			if(message.type != null){
 				Yaml yaml = new Yaml();
 				def configuration = yaml.load(new InputStreamReader(MessageController.class.getClassLoader().getResourceAsStream("wechat.yaml"),"UTF-8"));
 				def handler = find(configuration.handlers, message);
@@ -112,11 +95,7 @@ class MessageController extends WechatController implements ApplicationContextAw
 			if(log.isInfoEnabled()){
 				log.info("Return message >>| ${responseMessage}");
 			}
-			def encryptedResponseMessage = tool.encryptMsg(responseMessage, timestamp, nonce);
-			array = [token, timestamp, nonce, encryptedResponseMessage];
-			Collections.sort(array);
-			signature = DigestUtils.sha1Hex(Joiner.on("").join(array));
-			def response = "<xml><Encrypt><![CDATA[${encryptedResponseMessage}]]></Encrypt><MsgSignature><![CDATA[${signature}]]></MsgSignature><TimeStamp>${timestamp}</TimeStamp><Nonce><![CDATA[${nonce}]]></Nonce></xml>";
+			def response = tool.encryptMsg(responseMessage, timestamp, nonce);
 			if(log.isDebugEnabled()){
 				log.debug("Return response >>| ${response}");
 			}

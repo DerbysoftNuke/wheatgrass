@@ -24,6 +24,11 @@ class Message{
 	 * for normal message
 	 */
 	@XmlElement(name="Content") def String content;
+	
+	/**
+	 * for normal message
+	 */
+	@XmlElement(name="AgentID") def String agentId;
 
 	/**
 	 * for image message: picUrl & mediaId
