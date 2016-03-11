@@ -26,6 +26,11 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 			if(userId == null){
 				def code = request.getParameter("code");
 				if(code == null){
+					response.setHeader("Cache-Control", "no-cache");
+					response.setHeader("Cache-Control", "no-store");
+					response.setDateHeader("Expires", 0);
+					response.setHeader("Pragma", "no-cache");
+					
 					def redirectUrl = buildRedirectUrl(request);
 					log.debug("Start oauth to redirect to {}", redirectUrl);
 					response.sendRedirect(wechatService.getUrlForCode(URLEncoder.encode(redirectUrl, "UTF-8")));
