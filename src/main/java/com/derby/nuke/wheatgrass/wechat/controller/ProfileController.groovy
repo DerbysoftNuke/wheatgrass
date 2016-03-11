@@ -58,16 +58,16 @@ class ProfileController extends WechatController{
 	
 	@RequestMapping(value="/profile", method = RequestMethod.POST)
 	def updateProfile(HttpSession session, @RequestParam(value="skills", required=false) ids){
-		def openId = session.getAttribute("wechat.openId");
-		if(openId == null){
-			throw new IllegalArgumentException("OpenId not found");
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
 		}
 
 		def skillIds = Sets.newHashSet();
 		if(ids != null){
 			skillIds = Sets.newHashSet(ids);
 		}
-		def user = userRepository.getByOpenId(openId);
+		def user = userRepository.getByUserId(userId);
 		def allSkills = skillRepository.findAll(skillIds);
 		
 		def deletedUserSkills = Sets.newHashSet();
