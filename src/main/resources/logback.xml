@@ -45,6 +45,7 @@
 	</appender>
 
 	<logger name="org.springframework.web" level="INFO" />
+	<logger name="com.derby.nuke.wheatgrass" level="DEBUG" />
 	<logger name="org.apache.http.wire" level="DEBUG">
 		<appender-ref ref="file.http.StreamLog" />
 	</logger>
