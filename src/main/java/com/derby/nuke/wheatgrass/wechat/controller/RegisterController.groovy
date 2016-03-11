@@ -50,7 +50,7 @@ class RegisterController extends WechatController{
 				user.birthplace = attr.value;
 			}
 		}
-		if(userInfo.department!=null && userInfo.department.length > 0){
+		if(userInfo.department!=null && userInfo.department.size() > 0){
 			def department = wechatService.getDepartment(userInfo.department[0]);
 			user.department = department.name;
 		}
