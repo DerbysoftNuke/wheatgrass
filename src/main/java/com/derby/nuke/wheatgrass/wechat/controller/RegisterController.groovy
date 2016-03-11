@@ -44,7 +44,7 @@ class RegisterController extends WechatController{
 			user.imageUrl = userInfo.avatar;
 		}
 		userInfo.extattr.attrs.each{attr->
-			if(attr.name == "生日" && attr.value != null){
+			if(attr.name == "生日" && attr.value != null && attr.value != ""){
 				user.birthday = LocalDate.parse(attr.value);
 			}else if(attr.name == "籍贯"){
 				user.birthplace = attr.value;
