@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import javax.servlet.ServletOutputStream
 import javax.servlet.WriteListener;
 
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.util.Assert;
 
 /**
