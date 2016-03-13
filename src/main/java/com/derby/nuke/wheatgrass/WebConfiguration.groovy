@@ -17,7 +17,6 @@ import com.derby.nuke.wheatgrass.wechat.OAuthInterceptor
 @Configuration
 class WebConfiguration extends WebMvcConfigurerAdapter {
 
-	@Bean
 	public FilterRegistrationBean httpLoggingRegistrationBean() {
 		FilterRegistrationBean bean = new FilterRegistrationBean();
 		bean.setDispatcherTypes(DispatcherType.REQUEST);
