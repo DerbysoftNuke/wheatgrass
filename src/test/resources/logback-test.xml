@@ -10,6 +10,8 @@
 	<logger name="org.springframework.web" level="INFO" />
 	<logger name="org.apache.http.wire" level="DEBUG" />
 	<logger name="com.googlecode.jsonrpc4j.JsonRpcClient" level="DEBUG" />
+	<logger name="org.apache.http.wire" level="DEBUG" />
+	<logger name="org.apache.http.headers" level="DEBUG" />
 
 	<root level="INFO">
 		<appender-ref ref="console" />
