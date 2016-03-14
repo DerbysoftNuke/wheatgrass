@@ -25,8 +25,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 
 @Entity
-@EqualsAndHashCode(excludes=["skills"])
-@ToString(excludes=["skills"])
+@EqualsAndHashCode(excludes=["skills","medals"])
+@ToString(excludes=["skills","medals"])
 class User{
 
 	@GeneratedValue(generator = "uuid")
@@ -55,4 +55,7 @@ class User{
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserSkill> skills = new HashSet<>();
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	Set<UserMedal> medals = new HashSet<>();
 }

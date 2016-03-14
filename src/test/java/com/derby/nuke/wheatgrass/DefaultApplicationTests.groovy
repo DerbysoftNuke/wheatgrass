@@ -35,7 +35,7 @@ class DefaultApplicationTests {
 		user.birthday = LocalDate.now();
 		user.email = "test@test.com";
 		user.name = "test";
-		user.openId = "openId";
+		user.userId = "userId";
 
 		userRepository.save(user);
 		Assert.assertNotNull(user.id);

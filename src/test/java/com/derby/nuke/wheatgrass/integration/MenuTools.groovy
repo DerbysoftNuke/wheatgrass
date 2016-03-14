@@ -19,7 +19,7 @@ class MenuTools{
 		def token = wechatService.getAccessToken();
 		println "token: ${token}";
 		def menuData = IOUtils.toString(MenuTools.class.getResourceAsStream("menu.json"), "UTF-8");
-		def response = client.execute(RequestBuilder.post().setUri("https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${token}").addHeader("Content-Type", "applicatoin/json;charset=UTF-8").setEntity(new StringEntity(menuData, "UTF-8")).build());
+		def response = client.execute(RequestBuilder.post().setUri("https://qyapi.weixin.qq.com/cgi-bin/menu/create?access_token=${token}&agentid=5").addHeader("Content-Type", "applicatoin/json;charset=UTF-8").setEntity(new StringEntity(menuData, "UTF-8")).build());
 		println IOUtils.toString(response.getEntity().getContent());
 	}
 	
@@ -33,11 +33,11 @@ class MenuTools{
 	
 	@Test
 	void getOpenId(){
-		println wechatService.getOpenId("0319e473f9560df234932f61e202cf1H");	
+		println wechatService.getOpenId("0319e473f9560df234932f61e202cf1H");
 	}
 	
 	static void main(String[] args) {
-		println URLEncoder.encode("https://54.248.83.126/wheatgrass/wechat/email/bind?fetch_userinfo=true", "UTF-8");
+		println URLEncoder.encode("http://54.248.83.126/wheatgrass/wechat/register", "UTF-8");
 		println URLDecoder.decode("https%3A%2F%2F54.248.83.126%2Fwheatgrass%2Fwechat%2Fbind_email", "UTF-8");
 		println URLDecoder.decode("http%3A%2F%2F127.0.0.1%3A8080%2Fwechat%2Femail%2Fbind%3Ffetch_userinfo%3Dtrue", "UTF-8");
 	}

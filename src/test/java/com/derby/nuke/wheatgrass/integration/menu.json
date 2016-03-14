@@ -1,44 +1,19 @@
 {
   "button": [
-    {
-      "name": "我的",
-      "sub_button": [
-        {
-          "type": "view",
-          "name": "绑定邮箱",
-          "url": "http://54.248.83.126/wheatgrass/wechat/email/bind?fetch_userinfo=true"
-        },
-        {
-          "type": "view",
-          "name": "我的资料",
-          "url": "http://54.248.83.126/wheatgrass/wechat/profile"
-        },
-        {
-          "type": "view",
-          "name": "我的提问",
-          "url": "http://54.248.83.126/wheatgrass/wechat/question"
-        },
-        {
-          "type": "view",
-          "name": "成员列表",
-          "url": "http://54.248.83.126/wheatgrass/wechat/profiles"
-        }
-      ]
+  	{
+      "type": "view",
+      "name": "我的资料",
+      "url": "http://54.248.83.126/wheatgrass/wechat/profile"
     },
     {
-      "name": "奖励",
-      "sub_button": [
-        {
-          "type": "view",
-          "name": "积分兑换",
-          "url": "http://54.248.83.126/wheatgrass/wechat/email/bind"
-        },
-        {
-          "type": "view",
-          "name": "勋章排名",
-          "url": "http://54.248.83.126/wheatgrass/wechat/profile"
-        }
-      ]
+      "type": "view",
+      "name": "成员列表",
+      "url": "http://54.248.83.126/wheatgrass/wechat/profiles"
+    },
+    {
+      "type": "view",
+      "name": "我的提问",
+      "url": "http://54.248.83.126/wheatgrass/wechat/question"
     },
     {
       "name": "关于",
