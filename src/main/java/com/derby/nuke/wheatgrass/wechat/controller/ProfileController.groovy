@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
 import com.derby.nuke.wheatgrass.entity.UserSkill
+import com.derby.nuke.wheatgrass.repository.MedalRepository
 import com.derby.nuke.wheatgrass.repository.SkillRepository
+import com.derby.nuke.wheatgrass.repository.UserMedalRepository;
 import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.wechat.Consts
 import com.google.common.collect.Lists
@@ -21,6 +23,9 @@ class ProfileController extends WechatController{
 	
 	@Autowired
 	def SkillRepository skillRepository;
+	
+	@Autowired
+	def UserMedalRepository userMedalRepository;
 	
 	@RequestMapping(value="/profiles", method = RequestMethod.GET)
 	def listUsers(){
@@ -53,7 +58,13 @@ class ProfileController extends WechatController{
 				skills.add(skill);
 			}
 		}
-		return new ModelAndView("wechat/profile", ["user": user, "skills": skills]);
+		
+		def userMedals = userMedalRepository.findByUserId(user.id);
+		def medals = [];
+		userMedals.each{
+			medals.add(it.medal);
+		}
+		return new ModelAndView("wechat/profile", ["user": user, "skills": skills, medals: medals]);
 	}
 	
 	@RequestMapping(value="/profile", method = RequestMethod.POST)
