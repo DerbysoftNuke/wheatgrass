@@ -2,8 +2,8 @@ package com.derby.nuke.wheatgrass.integration;
 
 import org.junit.Test
 
+import com.derby.nuke.wheatgrass.rpc.config.ConfigurationService;
 import com.derby.nuke.wheatgrass.rpc.log.LogService
-import com.derby.nuke.wheatgrass.service.ConfigurationService
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient
 import com.googlecode.jsonrpc4j.ProxyUtil
 

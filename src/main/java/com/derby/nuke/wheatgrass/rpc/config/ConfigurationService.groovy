@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.service;
+package com.derby.nuke.wheatgrass.rpc.config;
 
 import com.googlecode.jsonrpc4j.JsonRpcMethod
 import com.googlecode.jsonrpc4j.JsonRpcService
@@ -14,8 +14,5 @@ interface ConfigurationService {
 	
 	@JsonRpcMethod("update")
 	void setProperty(String key, String value);
-	
-	@JsonRpcMethod("batchUpdate")
-	void setProperties(Map<String, String> properties);
 	
 }

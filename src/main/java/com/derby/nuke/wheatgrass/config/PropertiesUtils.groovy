@@ -5,8 +5,21 @@ import org.springframework.core.env.PropertyResolver
 import org.springframework.core.env.PropertySources
 
 class PropertiesUtils {
+	
+	static Map<String,String> getProperties(PropertySources sources){
+		def result = [:];
+		sources.each{item->
+			def source = item.getSource();
+			if(source instanceof Map){
+				result.putAll(source);
+			}else if(source instanceof AbstractEnvironment){
+				result.putAll(getProperties(source.getPropertySources()));
+			}
+		}
+		return result;
+	}
 
-	public static Set<String> getKeys(PropertySources properties, String prefix) {
+	static Set<String> getKeys(PropertySources properties, String prefix) {
 		Set<String> keys = new HashSet<String>();
 		properties.each{item->
 			def source = item.getSource();
@@ -23,7 +36,7 @@ class PropertiesUtils {
 		return keys;
 	}
 	
-	public static List<String> getList(PropertyResolver resolver, String key) {
+	static List<String> getList(PropertyResolver resolver, String key) {
 		if(!resolver.containsProperty(key)){
 			return null;
 		}
