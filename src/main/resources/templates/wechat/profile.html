@@ -63,6 +63,10 @@
 						<div class="weui_cell_ft skill_edit" style="display: none;">
 		                    <input class="weui_switch" type="checkbox" th:checked="true" name="skills" th:value="${userSkill.skill.id}" />
 		                </div>
+		                <div class="weui_cell_ft skill_point" >
+		                    <i class="weui_icon_success_circle" onclick="javascript:$(this).toggle();$(this).siblings().toggle();"></i>
+		                    <i class="weui_icon_success" style="display: none;" onclick="javascript:$(this).toggle();$(this).siblings().toggle();"></i>
+		                </div>
 						<ul class="weui_media_info skill_point" th:if="${userSkill.point} gt 0">
 							<li class="weui_media_info_meta" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
 						</ul>

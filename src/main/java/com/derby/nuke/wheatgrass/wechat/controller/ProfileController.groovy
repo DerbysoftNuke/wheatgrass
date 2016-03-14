@@ -18,16 +18,16 @@ import com.google.common.collect.Sets
 
 @RestController("UserProfileController")
 class ProfileController extends WechatController{
-	
+
 	@Autowired
 	def SkillRepository skillRepository;
-	
+
 	@RequestMapping(value="/profiles", method = RequestMethod.GET)
 	def listUsers(){
 		def users = userRepository.findAll();
 		return new ModelAndView("wechat/users", ["users": users]);
 	}
-	
+
 	@RequestMapping(value="/profile", method = RequestMethod.GET)
 	def getProfile(HttpSession session, @RequestParam(value="userId", required=false) id){
 		def userId = session.getAttribute(Consts.USER_ID);
@@ -41,21 +41,21 @@ class ProfileController extends WechatController{
 		}else{
 			user = userRepository.getByUserId(userId);
 		}
-		
+
 		def allSkills = Lists.newArrayList(skillRepository.findAll());
 		def skills = [];
 		allSkills.each {skill->
 			def a = user.skills.find{userSkill->
 				userSkill.skill.equals(skill)
 			}
-			
+
 			if(a == null){
 				skills.add(skill);
 			}
 		}
 		return new ModelAndView("wechat/profile", ["user": user, "skills": skills]);
 	}
-	
+
 	@RequestMapping(value="/profile", method = RequestMethod.POST)
 	def updateProfile(HttpSession session, @RequestParam(value="skills", required=false) ids){
 		def userId = session.getAttribute(Consts.USER_ID);
@@ -69,7 +69,7 @@ class ProfileController extends WechatController{
 		}
 		def user = userRepository.getByUserId(userId);
 		def allSkills = skillRepository.findAll(skillIds);
-		
+
 		def deletedUserSkills = Sets.newHashSet();
 		user.skills.each {userSkill->
 			if(!skillIds.contains(userSkill.skill.id)){
@@ -78,13 +78,28 @@ class ProfileController extends WechatController{
 				skillIds.remove(userSkill.skill.id);
 			}
 		}
-		
+
 		user.skills.removeAll(deletedUserSkills);
 		skillIds.each {skillId->
 			user.skills.add(new UserSkill(user: user, skill: skillRepository.getOne(skillId)));
 		}
-		
+
 		userRepository.saveAndFlush(user);
 		return getProfile(session, null);
+	}
+
+	def addPoint(HttpSession session, @RequestParam(value="targetUserId", required=true)String targetUserId,@RequestParam(value="skillId", required=true)String skillId){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+		
+	}
+
+	def cancelPoint(HttpSession session, @RequestParam(value="targetUserId", required=true)String targetUserId,@RequestParam(value="skillId", required=true)String skillId){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
 	}
 }
