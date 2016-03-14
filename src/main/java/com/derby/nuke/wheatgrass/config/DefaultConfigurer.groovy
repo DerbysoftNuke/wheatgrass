@@ -9,16 +9,16 @@ import org.springframework.core.io.FileSystemResource
 
 import com.derby.nuke.wheatgrass.log.LogbackInitializing
 
-class FullConfigurer extends PropertySourcesPlaceholderConfigurer {
+class DefaultConfigurer extends PropertySourcesPlaceholderConfigurer {
 
 	def Properties configProperties = new Properties();
 	def configResource;
 
-	FullConfigurer(String applicationKey){
+	DefaultConfigurer(String applicationKey){
 		this(applicationKey, "config.properties");
 	}
 
-	FullConfigurer(String applicationKey, String fileName){
+	DefaultConfigurer(String applicationKey, String fileName){
 		def configPath = System.getProperty(applicationKey);
 		if(configPath == null){
 			throw new IllegalArgumentException("Please use -D${applicationKey}=<your config path> to set config.properties");
@@ -33,6 +33,7 @@ class FullConfigurer extends PropertySourcesPlaceholderConfigurer {
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		super.postProcessBeanFactory(beanFactory);
 		new LogbackInitializing(this.getAppliedPropertySources());
+		logger.info("Initizlied Logback done");
 	}
 	
 	void setProperty(String name, String value){
