@@ -3,11 +3,9 @@ package com.derby.nuke.wheatgrass.wechat.controller;
 import java.util.regex.Pattern
 
 import javax.xml.bind.JAXBContext
-import javax.xml.parsers.DocumentBuilder
-import javax.xml.parsers.DocumentBuilderFactory
 
-import org.apache.commons.codec.digest.DigestUtils
 import org.codehaus.groovy.runtime.InvokerHelper
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
@@ -18,15 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import org.xml.sax.InputSource
 import org.yaml.snakeyaml.Yaml
 
-import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.wechat.OAuthRequired
 import com.derby.nuke.wheatgrass.wechat.model.Message
 import com.derby.nuke.wheatgrass.wechat.model.MessageContext
-import com.derby.nuke.wheatgrass.wechat.model.Message.MessageType
-import com.google.common.base.Joiner
 import com.qq.weixin.mp.aes.WXBizMsgCrypt
 
 @RestController
@@ -52,10 +46,7 @@ class MessageController extends WechatController implements ApplicationContextAw
 
 	@RequestMapping(method = RequestMethod.POST, produces=MediaType.TEXT_XML_VALUE)
 	def String receive(@RequestParam(value="msg_signature") msgSignature, @RequestParam timestamp, @RequestParam nonce, @RequestBody String request){
-		if(log.isDebugEnabled()){
-			log.debug("Receive request <<| ${request}");
-		}
-		
+		def log = LoggerFactory.getLogger("http.StreamLog.wechat.message");
 		WXBizMsgCrypt tool = new WXBizMsgCrypt(token, encodingAesKey, appId);
 		def requestMessage = tool.decryptMsg(msgSignature, timestamp, nonce, request);
 		if(log.isInfoEnabled()){
@@ -96,10 +87,6 @@ class MessageController extends WechatController implements ApplicationContextAw
 				log.info("Return message >>| ${responseMessage}");
 			}
 			def response = tool.encryptMsg(responseMessage, timestamp, nonce);
-			if(log.isDebugEnabled()){
-				log.debug("Return response >>| ${response}");
-			}
-			
 			return response;
 		}finally{
 			MessageContext.remove();

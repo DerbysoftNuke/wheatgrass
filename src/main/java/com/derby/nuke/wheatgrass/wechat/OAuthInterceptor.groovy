@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 
 import com.derby.nuke.wheatgrass.repository.UserRepository
@@ -21,7 +22,6 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 
 	@Override
 	boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		request.getSession().setAttribute(Consts.USER_ID, 1L);
 		if(isOAuthRequired(handler)){
 			def userId = request.getSession().getAttribute(Consts.USER_ID);
 			if(userId == null){
@@ -50,6 +50,10 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 	}
 
 	private isOAuthRequired(Object handler){
+		if(!(handler instanceof HandlerMethod)){
+			return false;
+		}
+		
 		OAuthRequired annotation = handler.getMethodAnnotation(OAuthRequired.class);
 		if(annotation != null){
 			return annotation.value();
