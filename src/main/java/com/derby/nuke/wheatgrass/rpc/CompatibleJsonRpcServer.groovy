@@ -28,8 +28,8 @@ class CompatibleJsonRpcServer extends JsonRpcServer {
 	
 	@Override
 	protected ObjectNode createErrorResponse(String jsonRpc, Object id, int code, String message, Object data) {
-		def repsone = super.createErrorResponse(jsonRpc, id, code, message, data);
-		def error = repsone.get("error");
+		def response = super.createErrorResponse(jsonRpc, id, code, message, data);
+		def error = response.get("error");
 		error.put("type", code);
 		return response;
 	}
