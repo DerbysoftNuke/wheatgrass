@@ -10,18 +10,25 @@ import org.springframework.core.io.FileSystemResource
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
-import com.derby.nuke.wheatgrass.config.FullConfigurer
+import com.derby.nuke.wheatgrass.config.DefaultConfigurer
 import com.derby.nuke.wheatgrass.rpc.CompatibleRpcServiceExporter
 import com.derby.nuke.wheatgrass.wechat.OAuthInterceptor
 
 @Configuration
 class WebConfiguration extends WebMvcConfigurerAdapter {
 
-	public FilterRegistrationBean httpLoggingRegistrationBean() {
-		FilterRegistrationBean bean = new FilterRegistrationBean();
-		bean.setDispatcherTypes(DispatcherType.REQUEST);
-		bean.setFilter(new HttpLoggingFilter());
-		return bean;
+	@Bean
+	public HttpLoggingFilter httpLoggingFilter() {
+		HttpLoggingFilter filter = new HttpLoggingFilter();
+		filter.setIncludePayload(true);
+		filter.setIncludeClientInfo(false);
+		filter.setIncludeQueryString(true);
+		filter.setBeforeMessagePrefix("");
+		filter.setBeforeMessageSuffix("");
+		filter.setAfterMessagePrefix("");
+		filter.setAfterMessageSuffix("");
+		filter.setMaxPayloadLength(Integer.MAX_VALUE);
+		return filter;
 	}
 
 	@Bean
@@ -35,8 +42,8 @@ class WebConfiguration extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public FullConfigurer externalConfigurer(){
-		return new FullConfigurer("nuke.wheatgrass");
+	public DefaultConfigurer externalConfigurer(){
+		return new DefaultConfigurer("nuke.wheatgrass");
 	}
 
 	@Override

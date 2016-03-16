@@ -29,6 +29,7 @@ class RegisterController extends WechatController{
 			user = new User();
 		}
 		
+		wechatService.register(userId);
 		def userInfo = wechatService.getUserInfo(userId);
 		user.userId = userInfo.userid;
 		user.name = userInfo.name;
@@ -55,7 +56,6 @@ class RegisterController extends WechatController{
 			user.department = department.name;
 		}
 		
-		wechatService.register(userId);
 		userRepository.save(user);
 		return new ModelAndView("wechat/successful", "message", "加入成功!");
 	}
