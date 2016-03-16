@@ -33,7 +33,7 @@ class MessageControllerTest extends IntegrationUnitTest {
 		
 		def request = "<xml><ToUserName><![CDATA[test]]></ToUserName><Encrypt><![CDATA[${encryptMsg}]]></Encrypt><MsgSignature><![CDATA[${signature}]]></MsgSignature><TimeStamp>${timestamp}</TimeStamp><Nonce><![CDATA[${nonce}]]></Nonce></xml>";
 		
-		def reponse = client.execute(RequestBuilder.post(getUrl("wechat")).addHeader("Content-Type", "text/xml;charset=utf-8").addParameter("msg_signature", signature).addParameter("timestamp", timestamp).addParameter("nonce", nonce).setEntity(new StringEntity(request, "UTF-8")).build());
+		def response = client.execute(RequestBuilder.post(getUrl("wechat")).addHeader("Content-Type", "text/xml;charset=utf-8").addParameter("msg_signature", signature).addParameter("timestamp", timestamp).addParameter("nonce", nonce).setEntity(new StringEntity(request, "UTF-8")).build());
 		println IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 	}
 }
