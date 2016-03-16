@@ -7,11 +7,11 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
 		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
 	</head>
-	<script type="text/javascript">
+	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
 	function addPoint(targetUserId,skillId,element){
 		$.ajax({
-			url:"/wechat/profile/addPoint",
+			url: [[@{/wechat/profile/addPoint}]],
 			type:"POST",
 			data:{
 				"targetUserId": targetUserId,
@@ -29,7 +29,7 @@
 	}
 	function cancelPoint(targetUserId,skillId,element){
 		$.ajax({
-			url:"/wechat/profile/cancelPoint",
+			url:[[@{/wechat/profile/cancelPoint}]],
 			type:"POST",
 			data:{
 				"targetUserId": targetUserId,
