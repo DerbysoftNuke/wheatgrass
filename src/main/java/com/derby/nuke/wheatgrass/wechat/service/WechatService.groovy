@@ -72,7 +72,7 @@ class WechatService{
 	
 	def getUsersByDepartment(departmentId){
 		def accessToken = getAccessToken();
-		def result = get("/cgi-bin/user/simplelist?access_token=${accessToken}&department_id=${departmentId}&fetch_child=1&status=0");
+		def result = get("/cgi-bin/user/simplelist?access_token=${accessToken}&department_id=${departmentId}&fetch_child=1&status=1");
 		return result.userlist;
 	}
 
