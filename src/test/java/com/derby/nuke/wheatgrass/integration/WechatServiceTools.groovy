@@ -22,7 +22,12 @@ class WechatServiceTools {
 	
 	@Test
 	void getUserInfo(){
-		println wechatService.getUserInfo("eric.kuang");
+		println wechatService.getUserInfo("parry.zhang");
+	}
+	
+	@Test
+	void getUsersByDepartment(){
+		println wechatService.getUsersByDepartment("1");
 	}
 
 }

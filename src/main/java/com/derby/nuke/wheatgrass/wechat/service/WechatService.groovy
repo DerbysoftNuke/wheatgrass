@@ -69,6 +69,12 @@ class WechatService{
 		def result = get("/cgi-bin/department/list?access_token=${accessToken}");
 		return result.department;
 	}
+	
+	def getUsersByDepartment(departmentId){
+		def accessToken = getAccessToken();
+		def result = get("/cgi-bin/user/simplelist?access_token=${accessToken}&department_id=${departmentId}&fetch_child=1&status=0");
+		return result.userlist;
+	}
 
 	def getUrlForCode(redirectUri){
 		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_userinfo&state=${agentId}";
