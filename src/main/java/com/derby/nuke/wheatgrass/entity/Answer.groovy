@@ -39,8 +39,8 @@ class Answer{
 	String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	User user;
+	@JoinColumn(name = "answerer_id")
+	User answerer;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
