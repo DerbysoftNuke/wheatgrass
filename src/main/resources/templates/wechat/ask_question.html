@@ -22,6 +22,17 @@
 			 		$(".all_check").attr("checked",false);
 			 	}
 		  });
+		  
+		  $("form").submit(function(){
+		    if( (!$("#title").val()) || (!$("#content").val())){
+		    	 var $dialog = $('#dialog');
+                 $dialog.show();
+                 $dialog.find('.weui_btn_dialog').one('click', function () {
+                     $dialog.hide();
+                 });
+		    	return false;
+		    }
+		 });
 	});
 	/*]]>*/
 	</script>
@@ -33,7 +44,7 @@
 			<div class="weui_cells weui_cells_form">
 					<div class="weui_cell">
 						<div class="weui_cell_bd weui_cell_primary" >
-							<textarea class="weui_textarea" placeholder="请输入标题" rows="1" name="title"></textarea>
+							<textarea class="weui_textarea" placeholder="请输入标题" rows="1" id="title" name="title"></textarea>
 							<div class="weui_textarea_counter"><span>0</span>/20</div>
 						</div>
 					</div>
@@ -44,7 +55,7 @@
 			<div class="weui_cells weui_cells_form">
 					<div class="weui_cell">
 						<div class="weui_cell_bd weui_cell_primary" >
-							<textarea class="weui_textarea" placeholder="请输入问题" rows="8" name="content"></textarea>
+							<textarea class="weui_textarea" placeholder="请输入问题" rows="8" id="content" name="content"></textarea>
 							<div class="weui_textarea_counter"><span>0</span>/200</div>
 						</div>
 					</div>
@@ -74,5 +85,15 @@
 	        </div>
 			<button type="submit" class="weui_btn weui_btn_primary">提交</button>	
 		</form>
+		<div class="weui_dialog_alert" id="dialog" style="display: none;">
+	        <div class="weui_mask"></div>
+	        <div class="weui_dialog">
+	            <div class="weui_dialog_hd"><strong class="weui_dialog_title">提醒</strong></div>
+	            <div class="weui_dialog_bd">标题或者内容不能为空</div>
+	            <div class="weui_dialog_ft">
+	                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	            </div>
+	        </div>
+	    </div>
 	</body>
 </html>

@@ -16,8 +16,8 @@ import javax.persistence.OneToOne
 
 import org.hibernate.annotations.GenericGenerator
 @Entity
-@EqualsAndHashCode(excludes=["recognizedAnswer","answers"])
-@ToString(excludes=["recognizedAnswer","answers"])
+@EqualsAndHashCode(excludes=["answers"])
+@ToString(excludes=["answers"])
 class Question {
 
 	@GeneratedValue(generator = "uuid")
@@ -36,9 +36,7 @@ class Question {
 
 	Date createTime;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "recognizedAnswer_id")
-	Answer recognizedAnswer;
+	String recognizedAnswerId;
 
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	List<Answer> answers=new ArrayList<>();

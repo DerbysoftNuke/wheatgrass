@@ -13,10 +13,10 @@
             <div class="weui_panel_bd">
                 <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
-						<img class="weui_media_appmsg_thumb" th:src="${question.user.imageUrl}" height="60" width="60"/>
+						<img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
-                        <p class="weui_media_desc" th:text="${question.description}"></p>
+                        <p class="weui_media_desc" th:text="${question.content}"></p>
                     </div>
                 </a>
             </div>

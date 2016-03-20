@@ -53,9 +53,11 @@ class User{
 	@Enumerated(EnumType.STRING)
 	Sex sex;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserSkill> skills = new HashSet<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserMedal> medals = new HashSet<>();
 }

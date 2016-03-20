@@ -7,5 +7,4 @@ import com.derby.nuke.wheatgrass.entity.Question
 
 @RepositoryRestResource(path = "question")
 interface QuestionRepository extends JpaRepository<Question, String> {
-
 }
