@@ -15,7 +15,6 @@ import com.derby.nuke.wheatgrass.repository.QuestionRepository
 import com.derby.nuke.wheatgrass.repository.SkillRepository
 import com.derby.nuke.wheatgrass.repository.UserSkillRepository
 import com.derby.nuke.wheatgrass.wechat.Consts
-import com.google.common.collect.Lists
 import com.google.common.collect.Sets
 
 @RestController("QuestionController")
@@ -31,11 +30,15 @@ class QuestionController extends WechatController{
 	def UserSkillRepository userSkillRepository;
 
 	@RequestMapping(value="/question", method = RequestMethod.GET)
-	def question(){
-		def skills = Lists.newArrayList(skillRepository.findAll());
-		return new ModelAndView("wechat/question", ["skills": skills]);
+	def getProfile(HttpSession session, @RequestParam(value="questionId", required=true) questionId){
+		def question = questionRepository.getOne(questionId);
+		return new ModelAndView("wechat/question", ["question": question]);
 	}
-
+	
+	@RequestMapping(value="/askQuestion", method = RequestMethod.GET)
+	def getProfile(HttpSession session){
+		return new ModelAndView("wechat/ask_question");
+	}
 
 	@RequestMapping(value="/askQuestion", method = RequestMethod.POST)
 	@Transactional

@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.entity
+package com.derby.nuke.wheatgrass.entity;
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -15,7 +15,6 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 
 import org.hibernate.annotations.GenericGenerator
-
 @Entity
 @EqualsAndHashCode(excludes=["recognizedAnswer","answers"])
 @ToString(excludes=["recognizedAnswer","answers"])
@@ -44,3 +43,4 @@ class Question {
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	List<Answer> answers=new ArrayList<>();
 }
+
