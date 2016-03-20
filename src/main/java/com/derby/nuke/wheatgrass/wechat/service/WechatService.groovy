@@ -1,5 +1,6 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.RequestBuilder
 import org.apache.http.entity.StringEntity
@@ -26,54 +27,60 @@ class WechatService{
 
 	private def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
 	private final def cache = CacheBuilder.from("expireAfterWrite=1h").build();
-	
+
 	def getAccessToken(){
 		def result = cache.get(appId, {key -> get("/cgi-bin/gettoken?corpid=${appId}&corpsecret=${appSecret}")});
 		return result.access_token;
 	}
-	
+
 	def register(userId){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/user/authsucc?access_token=${accessToken}&userid=${userId}");
-		if(result.errcode != 0){
+		if(result.errcode != 0 && result.errcode != 50004){
 			throw new WechatException(String.valueOf(result.errcode), result.errmsg);
 		}
 		return true;
 	}
-	
+
 	def getUserId(code){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/user/getuserinfo?access_token=${accessToken}&code=${code}&agentid=${agentId}");
 		return result.UserId;
 	}
-	
+
 	def getOpenId(userId){
 		def accessToken = getAccessToken();
 		def result = post("/cgi-bin/user/convert_to_openid?access_token=${accessToken}", [userid: userId]);
 		return result.openid;
 	}
-	
+
 	def getUserInfo(userId){
 		def accessToken = getAccessToken();
 		return get("/cgi-bin/user/get?access_token=${accessToken}&userid=${userId}");
 	}
-	
+
 	def getDepartment(departmentId){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/department/list?access_token=${accessToken}&id=${departmentId}");
 		return result.department[0];
 	}
-	
+
 	def getDepartments(){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/department/list?access_token=${accessToken}");
 		return result.department;
 	}
-	
+
 	def getUsersByDepartment(departmentId){
 		def accessToken = getAccessToken();
 		def result = get("/cgi-bin/user/simplelist?access_token=${accessToken}&department_id=${departmentId}&fetch_child=1&status=1");
 		return result.userlist;
+	}
+
+	def questionNotify(Collection<String> userIds,String content){
+		def accessToken = getAccessToken();
+		def touser=StringUtils.join(userIds.toArray(), "|");
+		def result=post("/cgi-bin/message/send?access_token=${accessToken}",["touser":touser,"msgtype":"text","agentid":agentId,"text":["content":content],"safe":"0"]);
 	}
 
 	def getUrlForCode(redirectUri){

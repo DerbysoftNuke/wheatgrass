@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+		<script type="text/javascript" th:src="@{/js/angular.min.js}"/>
+		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
+		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
+	</head>
+	<script type="text/javascript" th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		  $(".all_check").click(function(){
+		 	if(this.checked){
+		 		$(".skill_check").each(function(){
+		 			this.checked=false;
+		 		})
+		 	}
+		  });
+		  $(".skill_check").click(function(){
+			 	if(this.checked){
+			 		$(".all_check").attr("checked",false);
+			 	}
+		  });
+	});
+	/*]]>*/
+	</script>
+	<body>
+		<form action="" th:action="@{/wechat/askQuestion}" method="POST">
+			<div class="weui_cells_title">
+				标题
+			</div>
+			<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary" >
+							<textarea class="weui_textarea" placeholder="请输入标题" rows="1" name="title"></textarea>
+							<div class="weui_textarea_counter"><span>0</span>/20</div>
+						</div>
+					</div>
+			</div>
+			<div class="weui_cells_title">
+				内容
+			</div>
+			<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary" >
+							<textarea class="weui_textarea" placeholder="请输入问题" rows="8" name="content"></textarea>
+							<div class="weui_textarea_counter"><span>0</span>/200</div>
+						</div>
+					</div>
+			</div>
+			<div class="weui_cells_title">
+				通知
+			</div>
+			<div class="weui_cells weui_cells_checkbox">
+	            <label class="weui_cell weui_check_label" >
+	                <div class="weui_cell_hd">
+	                    <input type="checkbox" class="weui_check all_check" checked="checked"/>
+	                    <i class="weui_icon_checked"></i>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                    <p>所有人</p>
+	                </div>
+	            </label>
+	            <label class="weui_cell weui_check_label" th:each="skill : ${skills}">
+	                <div class="weui_cell_hd">
+	                    <input type="checkbox" class="weui_check skill_check" name="skills" th:value="${skill.id}"/>
+	                    <i class="weui_icon_checked"></i>
+	                </div>
+	                <div class="weui_cell_bd weui_cell_primary">
+	                    <p th:text="${skill.name}"></p>
+	                </div>
+	            </label>
+	        </div>
+			<button type="submit" class="weui_btn weui_btn_primary">提交</button>	
+		</form>
+	</body>
+</html>
