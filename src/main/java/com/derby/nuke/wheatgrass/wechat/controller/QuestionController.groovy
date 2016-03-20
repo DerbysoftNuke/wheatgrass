@@ -39,16 +39,21 @@ class QuestionController extends WechatController{
 
 	@RequestMapping(value="/askQuestion", method = RequestMethod.POST)
 	@Transactional
-	def askQuestion(HttpSession session, @RequestParam(value="title", required=true) title, @RequestParam(value="content", required=true) content,@RequestParam(value="skills", required=false) skills){
+	def askQuestion(HttpSession session, @RequestParam(value="title", required=true) title, @RequestParam(value="content", required=true) content,@RequestParam(value="skills", required=false) skills,@RequestParam(value="all", required=false) all){
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
 		}
 		questionRepository.saveAndFlush(new Question("title":title,"content":content,"proposer":userRepository.getByUserId(userId),"createTime":new Date()));
 		def skillIds = Sets.newHashSet();
-		if(skills != null){
-			skillIds = Sets.newHashSet(skills);
-			wechatService.questionNotify(userSkillRepository.getUserIdsBySkills(skillIds),"you have one question to answer");
+		String notifyContent="you have one question to answer";
+		if(all!=null && "true".equals(all)){
+			wechatService.questionNotifyAll(notifyContent);
+		}else{
+			if(skills != null){
+				skillIds = Sets.newHashSet(skills);
+				wechatService.questionNotify(userSkillRepository.getUserIdsBySkills(skillIds),notifyContent);
+			}
 		}
 	}
 }
