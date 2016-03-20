@@ -82,6 +82,11 @@ class WechatService{
 		def touser=StringUtils.join(userIds.toArray(), "|");
 		def result=post("/cgi-bin/message/send?access_token=${accessToken}",["touser":touser,"msgtype":"text","agentid":agentId,"text":["content":content],"safe":"0"]);
 	}
+	
+	def questionNotifyAll(String content){
+		def accessToken = getAccessToken();
+		def result=post("/cgi-bin/message/send?access_token=${accessToken}",["touser":"@all","msgtype":"text","agentid":agentId,"text":["content":content],"safe":"0"]);
+	}
 
 	def getUrlForCode(redirectUri){
 		return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUri}&response_type=code&scope=snsapi_userinfo&state=${agentId}";
