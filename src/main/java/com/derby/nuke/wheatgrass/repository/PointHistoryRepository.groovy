@@ -17,5 +17,5 @@ interface PointHistoryRepository extends JpaRepository<PointHistory, String> {
 	@Transactional
 	@Modifying
 	@Query("delete from PointHistory where userSkill.id in(:userSkillIds)")
-	void deleteByUserSkill(@Param("userSkillIds") Set<String> userSkillIds);
+	void deleteByUserSkill(@Param("userSkillIds") Collection<String> userSkillIds);
 }
