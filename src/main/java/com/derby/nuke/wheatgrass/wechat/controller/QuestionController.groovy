@@ -62,7 +62,7 @@ class QuestionController extends WechatController{
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
 		}
-		questionRepository.saveAndFlush(new Question("title":title,"content":content,"proposer":userRepository.getByUserId(userId),"createTime":new Date()));
+		Question question=questionRepository.saveAndFlush(new Question("title":title,"content":content,"proposer":userRepository.getByUserId(userId),"createTime":new Date()));
 		def skillIds = Sets.newHashSet();
 		String notifyContent="you have one question to answer";
 		if(all!=null && "true".equals(all)){
@@ -73,6 +73,7 @@ class QuestionController extends WechatController{
 				wechatService.questionNotify(userSkillRepository.getUserIdsBySkills(skillIds),notifyContent);
 			}
 		}
+		getProfile(session,question.getId());
 	}
 	@RequestMapping(value="/question/list", method = RequestMethod.GET)
 	def list(HttpSession session){
