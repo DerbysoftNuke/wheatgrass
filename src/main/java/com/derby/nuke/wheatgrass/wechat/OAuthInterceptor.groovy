@@ -3,6 +3,7 @@ package com.derby.nuke.wheatgrass.wechat;
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.method.HandlerMethod
@@ -22,9 +23,18 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 
 	@Override
 	boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if(isOAuthRequired(handler)){
 		def userId = request.getSession().getAttribute(Consts.USER_ID);
-		if(userId == null){
+		if(StringUtils.isNotBlank(userId)){
+			return true;
+		}
+
+		userId = System.getProperty(Consts.DEBUG_USER_ID);
+		if(StringUtils.isNotBlank(userId)){
+			request.getSession().setAttribute(Consts.USER_ID, userId);
+			return true;
+		}
+
+		if(isOAuthRequired(handler)){
 			def code = request.getParameter("code");
 			if(code == null){
 				response.setHeader("Cache-Control", "no-cache");
@@ -45,7 +55,6 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 				request.getSession().setAttribute(Consts.USER_ID, userId);
 			}
 		}
-				}
 		return true;
 	}
 
