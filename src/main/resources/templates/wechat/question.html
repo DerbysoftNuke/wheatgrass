@@ -20,7 +20,20 @@
                     </div>
                 </a>
             </div>
-            <a class="weui_panel_ft" href="javascript:void(0);">查看更多</a>
+        </div>
+        <div class="weui_panel weui_panel_access">
+            <div class="weui_panel_hd">共有几个答案</div>
+            <div class="weui_panel_bd">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg" th:each="answer : ${question.answers}">
+                    <div class="weui_media_hd">
+                        <img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
+                    </div>
+                    <div class="weui_media_bd">
+                        <p class="weui_media_desc" th:text="${answer.content}"></p>
+                        <p class="weui_media_desc" >有用[10],无用[2]</p>
+                    </div>
+                </a>
+            </div>
         </div>
 	</body>
 </html>
