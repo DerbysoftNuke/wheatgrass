@@ -9,30 +9,60 @@
 	</head>
 	<body>
 		<div class="weui_panel weui_panel_access">
-            <div class="weui_panel_hd" th:text="${question.title}"></div>
+            <div class="weui_panel_hd" th:text="${'问题：'+question.title}"></div>
             <div class="weui_panel_bd">
+                <div class="weui_media_box weui_media_text">
+                    <p class="weui_media_desc" style="display:inline;" th:text="${question.content}">问题描述</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta" th:text="${'发布时间：'+question.createTime}">文字来源</li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'共有'+question.answers.size()+'个答案'}">文字来源</li>
+                    </ul>
+                </div>
                 <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
-                        <p class="weui_media_desc" th:text="${question.content}"></p>
+                        <p class="weui_media_desc" th:text="${'姓名：'+question.proposer.name}"></p>
+                        <p class="weui_media_desc" th:text="${'部门：'+question.proposer.department}"></p>
+                        <p class="weui_media_desc" th:text="${'职务：'+question.proposer.position}"></p>
                     </div>
                 </a>
             </div>
         </div>
+        <form action="" th:action="@{/wechat/answer}" method="POST" id="answer_form">
+			<div class="weui_cells weui_cells_form">
+					<div class="weui_cell">
+						<div class="weui_cell_bd weui_cell_primary" >
+							<textarea class="weui_textarea" placeholder="请输入答案" rows="4" id="content" name="content"></textarea>
+							<div class="weui_textarea_counter"><span>0</span>/200</div>
+						</div>
+					</div>
+			</div>
+			<div class="weui_btn_area">
+				<button type="submit" class="weui_btn weui_btn_primary">提交答案</button>	
+	        </div>
+		</form>
         <div class="weui_panel weui_panel_access">
-            <div class="weui_panel_hd">共有几个答案</div>
-            <div class="weui_panel_bd">
-                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg" th:each="answer : ${question.answers}">
+            <div class="weui_panel_hd" th:text="${'共有'+question.answers.size()+'个答案'}">共有0个答案</div>
+            <div class="weui_panel_bd" th:each="answer : ${question.answers}">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
-                        <img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
-                    </div>
+						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
+					</div>
                     <div class="weui_media_bd">
-                        <p class="weui_media_desc" th:text="${answer.content}"></p>
-                        <p class="weui_media_desc" >有用[10],无用[2]</p>
+                        <p class="weui_media_desc" th:text="${'姓名：'+answer.answerer.name}"></p>
+                        <p class="weui_media_desc" th:text="${'部门：'+answer.answerer.department}"></p>
+                        <p class="weui_media_desc" th:text="${'职务：'+answer.answerer.position}"></p>
                     </div>
                 </a>
+                <div class="weui_media_box weui_media_text">
+                    <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta" th:text="${'回答时间：'+answer.createTime}">文字来源</li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'有用['+answer.markUsefulUserIds.size()+'] 无用['+answer.markUnusefulUserIds.size()+']'}">文字来源</li>
+                    </ul>
+                </div>
             </div>
         </div>
 	</body>

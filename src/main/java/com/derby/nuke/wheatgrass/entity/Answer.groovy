@@ -1,5 +1,7 @@
 package com.derby.nuke.wheatgrass.entity;
 
+import java.util.Date;
+
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
@@ -45,6 +47,8 @@ class Answer{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	Question question;
+	
+	Date createTime;
 
 	@Type(type = "setType")
 	Set<String> markUsefulUserIds = new HashSet();

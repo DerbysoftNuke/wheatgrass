@@ -42,7 +42,7 @@ class QuestionController extends WechatController{
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
 		}
-		def question = questionRepository.getOne(questionId);
+		def question = questionRepository.findOne(questionId);
 		return new ModelAndView("wechat/question", ["question": question]);
 	}
 
