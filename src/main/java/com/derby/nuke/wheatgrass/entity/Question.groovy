@@ -15,6 +15,8 @@ import javax.persistence.OneToMany
 import javax.persistence.OneToOne
 
 import org.hibernate.annotations.GenericGenerator
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @EqualsAndHashCode(excludes=["answers"])
 @ToString(excludes=["answers"])
@@ -38,6 +40,7 @@ class Question {
 
 	String recognizedAnswerId;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	List<Answer> answers=new ArrayList<>();
 }
