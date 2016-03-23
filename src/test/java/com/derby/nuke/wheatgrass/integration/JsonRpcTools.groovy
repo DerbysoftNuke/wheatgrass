@@ -6,7 +6,8 @@ import org.springframework.boot.test.TestRestTemplate
 import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.rpc.config.ConfigurationService
 import com.derby.nuke.wheatgrass.rpc.log.LogService
-import com.derby.nuke.wheatgrass.wechat.service.UserDownloadService;
+import com.derby.nuke.wheatgrass.wechat.service.UserDownloadService
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient
 import com.googlecode.jsonrpc4j.ProxyUtil
 
@@ -62,6 +63,15 @@ class JsonRpcTools {
 //		obj._embedded.users.each {
 //			
 //		}
+	}
+	
+	@Test
+	void addSkills(){
+		def list = new ObjectMapper().readValue(JsonRpcTools.class.getResourceAsStream("skills.json"), List.class);
+		def client = new TestRestTemplate("nuke", "nuke.123");
+		list.each {item->
+			client.postForObject("http://127.0.0.1/api/repository/skill", item, Map.class);
+		}
 	}
 	
 	def fetch(url, clazz){

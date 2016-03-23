@@ -1,0 +1,157 @@
+[
+	{
+		"category":"技术",
+		"name":"PCI Booking",
+		"description":"3rd party PCI compliance service to store and process credit card data"
+	},
+	{
+		"category":"技术",
+		"name":"CSS",
+		"description":"一种用来表现HTML（标准通用标记语言的一个应用）或XML（标准通用标记语言的一个子集）等文件样式的计算机语言"
+	},
+	{
+		"category":"技术",
+		"name":"Oauth",
+		"description":"Authorization framework"
+	},
+	{
+		"category":"技术",
+		"name":"Dubbo",
+		"description":"Distributed service framework"
+	},
+	{
+		"category":"技术",
+		"name":"Redis",
+		"description":"一个开源的使用ANSI C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API"
+	},
+	{
+		"category":"技术",
+		"name":"AWS infrastructure",
+		"description":"EC2，VPC，RDS"
+	},
+	{
+		"category":"技术",
+		"name":"PCI assessment",
+		"description":"Security Policy，System implementation..etc"
+	},
+	{
+		"category":"技术",
+		"name":"AWS Elastic Cache (Memcache)",
+		"description":""
+	},
+	{
+		"category":"技术",
+		"name":"Web Services",
+		"description":"Web Service是基于网络的、分布式的模块化组件，它执行特定的任务，遵守具体的技术规范，这些规范使得Web Service能与其他兼容的组件进行互操作"
+	},
+	{
+		"category":"技术",
+		"name":"数学建模",
+		"description":"数学建模就是通过计算得到的结果来解释实际问题，并接受实际的检验，来建立数学模型的全过程"
+	},
+	{
+		"category":"技术",
+		"name":"MySQL",
+		"description":"一个关系型数据库管理系统，由瑞典 MySQL AB 公司开发，目前属于 Oracle 旗下"
+	},
+	{
+		"category":"技术",
+		"name":"Spark",
+		"description":"Spark是UC Berkeley AMP lab所开源的类Hadoop MapReduce的通用并行框架"
+	},
+	{
+		"category":"技术",
+		"name":"项目管理",
+		"description":"在项目活动中运用专门的知识、技能、工具和方法，使项目能够在有限资源限定条件下，实现或超过设定的需求和期望的过程"
+	},
+	{
+		"category":"技术",
+		"name":"Linux",
+		"description":"一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统"
+	},
+	{
+		"category":"工具",
+		"name":"LoadRunner",
+		"description":"一种预测系统行为和性能的负载测试工具"
+	},
+	{
+		"category":"产品",
+		"name":"Doorway",
+		"description":"中小渠道对接德比软件的标准接入平台"
+	},
+	{
+		"category":"产品",
+		"name":"Dswitch",
+		"description":"对接服务内部标准协议、路由、公共RPC组件实现，是对接平台的核心服务"
+	},
+	{
+		"category":"产品",
+		"name":"Dstorage",
+		"description":"标准存储服务平台，提供ARI数据存取API，支持现有酒店供应商的ARI数据模式"
+	},
+	{
+		"category":"产品",
+		"name":"Dgateway",
+		"description":"德比对外网关系统，实现路由、限流、熔断、负载均衡、日志分析等功能，统一对客户暴露的API服务地址，整合内部微服务"
+	},
+	{
+		"category":"产品",
+		"name":"dsOne",
+		"description":""
+	},
+	{
+		"category":"产品",
+		"name":"MetaSearch Manager",
+		"description":""
+	},
+	{
+		"category":"技术",
+		"name":"Angular",
+		"description":""
+	},
+	{
+		"category":"技术",
+		"name":"Bootstrap",
+		"description":"Bootstrap is the most popular HTML, CSS, and JS framework for developing responsive, mobile first projects on the web"
+	},
+	{
+		"category":"技术",
+		"name":"SOA",
+		"description":"面向服务的体系结构是一个组件模型，它将应用程序的不同功能单元（称为服务）通过这些服务之间定义良好的接口和契约联系起来"
+	},
+	{
+		"category":"技术",
+		"name":"Java Web",
+		"description":"用Java技术来解决相关web互联网领域的技术总和"
+	},
+	{
+		"category":"技术",
+		"name":"Mongo DB",
+		"description":"MongoDB是一个基于分布式文件存储的数据库"
+	},
+	{
+		"category":"工具",
+		"name":"Excel",
+		"description":"Microsoft Excel是微软公司的办公软件Microsoft office的组件之一，是由Microsoft为Windows和Apple Macintosh操作系统的电脑而编写和运行的一款试算表软件"
+	},
+	{
+		"category":"工具",
+		"name":"Jianliao",
+		"description":"一款免费的企业级即时沟通工具，是平行于团队协作工具 Teambition 的另一款能够改善员工工作效率的产品"
+	},
+	{
+		"category":"工具",
+		"name":"Jira",
+		"description":"JIRA是Atlassian公司出品的项目与事务跟踪工具，被广泛应用于缺陷跟踪、客户服务、需求收集、流程审批、任务跟踪、项目跟踪和敏捷管理等工作领域"
+	},
+	{
+		"category":"工具",
+		"name":"Jenkins",
+		"description":"Jenkins是一个开源软件项目，旨在提供一个开放易用的软件平台，使软件的持续集成变成可能"
+	},
+	{
+		"category":"工具",
+		"name":"Sonar",
+		"description":"SonarQube is an open platform to manage code quality"
+	}
+]
