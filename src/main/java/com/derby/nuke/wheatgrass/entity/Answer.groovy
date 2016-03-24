@@ -1,7 +1,5 @@
 package com.derby.nuke.wheatgrass.entity;
 
-import java.util.Date;
-
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 
@@ -20,6 +18,9 @@ import org.hibernate.annotations.TypeDef
 import org.hibernate.annotations.TypeDefs
 
 import com.derby.nuke.wheatgrass.hibernate.SimpleCollectionType
+import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @TypeDefs([
@@ -31,6 +32,7 @@ import com.derby.nuke.wheatgrass.hibernate.SimpleCollectionType
 ])
 @EqualsAndHashCode(excludes=[])
 @ToString(excludes=[])
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 class Answer{
 
 	@GeneratedValue(generator = "uuid")
@@ -47,7 +49,7 @@ class Answer{
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "question_id")
 	Question question;
-	
+
 	Date createTime;
 
 	@Type(type = "setType")

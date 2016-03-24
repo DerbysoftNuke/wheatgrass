@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession
 import javax.transaction.Transactional
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Sort.Direction
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
@@ -33,6 +33,9 @@ class QuestionController extends WechatController{
 
 	@Autowired
 	def UserSkillRepository userSkillRepository;
+
+	@Value('${web.external.url}')
+	def externalUrl;
 
 	def pageSize=7;
 
@@ -64,13 +67,13 @@ class QuestionController extends WechatController{
 		}
 		Question question=questionRepository.saveAndFlush(new Question("title":title,"content":content,"proposer":userRepository.getByUserId(userId),"createTime":new Date()));
 		def skillIds = Sets.newHashSet();
-		String notifyContent="you have one question to answer";
+		String notifyContent="<a href='"+externalUrl+"/wechat/question?questionId="+question.getId()+"'>you have one question to answer</a>";
 		if(all!=null && "true".equals(all)){
 			wechatService.questionNotifyAll(notifyContent);
 		}else{
 			if(skills != null){
 				skillIds = Sets.newHashSet(skills);
-				wechatService.questionNotify(userSkillRepository.getUserIdsBySkills(skillIds),notifyContent);
+				wechatService.questionNotify(["caochengkai"],notifyContent);
 			}
 		}
 		getProfile(session,question.getId());

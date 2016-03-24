@@ -14,9 +14,13 @@ import javax.persistence.ManyToOne
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.data.rest.core.annotation.RestResource
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @EqualsAndHashCode
 @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 class UserMedal {
 
 	@GeneratedValue(generator = "uuid")
