@@ -73,7 +73,7 @@ class QuestionController extends WechatController{
 		}else{
 			if(skills != null){
 				skillIds = Sets.newHashSet(skills);
-				wechatService.questionNotify(["caochengkai"],notifyContent);
+				wechatService.questionNotify(userSkillRepository.getUserIdsBySkills(skillIds),notifyContent);
 			}
 		}
 		getProfile(session,question.getId());
