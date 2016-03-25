@@ -1,5 +1,4 @@
-package com.derby.nuke.wheatgrass.wechat.controller;
-
+package com.derby.nuke.wheatgrass.wechat.controller.expert;
 
 import javax.servlet.http.HttpSession
 import javax.transaction.Transactional
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
@@ -17,14 +15,14 @@ import com.derby.nuke.wheatgrass.entity.UserSkill
 import com.derby.nuke.wheatgrass.repository.PointHistoryRepository
 import com.derby.nuke.wheatgrass.repository.SkillRepository
 import com.derby.nuke.wheatgrass.repository.UserMedalRepository
-import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.repository.UserSkillRepository
 import com.derby.nuke.wheatgrass.wechat.Consts
+import com.derby.nuke.wheatgrass.wechat.controller.WechatController
 import com.google.common.collect.Lists
 import com.google.common.collect.Sets
 
-@RestController("UserProfileController")
-class ProfileController extends WechatController{
+@RestController
+class UserController extends ExpertController {
 
 	@Autowired
 	def SkillRepository skillRepository;
@@ -38,14 +36,19 @@ class ProfileController extends WechatController{
 	@Autowired
 	def PointHistoryRepository pointHistoryRepository;
 
-	@RequestMapping(value="/profiles", method = RequestMethod.GET)
-	def listUsers(){
-		def users = userRepository.findAll();
-		return new ModelAndView("wechat/users", ["users": users]);
+	@RequestMapping(value="/users", method = RequestMethod.GET)
+	def list(@RequestParam(value="skillId", required=false) skillId){
+		def users;
+		if(skillId != null){
+			users = userSkillRepository.findUsersBySkill(skillId);
+		}else{
+			users = userRepository.findAll();
+		}
+		return new ModelAndView("wechat/expert/users", ["users": users]);
 	}
 
-	@RequestMapping(value="/profile", method = RequestMethod.GET)
-	def getProfile(HttpSession session, @RequestParam(value="userId", required=false) id){
+	@RequestMapping(value="/user", method = RequestMethod.GET)
+	def view(HttpSession session, @RequestParam(value="userId", required=false) id){
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
@@ -80,11 +83,11 @@ class ProfileController extends WechatController{
 		userMedals.each{
 			medals.add(it.medal);
 		}
-		return new ModelAndView("wechat/profile", ["user": user, "skills": skills, medals: medals,"sessionUserId":userId,"pointedUserSkillIds":pointedUserSkillIds]);
+		return new ModelAndView("wechat/expert/user", ["user": user, "skills": skills, medals: medals,"sessionUserId":userId,"pointedUserSkillIds":pointedUserSkillIds]);
 	}
 
-	@RequestMapping(value="/profile", method = RequestMethod.POST)
-	def updateProfile(HttpSession session, @RequestParam(value="skills", required=false) ids){
+	@RequestMapping(value="/user", method = RequestMethod.POST)
+	def update(HttpSession session, @RequestParam(value="skills", required=false) ids){
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
@@ -105,24 +108,23 @@ class ProfileController extends WechatController{
 				skillIds.remove(userSkill.skill.id);
 			}
 		}
-		
+
 		user.skills.removeAll(deletedUserSkills);
 		skillIds.each {skillId->
 			user.skills.add(new UserSkill(user: user, skill: skillRepository.getOne(skillId)));
 		}
 		def deletedUserSkillIds=Sets.newHashSet();
-		deletedUserSkills.each{
-			deletedUserSkill->
+		deletedUserSkills.each{ deletedUserSkill->
 			deletedUserSkillIds.add(deletedUserSkill.id);
 		}
 		if(deletedUserSkillIds.size()>0){
 			pointHistoryRepository.deleteByUserSkill(deletedUserSkillIds);
 		}
 		userRepository.saveAndFlush(user);
-		return getProfile(session, null);
+		return view(session, null);
 	}
 
-	@RequestMapping(value="/profile/addPoint", method = RequestMethod.POST)
+	@RequestMapping(value="/user/addPoint", method = RequestMethod.POST)
 	@Transactional
 	def addPoint(HttpSession session, @RequestParam(value="targetUserId", required=true)String targetUserId,@RequestParam(value="skillId", required=true)String skillId){
 		def userId = session.getAttribute(Consts.USER_ID);
@@ -143,7 +145,7 @@ class ProfileController extends WechatController{
 		return userSkill.point;
 	}
 
-	@RequestMapping(value="/profile/cancelPoint", method = RequestMethod.POST)
+	@RequestMapping(value="/user/cancelPoint", method = RequestMethod.POST)
 	@Transactional
 	def cancelPoint(HttpSession session, @RequestParam(value="targetUserId", required=true)String targetUserId,@RequestParam(value="skillId", required=true)String skillId){
 		def userId = session.getAttribute(Consts.USER_ID);

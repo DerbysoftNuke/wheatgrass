@@ -70,7 +70,7 @@ class JsonRpcTools {
 		def list = new ObjectMapper().readValue(JsonRpcTools.class.getResourceAsStream("skills.json"), List.class);
 		def client = new TestRestTemplate("nuke", "nuke.123");
 		list.each {item->
-			client.postForObject("http://127.0.0.1/api/repository/skill", item, Map.class);
+			client.postForObject("http://127.0.0.1:8080/api/repository/skill", item, Map.class);
 		}
 	}
 	

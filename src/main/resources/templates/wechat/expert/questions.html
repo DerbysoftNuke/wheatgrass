@@ -28,7 +28,7 @@
 		
 		function loadQuestions(){
 			$.ajax({
-				url: [[@{/wechat/question/loadQuestions}]],
+				url: [[@{/wechat/expert/questions}]],
 				type:"POST",
 				data:{
 					"currentPage": currentPage,
@@ -57,7 +57,7 @@
 		}
 	});
 	function question(questionId){
-		location.href=[[@{/wechat/question?questionId=}]]+questionId;
+		location.href=[[@{/wechat/expert/question?questionId=}]]+questionId;
 	}
 	/*]]>*/
 	</script>

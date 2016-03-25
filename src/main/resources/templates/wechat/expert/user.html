@@ -11,7 +11,7 @@
 	/*<![CDATA[*/
 	function addPoint(targetUserId,skillId,element){
 		$.ajax({
-			url: [[@{/wechat/profile/addPoint}]],
+			url: [[@{/wechat/expert/user/addPoint}]],
 			type:"POST",
 			data:{
 				"targetUserId": targetUserId,
@@ -29,7 +29,7 @@
 	}
 	function cancelPoint(targetUserId,skillId,element){
 		$.ajax({
-			url:[[@{/wechat/profile/cancelPoint}]],
+			url:[[@{/wechat/expert/user/cancelPoint}]],
 			type:"POST",
 			data:{
 				"targetUserId": targetUserId,
@@ -79,7 +79,7 @@
 					</span>
 				</div>
 			</div>
-			<div class="page" id="more_profile" style="display: none;">
+			<div class="page profile_toggle" style="display: none;">
 				<div class="bd">
 					<div class="weui_cells">
 						<div class="weui_cell">
@@ -109,36 +109,38 @@
 					</div>
 				</div>
 			</div>
-			<a class="weui_panel_ft weui_cell" href="javascript:$('#more_profile').toggle();">查看更多</a>
+			<a class="weui_panel_ft weui_cell profile_toggle" href="javascript:$('.profile_toggle').toggle('fast');">查看更多</a>
+			<a class="weui_panel_ft weui_cell profile_toggle" style="display: none; width: 100%;" href="javascript:$('.profile_toggle').toggle('fast');">返回</a>
 		</div>
 		<div class="weui_panel weui_panel_access">
-			<form action="" th:action="@{/wechat/profile}" method="POST">
+			<form action="" th:action="@{/wechat/expert/user}" method="POST">
 				<div class="weui_panel_hd">Get到的技能</div>
 				<div class="weui_panel_bd">
 					<div class="weui_media_box weui_media_text weui_cell_switch" th:each="userSkill : ${user.skills}">
 						<h4 class="weui_media_title" th:text="${userSkill.skill.name}">技能名称</h4>
 						<p class="weui_media_desc" th:text="${userSkill.skill.description}">技能描述</p>
-						<div class="weui_cell_ft skill_edit" style="display: none;">
+						<div class="weui_cell_ft toggle" style="display: none;">
 		                    <input class="weui_switch" type="checkbox" th:checked="true" name="skills" th:value="${userSkill.skill.id}" />
 		                </div>
-		                <div class="weui_cell_ft skill_point" th:if="${sessionUserId}!=${user.userId}">
+		                <div class="weui_cell_ft toggle" th:if="${sessionUserId}!=${user.userId}">
 	                    	<i class="weui_icon_success_circle"  th:hidden="${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:attr="onclick='addPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this);'"></i>
 	                    	<i class="weui_icon_success" th:hidden="!${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:attr="onclick='cancelPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this);'"></i>
 		                </div>
-						<ul class="weui_media_info skill_point" th:hidden="${userSkill.point} le 0">
+						<ul class="weui_media_info toggle" th:hidden="${userSkill.point} le 0">
 							<li class="weui_media_info_meta" th:if="${userSkill.point} gt 0" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
 						</ul>
 					</div>
-					<div class="weui_media_box weui_media_text weui_cell_switch other_skills" th:each="skill : ${skills}" style="display: none;">
+					<div class="weui_media_box weui_media_text weui_cell_switch toggle" th:each="skill : ${skills}" style="display: none;">
 						<h4 class="weui_media_title" th:text="${skill.name}">技能名称</h4>
 						<p class="weui_media_desc" th:text="${skill.description}">技能描述</p>
-						<div class="weui_cell_ft skill_edit" style="display: none;">
+						<div class="weui_cell_ft toggle" style="display: none;">
 		                    <input class="weui_switch" type="checkbox" th:checked="false" name="skills" th:value="${skill.id}" />
 		                </div>
 					</div>
+					<button type="submit" class="weui_btn weui_btn_primary toggle" style="display: none;">提交</button>
+					<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle('fast');" th:if="${user.userId} == ${session['wechat.userId']}">编辑</a>
+					<a class="weui_panel_ft weui_cell toggle" style="display: none;width: 100%;" href="javascript:$('.toggle').toggle('fast');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
 				</div>
-				<button type="submit" class="weui_btn weui_btn_primary skill_submit" style="display: none;">提交</button>
-				<a class="weui_panel_ft weui_cell" href="javascript:$('.skill_edit').toggle();$('.skill_point').toggle();$('.other_skills').toggle();$('.skill_submit').toggle();" th:if="${user.userId} == ${session['wechat.userId']}">编辑</a>
 			</form>
 		</div>
 	</body>
