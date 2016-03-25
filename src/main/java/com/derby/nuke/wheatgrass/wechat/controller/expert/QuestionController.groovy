@@ -89,7 +89,7 @@ class QuestionController extends ExpertController{
 			]
 		]
 		
-		if("true".equals(all)){
+		if("true".equals(all) || "on".equals(all)){
 			wechatService.sendMessage(null, messageType, message);
 		}else if(skillIds != null){
 			def userIds = userSkillRepository.getUserIdsBySkills(Sets.newHashSet(skillIds));
