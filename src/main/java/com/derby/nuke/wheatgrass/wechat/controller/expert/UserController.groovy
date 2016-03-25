@@ -40,12 +40,14 @@ class UserController extends ExpertController {
 	@RequestMapping(value="/users", method = RequestMethod.GET)
 	def list(@RequestParam(value="skillId", required=false) skillId){
 		def users;
+		def skill;
 		if(skillId != null){
+			skill = skillRepository.findOne(skillId);
 			users = userSkillRepository.findUsersBySkill(skillId);
 		}else{
 			users = userRepository.findAll();
 		}
-		return new ModelAndView("wechat/expert/users", ["users": users]);
+		return new ModelAndView("wechat/expert/users", ["users": users, skill: skill]);
 	}
 
 	@RequestMapping(value="/user", method = RequestMethod.GET)
