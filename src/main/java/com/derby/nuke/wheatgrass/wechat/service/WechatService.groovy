@@ -1,6 +1,6 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.StringUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.RequestBuilder
 import org.apache.http.entity.StringEntity
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 
 import com.derby.nuke.wheatgrass.wechat.WechatException
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.common.base.Joiner
 import com.google.common.cache.CacheBuilder
 
 @Service
@@ -76,16 +77,19 @@ class WechatService{
 		def result = get("/cgi-bin/user/simplelist?access_token=${accessToken}&department_id=${departmentId}&fetch_child=1&status=1");
 		return result.userlist;
 	}
-
-	def questionNotify(Collection<String> userIds,String content){
-		def accessToken = getAccessToken();
-		def touser=StringUtils.join(userIds.toArray(), "|");
-		def result=post("/cgi-bin/message/send?access_token=${accessToken}",["touser":touser,"msgtype":"text","agentid":agentId,"text":["content":content],"safe":"0"]);
-	}
 	
-	def questionNotifyAll(String content){
+	def sendMessage(userIds, type, message){
 		def accessToken = getAccessToken();
-		def result=post("/cgi-bin/message/send?access_token=${accessToken}",["touser":"@all","msgtype":"text","agentid":agentId,"text":["content":content],"safe":"0"]);
+		def touser = "@all";
+		if(userIds != null){
+			touser = Joiner.on("|").skipNulls().join(userIds);
+		}
+		
+		def request = ["touser": touser, "msgtype":type, "agentid":agentId, "safe":"0"];
+		message.each {key, value->
+			request[key] = value;
+		}
+		post("/cgi-bin/message/send?access_token=${accessToken}", request);
 	}
 
 	def getUrlForCode(redirectUri){

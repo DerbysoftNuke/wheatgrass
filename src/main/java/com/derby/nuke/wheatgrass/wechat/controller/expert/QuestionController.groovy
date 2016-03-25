@@ -74,13 +74,27 @@ class QuestionController extends ExpertController{
 			throw new IllegalArgumentException("UserId not found");
 		}
 
-		Question question=questionRepository.saveAndFlush(new Question("title":title,"content":content,"proposer":userRepository.getByUserId(userId),"createTime":new Date()));
-		String notifyContent="<a href=${externalUrl}/wechat/question?questionId="+question.getId()+"'>you have one question to answer</a>";
+		def user = userRepository.getByUserId(userId);
+		Question question=questionRepository.saveAndFlush(new Question("title":title, "content":content, "proposer":user, "createTime":new Date()));
+		def messageType = "news";
+		def message = [
+			news: [
+				articles: [
+					[
+						title: title,
+						description: "哇, 你被"+user.name+"@了, 快来回答问题赢取积分吧!",
+						url: externalUrl+"/wechat/expert/question?questionId="+question.id
+					]
+				]
+			]
+		]
+		
 		if("true".equals(all)){
-			wechatService.questionNotifyAll(notifyContent);
+			wechatService.sendMessage(null, messageType, message);
 		}else{
-			if(skillIds != null){
-				wechatService.questionNotify(userSkillRepository.getUserIdsBySkills(Sets.newHashSet(skillIds)),notifyContent);
+			def userIds = userSkillRepository.getUserIdsBySkills(Sets.newHashSet(skillIds));
+			if(!userIds.isEmpty()){
+				wechatService.sendMessage(userIds, messageType, message);
 			}
 		}
 		viewQuestion(question.getId());
