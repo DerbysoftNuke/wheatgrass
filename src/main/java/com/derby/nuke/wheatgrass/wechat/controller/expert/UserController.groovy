@@ -18,6 +18,7 @@ import com.derby.nuke.wheatgrass.repository.UserMedalRepository
 import com.derby.nuke.wheatgrass.repository.UserSkillRepository
 import com.derby.nuke.wheatgrass.wechat.Consts
 import com.derby.nuke.wheatgrass.wechat.controller.WechatController
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists
 import com.google.common.collect.Sets
 
@@ -62,14 +63,14 @@ class UserController extends ExpertController {
 		}
 
 		def allSkills = Lists.newArrayList(skillRepository.findAll());
-		def skills = [];
+		def skills = HashMultimap.create();
 		allSkills.each {skill->
 			def a = user.skills.find{userSkill->
 				userSkill.skill.equals(skill);
 			}
 
 			if(a == null){
-				skills.add(skill);
+				skills.put(skill.category, skill);
 			}
 		}
 		def pointedUserSkillIds=Sets.newHashSet();
@@ -83,7 +84,7 @@ class UserController extends ExpertController {
 		userMedals.each{
 			medals.add(it.medal);
 		}
-		return new ModelAndView("wechat/expert/user", ["user": user, "skills": skills, medals: medals,"sessionUserId":userId,"pointedUserSkillIds":pointedUserSkillIds]);
+		return new ModelAndView("wechat/expert/user", ["user": user, "skills": skills.asMap(), medals: medals,"sessionUserId":userId,"pointedUserSkillIds":pointedUserSkillIds]);
 	}
 
 	@RequestMapping(value="/user", method = RequestMethod.POST)

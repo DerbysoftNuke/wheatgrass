@@ -122,15 +122,15 @@
 					</div>
 				</div>
 			</div>
-			<a class="weui_panel_ft weui_cell profile_toggle" href="javascript:$('.profile_toggle').toggle('fast');">查看更多</a>
-			<a class="weui_panel_ft weui_cell profile_toggle" style="display: none; width: 100%;" href="javascript:$('.profile_toggle').toggle('fast');">返回</a>
+			<a class="weui_panel_ft weui_cell profile_toggle" href="javascript:$('.profile_toggle').toggle('slow');">查看更多</a>
+			<a class="weui_panel_ft weui_cell profile_toggle" style="display: none; width: 100%;" href="javascript:$('.profile_toggle').toggle('slow');">返回</a>
 		</div>
 		<div class="weui_panel weui_panel_access">
 			<form action="" th:action="@{/wechat/expert/user}" method="POST">
 				<div class="weui_panel_hd">Get到的技能</div>
 				<div class="weui_panel_bd">
 					<div class="weui_media_box weui_media_text weui_cell_switch" th:each="userSkill : ${user.skills}">
-						<h4 class="weui_media_title" th:text="${userSkill.skill.name}">技能名称</h4>
+						<h4 class="weui_media_title" th:text="${'【'+userSkill.skill.category + '】 ' + userSkill.skill.name}">技能名称</h4>
 						<p class="weui_media_desc" th:text="${userSkill.skill.description}">技能描述</p>
 						<div class="weui_cell_ft toggle" style="display: none;">
 		                    <input class="weui_switch" type="checkbox" th:checked="true" name="skills" th:value="${userSkill.skill.id}" />
@@ -143,17 +143,20 @@
 							<li class="weui_media_info_meta" th:if="${userSkill.point} gt 0" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
 						</ul>
 					</div>
-					<div class="weui_media_box weui_media_text weui_cell_switch toggle" th:each="skill : ${skills}" style="display: none;">
-						<h4 class="weui_media_title" th:text="${skill.name}">技能名称</h4>
-						<p class="weui_media_desc" th:text="${skill.description}">技能描述</p>
-						<div class="weui_cell_ft toggle" style="display: none;">
-		                    <input class="weui_switch" type="checkbox" th:checked="false" name="skills" th:value="${skill.id}" />
-		                </div>
+					<div th:each="entry : ${skills}" class="toggle" style="display: none; border: 1px;">
+						<div class="weui_panel_hd" th:text="${entry.key}" style="font-size: 20px;font-weight: bold;">Category</div>
+						<div class="weui_media_box weui_media_text weui_cell_switch" th:each="skill : ${entry.value}">
+							<h4 class="weui_media_title" th:text="${'【'+skill.category + '】 ' +skill.name}">技能名称</h4>
+							<p class="weui_media_desc" th:text="${skill.description}">技能描述</p>
+							<div class="weui_cell_ft toggle" style="display: none;">
+	                    		<input class="weui_switch" type="checkbox" th:checked="false" name="skills" th:value="${skill.id}" />
+	                		</div>
+						</div>
 					</div>
 					<div>
 						<button type="submit" class="weui_btn weui_btn_primary toggle" style="display: none;" id="showLoadingToast">提交</button>
-						<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle('fast');" th:if="${user.userId} == ${session['wechat.userId']}">编辑</a>
-						<a class="weui_panel_ft weui_cell toggle" style="display: none;width: 100%;" href="javascript:$('.toggle').toggle('fast');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
+						<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">点亮我的技能</a>
+						<a class="weui_panel_ft weui_cell toggle" style="display: none;width: 100%;" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
 					</div>
 					<div id="loadingToast" class="weui_loading_toast" style="display:none;">
 					    <div class="weui_mask_transparent"></div>
