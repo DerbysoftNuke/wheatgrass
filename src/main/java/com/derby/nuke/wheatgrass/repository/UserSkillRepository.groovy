@@ -1,5 +1,7 @@
 package com.derby.nuke.wheatgrass.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -16,6 +18,7 @@ interface UserSkillRepository extends JpaRepository<UserSkill, String> {
 	@Query("select distinct user.userId from UserSkill where skill.id in(:skillIds)")
 	Collection<String> getUserIdsBySkills(@Param("skillIds") Collection<String> skillIds);
 	
-	@Query("select us.user from UserSkill us inner join us.skill where us.skill.id=?")
+	@Query("select us.user from UserSkill us inner join us.skill where us.skill.id=? order by us.user.name")
 	Collection<User> findUsersBySkill(String skillId);
+	
 }

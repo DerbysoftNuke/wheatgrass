@@ -8,8 +8,9 @@
 		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
 	</head>
 	<body>
-		<div class="weui_panel weui_panel_access" th:each="user : ${users}">
-			<div class="weui_panel_bd">
+		<div class="weui_panel weui_panel_access">
+			<div class="weui_panel_hd" th:text="${'专家列表 ('+ users.size()+ '位专家)'}">专家列表</div>
+			<div class="weui_panel_bd" th:each="user : ${users}">
 				<a th:href="@{/wechat/expert/user(userId=${user.userId})}" href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
 					<div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${user.imageUrl}" height="80" width="80"/>
@@ -17,6 +18,7 @@
 					<div class="weui_media_bd">
 						<h4 class="weui_media_title" th:text="${user.name}">姓名</h4>
 						<p class="weui_media_desc" th:text="${user.department}">部门</p>
+						<div class="weui_cell_ft" th:text="${user.skills.size()+ ' 项技能'}">说明文字</div>
 					</div>
 				</a>
 			</div>
