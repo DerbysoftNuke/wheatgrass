@@ -36,8 +36,8 @@
 	},
 	{
 		"category":"技术",
-		"name":"AWS Elastic Cache (Memcache)",
-		"description":""
+		"name":"AWS Elastic Cache",
+		"description":"Memcache etc"
 	},
 	{
 		"category":"技术",

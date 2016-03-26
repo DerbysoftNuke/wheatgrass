@@ -68,6 +68,7 @@
 	           setTimeout(function () {
 	               $loadingToast.hide();
 	           }, 2000);
+	           $("#iform").submit();
 		  })
 	});
 	/*]]>*/
@@ -128,7 +129,7 @@
 			<a class="weui_panel_ft weui_cell profile_toggle" style="display: none; width: 100%;" href="javascript:$('.profile_toggle').toggle('slow');">返回</a>
 		</div>
 		<div class="weui_panel weui_panel_access">
-			<form action="" th:action="@{/wechat/expert/user}" method="POST">
+			<form action="" th:action="@{/wechat/expert/user}" method="POST" id="iform">
 				<div class="weui_panel_hd">Get到的技能</div>
 				<div class="weui_panel_bd">
 					<div class="weui_media_box weui_media_text weui_cell_switch" th:each="userSkill : ${user.skills}">
@@ -158,9 +159,9 @@
 						</div>
 					</div>
 					<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">点亮我的技能</a>
-					<div class="button_sp_area">
-						<button type="submit" class="weui_btn weui_btn_primary toggle" style="display: none;" id="showLoadingToast">提交</button>
-						<a class="weui_btn weui_btn_default toggle" style="display: none;width: 100%;" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
+					<p class="button_sp_area" style="position: fixed;bottom:0px;width: 100%;background-color: white;">
+						<a class="weui_btn weui_btn_primary toggle" style="display: none;width: 75%" id="showLoadingToast">提交</a>
+						<a class="weui_btn weui_btn_default toggle" style="display: none;width: 23%;" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
 					</div>
 					<div id="loadingToast" class="weui_loading_toast" style="display:none;">
 					    <div class="weui_mask_transparent"></div>
