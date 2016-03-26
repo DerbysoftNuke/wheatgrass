@@ -20,29 +20,6 @@
                      }
                  });
 			  });
-			  
-			  $("#showLoadingToast").click(function(){
-				  var $loadingToast = $('#loadingToast');
-	              if ($loadingToast.css('display') != 'none') {
-	                  return;
-	              }
-	
-	              $loadingToast.show();
-	              setTimeout(function () {
-	                  $loadingToast.hide();
-	              }, 2000);
-			  })
-			  
-			  $("form").submit(function(){
-			    if( (!$("#title").val()) || (!$("#content").val())){
-			    	 var $dialog = $('#dialog');
-	                 $dialog.show();
-	                 $dialog.find('.weui_btn_dialog').one('click', function () {
-	                     $dialog.hide();
-	                 });
-			    	return false;
-			    }
-			 });
 		});
 		/*]]>*/
 		</script>
@@ -121,7 +98,7 @@
                         <p class="weui_media_desc" th:text="${'部门：'+answer.answerer.department}"></p>
                         <p class="weui_media_desc" th:text="${'职务：'+answer.answerer.position}"></p>
                     </div>
-	                <div class="weui_media_hd" th:if="${question.recognizedAnswerId==null}">
+	                <div class="weui_media_hd" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] == question.proposer.userId }">
 	                	<form action="" th:action="@{/wechat/expert/question/answer/best}" method="POST">
 							<input type="hidden" name="questionId" th:value="${question.id}"></input>
 							<input type="hidden" name="answerId" th:value="${answer.id}"></input>
