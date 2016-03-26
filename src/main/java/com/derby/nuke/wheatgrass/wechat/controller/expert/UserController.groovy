@@ -86,7 +86,7 @@ class UserController extends ExpertController {
 		userMedals.each{
 			medals.add(it.medal);
 		}
-		return new ModelAndView("wechat/expert/user", ["user": user, "skills": skills.asMap(), medals: medals,"sessionUserId":userId,"pointedUserSkillIds":pointedUserSkillIds]);
+		return new ModelAndView("wechat/expert/user", ["user": user, "skills": skills.asMap(), medals: medals,"pointedUserSkillIds":pointedUserSkillIds]);
 	}
 
 	@RequestMapping(value="/user", method = RequestMethod.POST)

@@ -7,6 +7,18 @@
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
 		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
 	</head>
+	<style type="text/css">
+		.gray { 
+		    -webkit-filter: grayscale(100%);
+		    -moz-filter: grayscale(100%);
+		    -ms-filter: grayscale(100%);
+		    -o-filter: grayscale(100%);
+		    
+		    filter: grayscale(100%);
+			
+		    filter: gray;
+		}
+	</style>
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
 	function addPoint(targetUserId,skillId,element){
@@ -22,8 +34,8 @@
 			},
 			success:function(result){
 				$(element).toggle();
-				$(element).siblings().toggle();
-				rebuildPointDiv(element,result);
+				$(element).siblings('.point_icon').toggle();
+				var span=$(element).siblings('span').html("("+result+")");
 			}
 		});
 	}
@@ -40,23 +52,10 @@
 			},
 			success:function(result){
 				$(element).toggle();
-				$(element).siblings().toggle();
-				rebuildPointDiv(element,result);
+				$(element).siblings('.point_icon').toggle();
+				var span=$(element).siblings('span').html("("+result+")");
 			}
 		});
-	}
-	function rebuildPointDiv(element,pointNum){
-		var pointDiv=$(element).parent().next();
-		var text="";
-		for(var i=0;i < pointNum;i++){
-			text+="<li class='weui_media_info_meta' style='size: 25px;'>★</li>";
-		}
-		$(pointDiv).html(text);
-		if(pointNum<=0){
-			$(pointDiv).hide();
-		}else{
-			$(pointDiv).show();
-		}
 	}
 	$(document).ready(function(){
 		  $("#showLoadingToast").click(function(){
@@ -138,13 +137,15 @@
 						<div class="weui_cell_ft toggle" style="display: none;">
 		                    <input class="weui_switch" type="checkbox" th:checked="true" name="skills" th:value="${userSkill.skill.id}" />
 		                </div>
-		                <div class="weui_cell_ft toggle" th:if="${sessionUserId}!=${user.userId}">
-	                    	<i class="weui_icon_success_circle"  th:hidden="${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:attr="onclick='addPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this);'"></i>
-	                    	<i class="weui_icon_success" th:hidden="!${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:attr="onclick='cancelPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this);'"></i>
+		                <div class="weui_cell_ft toggle">
+	                    	<i class="weui_icon_success gray point_icon" th:if="${session['wechat.userId']!=user.userId}" th:hidden="${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:onclick="'addPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this)'" ></i>
+	                    	<i class="weui_icon_success point_icon"  th:if="${session['wechat.userId']!=user.userId}" th:hidden="!${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:onclick="'cancelPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this)'" ></i>
+	                    	<i class="weui_icon_success gray point_icon"  th:if="${session['wechat.userId']==user.userId}" ></i>
+	                    	<span th:text="'('+${userSkill.point}+')'"></span>
 		                </div>
-						<ul class="weui_media_info toggle" th:hidden="${userSkill.point} le 0">
+						<!-- <ul class="weui_media_info toggle" th:hidden="${userSkill.point} le 0">
 							<li class="weui_media_info_meta" th:if="${userSkill.point} gt 0" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
-						</ul>
+						</ul> -->
 					</div>
 					<div th:each="entry : ${skills}" class="toggle" style="display: none; border: 1px;">
 						<div class="weui_panel_hd" th:text="${entry.key}" style="font-size: 20px;font-weight: bold;">Category</div>
