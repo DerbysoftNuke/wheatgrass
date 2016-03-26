@@ -90,6 +90,7 @@ class UserController extends ExpertController {
 	}
 
 	@RequestMapping(value="/user", method = RequestMethod.POST)
+	@Transactional
 	def update(HttpSession session, @RequestParam(value="skills", required=false) ids){
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
@@ -134,6 +135,9 @@ class UserController extends ExpertController {
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
 		}
+		if(userId == targetUserId){
+			throw new IllegalArgumentException("wrong operation");
+		}
 		UserSkill userSkill=userSkillRepository.getByUserAndSkill(targetUserId, skillId);
 		if(userSkill==null){
 			throw new IllegalArgumentException("userSkill not found");
@@ -154,6 +158,9 @@ class UserController extends ExpertController {
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
+		}
+		if(userId == targetUserId){
+			throw new IllegalArgumentException("wrong operation");
 		}
 		UserSkill userSkill=userSkillRepository.getByUserAndSkill(targetUserId, skillId);
 		if(userSkill==null){

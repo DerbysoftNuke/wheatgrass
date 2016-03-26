@@ -23,13 +23,13 @@ class WechatController{
 	
 	def redirectTo(String view, Map params){
 		if(params==null||params.isEmpty()){
-			return new RedirectView(getViewPrefix()+view)
+			return new RedirectView(getRedirectPrefix()+view,true)
 		}
 		def paramString = "";
 		params.each{k,v->
 			paramString+="&"+k+"="+v
 		}
-		return new RedirectView(getViewPrefix()+view+"?"+paramString.substring(1))
+		return new RedirectView(getRedirectPrefix()+view+"?"+paramString.substring(1),true)
 	}
 	
 	def view(String view, Map params){
@@ -37,6 +37,10 @@ class WechatController{
 	}
 	
 	def getViewPrefix(){
+		return "/";
+	}
+	
+	def getRedirectPrefix(){
 		return "/";
 	}
 	
