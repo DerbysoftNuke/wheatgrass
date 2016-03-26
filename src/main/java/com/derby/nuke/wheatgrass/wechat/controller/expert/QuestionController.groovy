@@ -134,7 +134,6 @@ class QuestionController extends ExpertController{
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
 		}
-		def user = userRepository.getByUserId(userId);
 		Answer answer = answerRepository.findOne(answerId);
 		if("agree".equalsIgnoreCase(type)){
 			if(!answer.getAnswerer().getUserId().equals(userId)){
