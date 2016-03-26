@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.ModelAndView
 
+import com.derby.nuke.wheatgrass.entity.Answer;
 import com.derby.nuke.wheatgrass.entity.Question
+import com.derby.nuke.wheatgrass.repository.AnswerRepository
 import com.derby.nuke.wheatgrass.repository.QuestionRepository
 import com.derby.nuke.wheatgrass.repository.SkillRepository
 import com.derby.nuke.wheatgrass.repository.UserSkillRepository
@@ -30,6 +32,9 @@ class QuestionController extends ExpertController{
 
 	@Autowired
 	def QuestionRepository questionRepository;
+	
+	@Autowired
+	def AnswerRepository answerRepository;
 
 	@Autowired
 	def UserSkillRepository userSkillRepository;
@@ -41,7 +46,7 @@ class QuestionController extends ExpertController{
 	
 	@RequestMapping(value="/questions", method = RequestMethod.GET)
 	def list(){
-		return new ModelAndView("wechat/expert/questions",["questions": list(0)]);
+		return view("questions",["questions": list(0)]);
 	}
 
 	@RequestMapping(value="/questions", method = RequestMethod.POST)
@@ -58,12 +63,71 @@ class QuestionController extends ExpertController{
 			throw new IllegalArgumentException("Question not found");
 		}
 
-		return new ModelAndView("wechat/expert/question", ["question": question]);
+		return view("question", ["question": question]);
+	}
+	
+	@RequestMapping(value="/question/answer", method = RequestMethod.POST)
+	@Transactional
+	def answerQuestion(HttpSession session, @RequestParam(value="questionId") questionId, @RequestParam(value="content") content){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+
+		def user = userRepository.getByUserId(userId);
+		
+		Question question = questionRepository.findOne(questionId);
+		Answer answer = answerRepository.saveAndFlush(new Answer("question":["id":questionId],"createTime":new Date(),"content":content, answerer:user));
+		def messageType = "news";
+		def message = [
+			news: [
+				articles: [
+					[
+						title: question.title,
+						description: "哇, "+user.name+"回答了你的问题, 快来看看吧!",
+						url: externalUrl+"/wechat/expert/question?questionId="+questionId
+					]
+				]
+			]
+		]
+		wechatService.sendMessage([question.getProposer().getUserId()], messageType, message);
+		return redirectTo("/question", [questionId: question.getId()]);
+	}
+	
+	@RequestMapping(value="/question/answer/best", method = RequestMethod.POST)
+	@Transactional
+	def bestAnswerQuestion(HttpSession session, @RequestParam(value="questionId") questionId, @RequestParam(value="answerId") answerId){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+
+		def user = userRepository.getByUserId(userId);
+		
+		Question question = questionRepository.findOne(questionId);
+		question.setRecognizedAnswerId(answerId);
+		questionRepository.saveAndFlush(question);
+		Answer answer = answerRepository.findOne(answerId);
+		def messageType = "news";
+		def message = [
+			news: [
+				articles: [
+					[
+						title: question.title,
+						description: "哇, 恭喜，你的回答已经被采纳为最佳答案！",
+						url: externalUrl+"/wechat/expert/question?questionId="+questionId
+					]
+				]
+			]
+		]
+		//TODO 被采纳者获得积分或勋章
+		wechatService.sendMessage([answer.getAnswerer().getUserId()], messageType, message);
+		return redirectTo("/question", [questionId: question.getId()]);
 	}
 
 	@RequestMapping(value="/question/ask", method = RequestMethod.GET)
 	def askQuestion(){
-		return new ModelAndView("wechat/expert/ask_question",["skills":skillRepository.findAll()]);
+		return view("ask_question",["skills":skillRepository.findAll()]);
 	}
 
 	@RequestMapping(value="/question/ask", method = RequestMethod.POST)
@@ -97,7 +161,7 @@ class QuestionController extends ExpertController{
 				wechatService.sendMessage(userIds, messageType, message);
 			}
 		}
-		viewQuestion(question.getId());
+		return redirectTo("/question", [questionId: question.getId()]);
 	}
 	
 }

@@ -90,7 +90,7 @@ class SimpleCollectionType implements UserType, ParameterizedType {
 			logger.debug("nullSafeGet owner[" + ToStringBuilder.reflectionToString(owner) + "]");
 		}
 		String text = (String) TextType.INSTANCE.nullSafeGet(rs, names, session, owner);
-		if (text == null) {
+		if (StringUtils.isBlank(text)) {
 			return createCollectionObj();
 		}
 

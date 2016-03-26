@@ -6,6 +6,46 @@
 		<script type="text/javascript" th:src="@{/js/angular.min.js}"/>
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
 		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
+		<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		$(document).ready(function(){
+			  $(".best_answer").click(function(){
+			     var form = $(this).parent("form")[0];
+				 var $dialog = $('#best_answer_dialog');
+                 $dialog.show();
+                 $dialog.find('.weui_btn_dialog').one('click', function () {
+                     $dialog.hide();
+                     if($(this).hasClass("primary")){
+					   form.submit();
+                     }
+                 });
+			  });
+			  
+			  $("#showLoadingToast").click(function(){
+				  var $loadingToast = $('#loadingToast');
+	              if ($loadingToast.css('display') != 'none') {
+	                  return;
+	              }
+	
+	              $loadingToast.show();
+	              setTimeout(function () {
+	                  $loadingToast.hide();
+	              }, 2000);
+			  })
+			  
+			  $("form").submit(function(){
+			    if( (!$("#title").val()) || (!$("#content").val())){
+			    	 var $dialog = $('#dialog');
+	                 $dialog.show();
+	                 $dialog.find('.weui_btn_dialog').one('click', function () {
+	                     $dialog.hide();
+	                 });
+			    	return false;
+			    }
+			 });
+		});
+		/*]]>*/
+		</script>
 	</head>
 	<body>
 		<div class="weui_panel weui_panel_access">
@@ -14,7 +54,7 @@
                 <div class="weui_media_box weui_media_text">
                     <p class="weui_media_desc" style="display:inline;" th:text="${question.content}">问题描述</p>
                     <ul class="weui_media_info">
-                        <li class="weui_media_info_meta" th:text="${'发布时间：'+question.createTime}">文字来源</li>
+                        <li class="weui_media_info_meta" th:text="${#calendars.format(question.createTime,'yyyy-MM-dd HH:mm:ss')}">文字来源</li>
                         <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'共有'+question.answers.size()+'个答案'}">文字来源</li>
                     </ul>
                 </div>
@@ -30,7 +70,11 @@
                 </a>
             </div>
         </div>
-        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form">
+        <div class="weui_panel weui_panel_access" th:if="${question.recognizedAnswerId!=null}">
+        	<div class="weui_panel_hd" >已有答案被采纳，问题自动关闭</div>
+        </div>
+        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null}">
+        	<input type="hidden" name="questionId" th:value="${question.id}"></input>
 			<div class="weui_cells weui_cells_form">
 					<div class="weui_cell">
 						<div class="weui_cell_bd weui_cell_primary" >
@@ -45,7 +89,7 @@
 		</form>
         <div class="weui_panel weui_panel_access">
             <div class="weui_panel_hd" th:text="${'共有'+question.answers.size()+'个答案'}">共有0个答案</div>
-            <div class="weui_panel_bd" th:each="answer : ${question.answers}">
+            <div class="weui_panel_bd" th:each="answer : ${question.answers}" th:if="${question.recognizedAnswerId!=null and answer.id == question.recognizedAnswerId}">
                 <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
@@ -55,15 +99,56 @@
                         <p class="weui_media_desc" th:text="${'部门：'+answer.answerer.department}"></p>
                         <p class="weui_media_desc" th:text="${'职务：'+answer.answerer.position}"></p>
                     </div>
+	                <div class="weui_media_hd" th:switch="${question.recognizedAnswerId}">
+						<img class="weui_media_appmsg_thumb" th:src="@{/img/expert/best-answer-2.jpg}" height="60" width="60"/>
+					</div>
                 </a>
                 <div class="weui_media_box weui_media_text">
                     <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
                     <ul class="weui_media_info">
-                        <li class="weui_media_info_meta" th:text="${'回答时间：'+answer.createTime}">文字来源</li>
+                        <li class="weui_media_info_meta" th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">文字来源</li>
+                        <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'有用['+answer.markUsefulUserIds.size()+'] 无用['+answer.markUnusefulUserIds.size()+']'}">文字来源</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="weui_panel_bd" th:each="answer : ${question.answers}" th:if="${question.recognizedAnswerId==null or answer.id != question.recognizedAnswerId}">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd">
+						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
+					</div>
+                    <div class="weui_media_bd">
+                        <p class="weui_media_desc" th:text="${'姓名：'+answer.answerer.name}"></p>
+                        <p class="weui_media_desc" th:text="${'部门：'+answer.answerer.department}"></p>
+                        <p class="weui_media_desc" th:text="${'职务：'+answer.answerer.position}"></p>
+                    </div>
+	                <div class="weui_media_hd" th:if="${question.recognizedAnswerId==null}">
+	                	<form action="" th:action="@{/wechat/expert/question/answer/best}" method="POST">
+							<input type="hidden" name="questionId" th:value="${question.id}"></input>
+							<input type="hidden" name="answerId" th:value="${answer.id}"></input>
+							<img class="weui_media_appmsg_thumb best_answer" th:src="@{/img/expert/best-answer-1.jpg}" height="60" width="60"/>
+	                	</form>
+					</div>
+                </a>
+                <div class="weui_media_box weui_media_text">
+                    <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
+                    <ul class="weui_media_info">
+                        <li class="weui_media_info_meta" th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">文字来源</li>
                         <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'有用['+answer.markUsefulUserIds.size()+'] 无用['+answer.markUnusefulUserIds.size()+']'}">文字来源</li>
                     </ul>
                 </div>
             </div>
         </div>
+        
+        <div class="weui_dialog_alert" id="best_answer_dialog" style="display: none;">
+	        <div class="weui_mask"></div>
+	        <div class="weui_dialog">
+	            <div class="weui_dialog_hd"><strong class="weui_dialog_title">提醒</strong></div>
+	            <div class="weui_dialog_bd">是否设置答案为最佳答案？采纳后，问题将自动关闭</div>
+	            <div class="weui_dialog_ft">
+	            	<a href="javascript:;" class="weui_btn_dialog default">取消</a>
+	                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	            </div>
+	        </div>
+	    </div>
 	</body>
 </html>

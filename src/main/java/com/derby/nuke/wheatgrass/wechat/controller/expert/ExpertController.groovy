@@ -8,4 +8,7 @@ import com.derby.nuke.wheatgrass.wechat.controller.WechatController
 @RequestMapping("/wechat/expert")
 @OAuthRequired
 class ExpertController extends WechatController {
+	def getViewPrefix(){
+		return "/wechat/expert";
+	}
 }

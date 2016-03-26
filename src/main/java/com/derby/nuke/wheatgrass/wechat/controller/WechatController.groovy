@@ -3,6 +3,8 @@ package com.derby.nuke.wheatgrass.wechat.controller;
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.servlet.view.RedirectView
 
 import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.wechat.OAuthRequired
@@ -18,5 +20,24 @@ class WechatController{
 	def UserRepository userRepository;
 	@Autowired
 	def WechatService wechatService;
+	
+	def redirectTo(String view, Map params){
+		if(params==null||params.isEmpty()){
+			return new RedirectView(getViewPrefix()+view)
+		}
+		def paramString = "";
+		params.each{k,v->
+			paramString+="&"+k+"="+v
+		}
+		return new RedirectView(getViewPrefix()+view+"?"+paramString.substring(1))
+	}
+	
+	def view(String view, Map params){
+		return new ModelAndView(getViewPrefix() + "/" + view, params);
+	}
+	
+	def getViewPrefix(){
+		return "/";
+	}
 	
 }
