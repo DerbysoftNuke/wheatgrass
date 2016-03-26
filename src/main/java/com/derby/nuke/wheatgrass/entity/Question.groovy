@@ -31,7 +31,8 @@ class Question {
 	String id;
 
 	String title;
-
+	
+	@Column(length = 16777215)
 	String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
