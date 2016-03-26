@@ -124,6 +124,30 @@ class QuestionController extends ExpertController{
 		wechatService.sendMessage([answer.getAnswerer().getUserId()], messageType, message);
 		return redirectTo("/question", [questionId: question.getId()]);
 	}
+	
+	@RequestMapping(value="/answer/agree", method = RequestMethod.POST)
+	@Transactional
+	def agreeAnswerQuestion(HttpSession session, @RequestParam(value="type") type, @RequestParam(value="answerId") answerId){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+		def user = userRepository.getByUserId(userId);
+		Answer answer = answerRepository.findOne(answerId);
+		if("agree".equalsIgnoreCase(type)){
+			if(!answer.getAnswerer().getUserId().equals(userId)){
+				answer.getMarkUsefulUserIds().add(userId);
+				answer.getMarkUnusefulUserIds().remove(userId);
+			}
+			return answer.markUsefulUserIds.size(); 
+		} else {
+			if(!answer.getAnswerer().getUserId().equals(userId)){
+				answer.getMarkUnusefulUserIds().add(userId);
+				answer.getMarkUsefulUserIds().remove(userId);
+			}
+			return answer.markUnusefulUserIds.size(); 
+		}
+	}
 
 	@RequestMapping(value="/question/ask", method = RequestMethod.GET)
 	def askQuestion(){

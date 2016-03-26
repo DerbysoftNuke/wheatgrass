@@ -6,20 +6,71 @@
 		<script type="text/javascript" th:src="@{/js/angular.min.js}"/>
 		<script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
 		<link rel="stylesheet" th:href="@{/css/weui.css}"/>
+		<style type="text/css">
+		 .weui_media_info_meta img{
+		 	display:inline-block; vertical-align:middle; margin: 0 5px 0 10px;
+		 }
+		 .weui_media_info_meta span{
+		 	vertical-align:middle;
+		 }
+		</style>
 		<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
+		function disagreeOrAgreeAnswer(answerId, ele, type){
+			$.ajax({
+				url:[[@{/wechat/expert/answer/agree}]],
+				type: "POST",
+				data:{
+					"type": type,
+					"answerId": answerId
+				},
+				dataType:"json",
+				success: function(data){
+					showToast();
+					$(ele).next().text("["+data+"]");
+				}
+			})
+		}
+		function agreeAnswer(answerId, ele){
+			disagreeOrAgreeAnswer(answerId, ele, "agree")
+		}
+		function disagreeAnswer(answerId, ele){
+			disagreeOrAgreeAnswer(answerId, ele, "disagree")
+		}
+		function showToast() {
+            var $toast = $('#toast');
+			if ($toast.css('display') != 'none') {
+				return;
+			}
+			$toast.show();
+			setTimeout(function () {
+				$toast.hide();
+			}, 1500);
+        }
+		function showLoadingToast() {
+            var $loadingToast = $('#loadingToast');
+            if ($loadingToast.css('display') != 'none') {
+                return;
+            }
+
+            $loadingToast.show();
+            /*setTimeout(function () {
+                $loadingToast.hide();
+            }, 2000);*/
+        }
 		$(document).ready(function(){
-			  $(".best_answer").click(function(){
-			     var form = $(this).parent("form")[0];
-				 var $dialog = $('#best_answer_dialog');
-                 $dialog.show();
-                 $dialog.find('.weui_btn_dialog').one('click', function () {
-                     $dialog.hide();
-                     if($(this).hasClass("primary")){
-					   form.submit();
-                     }
-                 });
-			  });
+			$(".best_answer").click(function(){
+				var form = $(this).parent("form")[0];
+				var $dialog = $('#best_answer_dialog');
+                $dialog.show();
+				$dialog.find('.weui_btn_dialog').one('click', function () {
+					$dialog.hide();
+					if($(this).hasClass("primary")){
+						showLoadingToast();
+						form.submit();
+					}
+				});
+			});
 		});
 		/*]]>*/
 		</script>
@@ -82,9 +133,14 @@
                 </a>
                 <div class="weui_media_box weui_media_text">
                     <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
-                    <ul class="weui_media_info">
-                        <li class="weui_media_info_meta" th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">文字来源</li>
-                        <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'有用['+answer.markUsefulUserIds.size()+'] 无用['+answer.markUnusefulUserIds.size()+']'}">文字来源</li>
+                    <ul class="weui_media_info" style="vertical-align: middle;">
+                        <li class="weui_media_info_meta" >
+                        	<span th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">[100]</span>
+                        	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'agreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/up.jpg}" height="20" width="20"/>
+                        	<span style="vertical-align:middle;" th:text="${'['+answer.markUsefulUserIds.size()+']'}">[100]</span>
+                        	<img class="weui_media_appmsg_thumb disagree_answer" th:onclick="'disagreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/down.jpg}" height="20" width="20"/>
+                        	<span th:text="${'['+answer.markUnusefulUserIds.size()+']'}">[20]</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -108,9 +164,14 @@
                 </a>
                 <div class="weui_media_box weui_media_text">
                     <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
-                    <ul class="weui_media_info">
-                        <li class="weui_media_info_meta" th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">文字来源</li>
-                        <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'有用['+answer.markUsefulUserIds.size()+'] 无用['+answer.markUnusefulUserIds.size()+']'}">文字来源</li>
+                    <ul class="weui_media_info" style="vertical-align: middle;">
+                        <li class="weui_media_info_meta" >
+                        	<span th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">[100]</span>
+                        	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'agreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/up.jpg}" height="20" width="20"/>
+                        	<span style="vertical-align:middle;" th:text="${'['+answer.markUsefulUserIds.size()+']'}">[100]</span>
+                        	<img class="weui_media_appmsg_thumb disagree_answer" th:onclick="'disagreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/down.jpg}" height="20" width="20"/>
+                        	<span th:text="${'['+answer.markUnusefulUserIds.size()+']'}">[20]</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -127,5 +188,33 @@
 	            </div>
 	        </div>
 	    </div>
+		<div id="toast" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<i class="weui_icon_toast"></i>
+				<p class="weui_toast_content">操作完成</p>
+			</div>
+		</div>
+
+		<div id="loadingToast" class="weui_loading_toast" style="display: none;">
+			<div class="weui_mask_transparent"></div>
+			<div class="weui_toast">
+				<div class="weui_loading">
+					<div class="weui_loading_leaf weui_loading_leaf_0"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_1"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_2"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_3"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_4"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_5"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_6"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_7"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_8"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_9"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_10"></div>
+					<div class="weui_loading_leaf weui_loading_leaf_11"></div>
+				</div>
+				<p class="weui_toast_content">操作进行中</p>
+			</div>
+		</div>
 	</body>
 </html>
