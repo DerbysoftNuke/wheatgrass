@@ -151,7 +151,7 @@
 							<li class="weui_media_info_meta" th:if="${userSkill.point} gt 0" th:each="item : ${#numbers.sequence(1,userSkill.point)}" style="size: 25px;">★</li>
 						</ul> -->
 					</div>
-					<div th:each="entry : ${skills}" class="toggle" style="display: none; border: 1px;">
+					<div th:each="entry : ${skills}" class="toggle" style="display: none; border: 1px;padding-bottom: 44px;">
 						<div class="weui_panel_hd" th:text="${entry.key}" style="font-size: 20px;font-weight: bold;">Category</div>
 						<div class="weui_media_box weui_media_text weui_cell_switch" th:each="skill : ${entry.value}">
 							<h4 class="weui_media_title" th:text="${'【'+skill.category + '】 ' +skill.name}">技能名称</h4>
