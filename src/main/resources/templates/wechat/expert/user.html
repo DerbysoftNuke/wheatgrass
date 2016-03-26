@@ -18,6 +18,9 @@
 			
 		    filter: gray;
 		}
+		.button{
+			display: inline-block;
+		}
 	</style>
 	<script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[*/
@@ -160,8 +163,8 @@
 					</div>
 					<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle();" th:if="${user.userId} == ${session['wechat.userId']}">点亮我的技能</a>
 					<p class="button_sp_area" style="position: fixed;bottom:0px;width: 100%;background-color: white;">
-						<a class="weui_btn weui_btn_primary toggle" style="display: none;width: 74%" id="showLoadingToast">提交</a>
-						<a class="weui_btn weui_btn_default toggle" style="display: none;width: 23%;" href="javascript:$('.toggle').toggle();" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
+						<a class="weui_btn weui_btn_primary toggle button" style="display: none;width: 75%" id="showLoadingToast">提交</a>
+						<a class="weui_btn weui_btn_default toggle button" style="display: none;width: 23%;" href="javascript:$('.toggle').toggle();" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
 					</p>
 					<div id="loadingToast" class="weui_loading_toast" style="display:none;">
 					    <div class="weui_mask_transparent"></div>
