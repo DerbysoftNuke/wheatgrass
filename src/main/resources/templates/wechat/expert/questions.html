@@ -40,16 +40,36 @@
 					currentPage++;
 					if(result && result.length>0){
 						$.each(result,function(index,question){
-							var fragment='<div class="weui_panel_bd" onclick="question(\''+question.id+'\')">'+
+							/* var fragment='<div class="weui_panel_bd" onclick="question(\''+question.id+'\')">'+
 									'<div class="weui_media_box weui_media_text">'+
 		                    		'<h4 class="weui_media_title">'+question.title+'</h4>'+
 		                   			 '<p class="weui_media_desc">'+question.content+'</p>'+
 		                    			'<ul class="weui_media_info">'+
 		                      			'<li class="weui_media_info_meta">'+question.proposer.name+'</li>'+
 		                       		'<li class="weui_media_info_meta">'+new Date(question.createTime).format("yyyy-MM-dd hh:mm:ss")+'</li>'+
-		                        	'<li class="weui_media_info_meta weui_media_info_meta_extra">其它信息</li></div></div>';
-		                      $(".weui_panel").append(fragment);	
+		                        	'<li class="weui_media_info_meta weui_media_info_meta_extra">其它信息</li></div></div>'; */
+		                      
+		                        	
+		                    var fragment='<div onclick="question(\''+question.id+'\')" style="position:relative">'+
+		                    		'<a href="javascript:void(0)" class="weui_media_box weui_media_appmsg" style="padding-bottom:0">'+
+			                 '<div class="weui_media_hd"><img class="weui_media_appmsg_thumb" src="'+question.proposer.imageUrl+'" height="60" width="60" /></div>'+
+			                ' <div class="weui_media_bd">'+
+			                     '<h4 class="weui_media_title" >'+question.title+'</h4>'+
+			                     '<p class="weui_media_desc" >'+question.content+'</p>'+
+			                 '</div>'+
+			                 '<div class="weui_media_hd" >'+
+								'<img  class="weui_media_appmsg_thumb" src="'+(question.recognizedAnswerId?[[@{/img/expert/best-answer-2.jpg}]]:[[@{/img/expert/best-answer-1.jpg}]])+'" height="60" width="60"/>'+
+							'</div></a> '+
+	                	'<div class="weui_media_box weui_media_text" style="padding-bottom:0;padding-top:0;position:initial">'+
+		                    '<ul class="weui_media_info">'+
+		                    '<li class="weui_media_info_meta">'+question.proposer.name+'</li>'+
+                       		'<li class="weui_media_info_meta">'+new Date(question.createTime).format("yyyy-MM-dd hh:mm:ss")+'</li>'+
+		                        '<li class="weui_media_info_meta weui_media_info_meta_extra" >共'+question.answers.length+'个回答</li></ul></div> </div>';    	
+		                        	
+		                        	
+		                        	$(".weui_panel").append(fragment);	
 						});
+						
 						loading = false;
 					}
 				}
@@ -70,7 +90,8 @@
 		    <div class="refresh">正在刷新...</div><!-- 正在刷新时显示的文案 -->
 	  	</div>
 		<div class="weui_panel">
-            <div class="weui_panel_bd" th:each="question:${questions}" th:attr="onclick='question(\''+${question.id}+'\')'">
+			<div class="weui_panel_hd" th:text="'问题列表（共'+${totalCount}+'条）'"></div>
+            <!-- <div class="weui_panel_bd" th:each="question:${questions}" th:attr="onclick='question(\''+${question.id}+'\')'">
                 <div class="weui_media_box weui_media_text">
                     <h4 class="weui_media_title" th:text="${question.title}"></h4>
                     <p class="weui_media_desc" th:text="${question.content}"></p>
@@ -80,7 +101,31 @@
                         <li class="weui_media_info_meta weui_media_info_meta_extra">其它信息</li>
                     </ul>
                 </div>
-            </div>
+            </div> -->
+            <div class="weui_panel_bd" >
+            	<div th:each="question:${questions}" th:attr="onclick='question(\''+${question.id}+'\')'" style="position:relative">
+            		<a href="javascript:void(0)" class="weui_media_box weui_media_appmsg" style="padding-bottom:0">
+		                 <div class="weui_media_hd">
+		                     <img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60" />
+		                 </div>
+		                 <div class="weui_media_bd">
+		                     <h4 class="weui_media_title" th:text="${question.title}"></h4>
+		                     <p class="weui_media_desc" th:text="${question.content}"></p>
+		                 </div>
+		                 <div class="weui_media_hd" >
+							<img th:if="${question.recognizedAnswerId == null or question.recognizedAnswerId =='' }" class="weui_media_appmsg_thumb" th:src="@{/img/expert/best-answer-1.jpg}" height="60" width="60"/>
+							<img th:if="${question.recognizedAnswerId != null and question.recognizedAnswerId !='' }" class="weui_media_appmsg_thumb" th:src="@{/img/expert/best-answer-2.jpg}" height="60" width="60"/>
+						</div>
+                	</a> 
+                	<div class="weui_media_box weui_media_text" style="padding-bottom:0;padding-top:0;position:initial">
+	                    <ul class="weui_media_info">
+	                        <li class="weui_media_info_meta" th:text="${question.proposer.name}"></li>
+	                        <li class="weui_media_info_meta" th:text="${#calendars.format(question.createTime,'yyyy-MM-dd HH:mm:ss')}"></li>
+	                        <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="'共'+${#lists.size(question.answers)}+'个回答'"></li>
+	                    </ul>
+                	</div> 
+             	</div>
+            </div> 
         </div>
         <div class="weui-infinite-scroll" style="visibility:hidden">
 		  <div class="infinite-preloader"></div>

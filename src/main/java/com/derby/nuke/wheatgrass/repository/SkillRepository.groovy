@@ -13,7 +13,7 @@ interface SkillRepository extends JpaRepository<Skill, String> {
 
 	User getByName(@Param("name") String name);
 	
-	@Query("from Skill order by category,name")
+	@Query("from Skill order by category desc,name")
 	List<Skill> findAll();
 	
 }

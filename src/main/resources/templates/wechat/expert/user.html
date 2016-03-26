@@ -142,9 +142,9 @@
 		                    <input class="weui_switch" type="checkbox" th:checked="true" name="skills" th:value="${userSkill.skill.id}" />
 		                </div>
 		                <div class="weui_cell_ft toggle">
-	                    	<i class="weui_icon_success gray point_icon" th:if="${session['wechat.userId']!=user.userId}" th:hidden="${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:onclick="'addPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this)'" ></i>
-	                    	<i class="weui_icon_success point_icon"  th:if="${session['wechat.userId']!=user.userId}" th:hidden="!${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:onclick="'cancelPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this)'" ></i>
-	                    	<i class="weui_icon_success gray point_icon"  th:if="${session['wechat.userId']==user.userId}" ></i>
+	                    	<img th:src="@{/img/expert/iconfont-zan.png}" height="24" width="24" style="vertical-align:bottom" class=" gray point_icon" th:if="${session['wechat.userId']!=user.userId}" th:hidden="${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:onclick="'addPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this)'" ></img>
+	                    	<img th:src="@{/img/expert/iconfont-zan.png}" height="24" width="24" style="vertical-align:bottom" class=" point_icon"  th:if="${session['wechat.userId']!=user.userId}" th:hidden="!${#lists.contains(pointedUserSkillIds, userSkill.id)}" th:onclick="'cancelPoint(\''+${user.userId}+'\',\''+${userSkill.skill.id}+'\',this)'" ></img>
+	                    	<img th:src="@{/img/expert/iconfont-zan.png}" height="24" width="24" style="vertical-align:bottom" class="gray point_icon"  th:if="${session['wechat.userId']==user.userId}" ></img>
 	                    	<span th:text="'('+${userSkill.point}+')'"></span>
 		                </div>
 						<!-- <ul class="weui_media_info toggle" th:hidden="${userSkill.point} le 0">

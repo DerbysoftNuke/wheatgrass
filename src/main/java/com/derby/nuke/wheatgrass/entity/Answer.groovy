@@ -40,6 +40,7 @@ class Answer{
 	@Column(columnDefinition = "CHAR(32)")
 	@Id
 	String id;
+	@Column(length = 16777215)
 	String content;
 
 	@ManyToOne(fetch = FetchType.LAZY)
