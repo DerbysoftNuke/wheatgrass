@@ -84,6 +84,7 @@
 					<div class="weui_media_bd">
 						<h4 class="weui_media_title" th:text="${user.name}">姓名</h4>
 						<p class="weui_media_desc" th:text="${user.department}">部门</p>
+						<p class="weui_media_desc" th:text="${user.position}">职务</p>
 					</div>
 				</a>
 				<div>
@@ -155,10 +156,10 @@
 	                		</div>
 						</div>
 					</div>
-					<div>
+					<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">点亮我的技能</a>
+					<div class="button_sp_area">
 						<button type="submit" class="weui_btn weui_btn_primary toggle" style="display: none;" id="showLoadingToast">提交</button>
-						<a class="weui_panel_ft weui_cell toggle" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">点亮我的技能</a>
-						<a class="weui_panel_ft weui_cell toggle" style="display: none;width: 100%;" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
+						<a class="weui_btn weui_btn_default toggle" style="display: none;width: 100%;" href="javascript:$('.toggle').toggle('slow');" th:if="${user.userId} == ${session['wechat.userId']}">返回</a>
 					</div>
 					<div id="loadingToast" class="weui_loading_toast" style="display:none;">
 					    <div class="weui_mask_transparent"></div>

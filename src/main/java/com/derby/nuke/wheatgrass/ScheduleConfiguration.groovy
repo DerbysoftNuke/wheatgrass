@@ -66,6 +66,6 @@ class ScheduleConfiguration implements UserDownloadService {
 			user.department = department.name;
 		}
 
-		userRepository.save(user);
+		userRepository.saveAndFlush(user);
 	}
 }
