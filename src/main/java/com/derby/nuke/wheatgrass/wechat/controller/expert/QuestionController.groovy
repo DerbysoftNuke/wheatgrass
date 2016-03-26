@@ -46,7 +46,9 @@ class QuestionController extends ExpertController{
 	
 	@RequestMapping(value="/questions", method = RequestMethod.GET)
 	def list(){
-		return view("questions",["questions": list(0)]);
+		PageRequest pageRequest=new PageRequest(0, pageSize, Direction.DESC,"createTime");
+		Page<Question> page=questionRepository.findAll(pageRequest);
+		return view("questions",["questions": page.content,"totalCount":page.totalElements]);
 	}
 
 	@RequestMapping(value="/questions", method = RequestMethod.POST)

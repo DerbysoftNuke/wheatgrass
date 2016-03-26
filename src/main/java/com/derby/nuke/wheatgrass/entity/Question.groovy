@@ -15,13 +15,12 @@ import javax.persistence.OneToMany
 
 import org.hibernate.annotations.GenericGenerator
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
 @Entity
 @EqualsAndHashCode(excludes=["answers"])
 @ToString(excludes=["answers"])
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 class Question {
 
 	@GeneratedValue(generator = "uuid")

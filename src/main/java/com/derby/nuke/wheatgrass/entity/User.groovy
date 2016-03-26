@@ -16,11 +16,8 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 
 import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.Type
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
@@ -29,7 +26,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 @Entity
 @EqualsAndHashCode(excludes=["skills","medals"])
 @ToString(excludes=["skills","medals"])
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 class User{
 
 	@GeneratedValue(generator = "uuid")
@@ -41,7 +37,7 @@ class User{
 	String userId;
 	@Column(unique=true)
 	String email;
-	
+
 	@JsonIgnore
 	String password;
 	String name;
@@ -55,10 +51,10 @@ class User{
 	String birthplace;
 	@Enumerated(EnumType.STRING)
 	Sex sex;
-	
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserSkill> skills = new HashSet<>();
-	
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserMedal> medals = new HashSet<>();
 }
