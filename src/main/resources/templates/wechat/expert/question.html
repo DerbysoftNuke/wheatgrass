@@ -91,9 +91,9 @@
 						<img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
-                        <p class="weui_media_desc" th:text="${'姓名：'+question.proposer.name}"></p>
-                        <p class="weui_media_desc" th:text="${'部门：'+question.proposer.department}"></p>
-                        <p class="weui_media_desc" th:text="${'职务：'+question.proposer.position}"></p>
+                        <p class="weui_media_desc" th:text="${question.proposer.name}"></p>
+                        <p class="weui_media_desc" th:text="${question.proposer.department}"></p>
+                        <p class="weui_media_desc" th:text="${question.proposer.position}"></p>
                     </div>
                 </a>
             </div>
@@ -101,7 +101,7 @@
         <div class="weui_panel weui_panel_access" th:if="${question.recognizedAnswerId!=null}">
         	<div class="weui_panel_hd" >已有答案被采纳，问题自动关闭</div>
         </div>
-        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] != question.proposer.userId }">
+        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] != question.proposer.userId }" onsubmit="showLoadingToast();">
         	<input type="hidden" name="questionId" th:value="${question.id}"></input>
 			<div class="weui_cells weui_cells_form">
 					<div class="weui_cell">
@@ -123,9 +123,9 @@
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
-                        <p class="weui_media_desc" th:text="${'姓名：'+answer.answerer.name}"></p>
-                        <p class="weui_media_desc" th:text="${'部门：'+answer.answerer.department}"></p>
-                        <p class="weui_media_desc" th:text="${'职务：'+answer.answerer.position}"></p>
+                        <p class="weui_media_desc" th:text="${answer.answerer.name}"></p>
+                        <p class="weui_media_desc" th:text="${answer.answerer.department}"></p>
+                        <p class="weui_media_desc" th:text="${answer.answerer.position}"></p>
                     </div>
 	                <div class="weui_media_hd" th:switch="${question.recognizedAnswerId}">
 						<img class="weui_media_appmsg_thumb" th:src="@{/img/expert/best-answer-2.jpg}" height="60" width="60"/>
@@ -150,9 +150,9 @@
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
-                        <p class="weui_media_desc" th:text="${'姓名：'+answer.answerer.name}"></p>
-                        <p class="weui_media_desc" th:text="${'部门：'+answer.answerer.department}"></p>
-                        <p class="weui_media_desc" th:text="${'职务：'+answer.answerer.position}"></p>
+                        <p class="weui_media_desc" th:text="${answer.answerer.name}"></p>
+                        <p class="weui_media_desc" th:text="${answer.answerer.department}"></p>
+                        <p class="weui_media_desc" th:text="${answer.answerer.position}"></p>
                     </div>
 	                <div class="weui_media_hd" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] == question.proposer.userId }">
 	                	<form action="" th:action="@{/wechat/expert/question/answer/best}" method="POST">
