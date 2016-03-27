@@ -108,11 +108,11 @@
 		                 <div class="weui_media_hd">
 		                     <img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60" />
 		                 </div>
-		                 <div class="weui_media_bd">
+		                 <div class="weui_media_bd" style="overflow: hidden">
 		                     <h4 class="weui_media_title" th:text="${question.title}"></h4>
 		                     <p class="weui_media_desc" th:text="${question.content}"></p>
 		                 </div>
-		                 <div class="weui_media_hd" >
+		                 <div class="weui_media_hd">
 							<img th:if="${question.recognizedAnswerId == null or question.recognizedAnswerId =='' }" class="weui_media_appmsg_thumb" th:src="@{/img/expert/best-answer-1.jpg}" height="60" width="60"/>
 							<img th:if="${question.recognizedAnswerId != null and question.recognizedAnswerId !='' }" class="weui_media_appmsg_thumb" th:src="@{/img/expert/best-answer-2.jpg}" height="60" width="60"/>
 						</div>
