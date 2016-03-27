@@ -152,7 +152,7 @@ class QuestionController extends ExpertController{
 
 	@RequestMapping(value="/question/ask", method = RequestMethod.GET)
 	def askQuestion(){
-		return view("ask_question",["skills":skillRepository.findAll()]);
+		return view("ask_question",["skills":userSkillRepository.findSkillsWithExpertCount()]);
 	}
 
 	@RequestMapping(value="/question/ask", method = RequestMethod.POST)

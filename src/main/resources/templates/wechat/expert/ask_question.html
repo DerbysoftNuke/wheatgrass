@@ -113,7 +113,7 @@
 	                    <p>所有人</p>
 	                </div>
 	            </label>
-	            <label class="weui_cell weui_check_label" th:each="skill : ${skills}">
+	            <label class="weui_cell weui_check_label" th:each="item : ${skills}" th:with="skill=${item['0']}, expertCount=${item['1']}" th:if="${item['1']} &gt; 0">
 	                <div class="weui_cell_hd">
 	                    <input type="checkbox" class="weui_check skill_check" name="skills" th:value="${skill.id}"/>
 	                    <i class="weui_icon_checked"></i>
@@ -121,6 +121,7 @@
 	                <div class="weui_cell_bd weui_cell_primary">
 	                    <p th:text="${skill.name}"></p>
 	                </div>
+	                <div class="weui_cell_ft" th:text="${expertCount+ ' 位专家'}">说明文字</div>
 	            </label>
 	        </div>
 		<div class="weui_dialog_alert" id="dialog" style="display: none;">
