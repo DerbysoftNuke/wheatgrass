@@ -51,9 +51,7 @@ class ScheduleConfiguration implements UserDownloadService {
 		} else if(userInfo.gender == "2"){
 			user.sex = Sex.Female;
 		}
-		if(user.imageUrl == null){
-			user.imageUrl = userInfo.avatar;
-		}
+		user.imageUrl = userInfo.avatar;
 		userInfo.extattr.attrs.each{attr->
 			if(attr.name == "生日" && attr.value != null && attr.value != ""){
 				user.birthday = LocalDate.parse(attr.value);
