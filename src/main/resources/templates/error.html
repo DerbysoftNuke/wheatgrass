@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, user-scalable=0" />
+<title th:text="${status}">404</title>
+<script type="text/javascript" th:src="@{/js/angular.min.js}"></script>
+<script type="text/javascript"
+	src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/weui.css}" />
+</head>
+<body>
+	<div class="weui_msg">
+		<div class="weui_icon_area">
+			<i class="weui_icon_msg weui_icon_warn"></i>
+		</div>
+		<div class="weui_text_area">
+			<h2 class="weui_msg_title">错误</h2>
+			<p class="weui_msg_desc" th:text="${timestamp}">Timestamp</p>
+			<p class="weui_msg_desc" th:text="'type='+${error}+', status='+${status}">Type</p>
+			<p class="weui_msg_desc" th:text="${message}">Message</p>
+		</div>
+	</div>
+</body>
+</html>

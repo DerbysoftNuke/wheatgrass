@@ -145,6 +145,7 @@ class HttpLoggingFilter extends AbstractRequestLoggingFilter {
 				msg.append(";user=").append(user);
 			}
 		}
+		msg.append(";status=").append(response.getStatus());
 		if (isIncludePayload()) {
 			ContentCachingResponseWrapper wrapper =
 					WebUtils.getNativeResponse(response, ContentCachingResponseWrapper.class);
