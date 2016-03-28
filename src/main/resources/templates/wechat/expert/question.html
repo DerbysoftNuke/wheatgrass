@@ -27,7 +27,8 @@
 				dataType:"json",
 				success: function(data){
 					showToast();
-					$(ele).next().text("["+data+"]");
+					$(ele).siblings("span.useful").text("["+data.usefulCounts+"]");
+					$(ele).siblings("span.unuseful").text("["+data.unusefulCounts+"]");
 				}
 			})
 		}
@@ -58,6 +59,15 @@
                 $loadingToast.hide();
             }, 2000);*/
         }
+		function showDialog(content){
+			var $dialog = $('#dialog');
+            $dialog.show();
+            $dialog.find(".weui_dialog_bd").html(content);
+            $dialog.find('.weui_btn_dialog').one('click', function () {
+                $dialog.hide();
+            });
+	    }
+		
 		$(document).ready(function(){
 			$(".best_answer").click(function(){
 				var form = $(this).parent("form")[0];
@@ -71,6 +81,18 @@
 					}
 				});
 			});
+			
+			$("form#answer_form").submit(function(){
+			    if(!$("#content").val()){
+			    	showDialog("标题或者内容不能为空");
+			    	return false;
+			    }
+			    if($("#content").val().length>2){
+			    	showDialog("内容字数超过200");
+			    	return false;
+			    }
+			    showLoadingToast();
+			 });
 		});
 		/*]]>*/
 		</script>
@@ -101,7 +123,7 @@
         <div class="weui_panel weui_panel_access" th:if="${question.recognizedAnswerId!=null}">
         	<div class="weui_panel_hd" >已有答案被采纳，问题自动关闭</div>
         </div>
-        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] != question.proposer.userId }" onsubmit="showLoadingToast();">
+        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] != question.proposer.userId }" >
         	<input type="hidden" name="questionId" th:value="${question.id}"></input>
 			<div class="weui_cells weui_cells_form">
 					<div class="weui_cell">
@@ -135,11 +157,11 @@
                     <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
                     <ul class="weui_media_info" style="vertical-align: middle;">
                         <li class="weui_media_info_meta" >
-                        	<span th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">[100]</span>
+                        	<span th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">2016-01-01 00:00:00</span>
                         	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'agreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/up.jpg}" height="20" width="20"/>
-                        	<span style="vertical-align:middle;" th:text="${'['+answer.markUsefulUserIds.size()+']'}">[100]</span>
+                        	<span class="useful" style="vertical-align:middle;" th:text="${'['+answer.markUsefulUserIds.size()+']'}">[100]</span>
                         	<img class="weui_media_appmsg_thumb disagree_answer" th:onclick="'disagreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/down.jpg}" height="20" width="20"/>
-                        	<span th:text="${'['+answer.markUnusefulUserIds.size()+']'}">[20]</span>
+                        	<span class="unuseful" th:text="${'['+answer.markUnusefulUserIds.size()+']'}">[20]</span>
                         </li>
                     </ul>
                 </div>
@@ -166,17 +188,27 @@
                     <p class="weui_media_desc" style="display:inline;" th:text="${answer.content}">问题答案</p>
                     <ul class="weui_media_info" style="vertical-align: middle;">
                         <li class="weui_media_info_meta" >
-                        	<span th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">[100]</span>
+                        	<span th:text="${#calendars.format(answer.createTime,'yyyy-MM-dd HH:mm:ss')}">2016-01-01 00:00:00</span>
                         	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'agreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/up.jpg}" height="20" width="20"/>
-                        	<span style="vertical-align:middle;" th:text="${'['+answer.markUsefulUserIds.size()+']'}">[100]</span>
+                        	<span class="useful" style="vertical-align:middle;" th:text="${'['+answer.markUsefulUserIds.size()+']'}">[100]</span>
                         	<img class="weui_media_appmsg_thumb disagree_answer" th:onclick="'disagreeAnswer(\''+${answer.id}+'\',this)'" th:src="@{/img/expert/down.jpg}" height="20" width="20"/>
-                        	<span th:text="${'['+answer.markUnusefulUserIds.size()+']'}">[20]</span>
+                        	<span class="unuseful" th:text="${'['+answer.markUnusefulUserIds.size()+']'}">[20]</span>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         
+        <div class="weui_dialog_alert" id="dialog" style="display: none;">
+	        <div class="weui_mask"></div>
+	        <div class="weui_dialog">
+	            <div class="weui_dialog_hd"><strong class="weui_dialog_title">提醒</strong></div>
+	            <div class="weui_dialog_bd"></div>
+	            <div class="weui_dialog_ft">
+	                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	            </div>
+	        </div>
+	    </div>
         <div class="weui_dialog_alert" id="best_answer_dialog" style="display: none;">
 	        <div class="weui_mask"></div>
 	        <div class="weui_dialog">

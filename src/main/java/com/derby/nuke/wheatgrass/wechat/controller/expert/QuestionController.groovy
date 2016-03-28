@@ -140,14 +140,13 @@ class QuestionController extends ExpertController{
 				answer.getMarkUsefulUserIds().add(userId);
 				answer.getMarkUnusefulUserIds().remove(userId);
 			}
-			return answer.markUsefulUserIds.size(); 
 		} else {
 			if(!answer.getAnswerer().getUserId().equals(userId)){
 				answer.getMarkUnusefulUserIds().add(userId);
 				answer.getMarkUsefulUserIds().remove(userId);
 			}
-			return answer.markUnusefulUserIds.size(); 
 		}
+		return [usefulCounts:answer.markUsefulUserIds.size(),unusefulCounts:answer.markUnusefulUserIds.size()]; 
 	}
 
 	@RequestMapping(value="/question/ask", method = RequestMethod.GET)
