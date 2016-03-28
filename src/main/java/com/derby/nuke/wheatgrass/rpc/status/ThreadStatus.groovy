@@ -53,7 +53,7 @@ public class ThreadStatus implements StatusAware {
             }
             if (threadInfo.getThreadState() != null) {
                 threadStatus.put("detail." + threadId + ".state", threadInfo.getThreadState().name());
-				if(stateSummaries.containsKey(threadInfo.getThreadState().name())){
+				if(!stateSummaries.containsKey(threadInfo.getThreadState().name())){
 					stateSummaries.put(threadInfo.getThreadState().name(), 1);
 				}else{
 					stateSummaries.put(threadInfo.getThreadState().name(), stateSummaries.get(threadInfo.getThreadState().name())+1);
@@ -72,4 +72,5 @@ public class ThreadStatus implements StatusAware {
     public static ThreadStatus get() {
         return threadStatus;
     }
+	
 }
