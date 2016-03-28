@@ -3,7 +3,7 @@ package com.derby.nuke.wheatgrass.rpc.status;
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -121,6 +121,7 @@ public class StatusCenter implements StatusService {
         statusCenter.register(MemoryStatus.get());
         statusCenter.register(JVMStatus.get());
         statusCenter.register(ApacheStatus.get());
+        statusCenter.register(ThreadStatus.get());
     }
 
 	@Bean
