@@ -108,7 +108,7 @@
                         <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'共有'+question.answers.size()+'个答案'}">文字来源</li>
                     </ul>
                 </div>
-                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                <a href="javascript:void(0);" th:href="@{/wechat/expert/user(userId=${question.proposer.userId})}" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60"/>
 					</div>
@@ -123,7 +123,7 @@
         <div class="weui_panel weui_panel_access" th:if="${question.recognizedAnswerId!=null}">
         	<div class="weui_panel_hd" >已有答案被采纳，问题自动关闭</div>
         </div>
-        <form action="" th:action="@{/wechat/expert/question/answer}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] != question.proposer.userId }" >
+        <form action="" th:action="@{/wechat/expert/user(userId=${user.userId})}" method="POST" id="answer_form" th:if="${question.recognizedAnswerId==null and session['wechat.userId'] != question.proposer.userId }" >
         	<input type="hidden" name="questionId" th:value="${question.id}"></input>
 			<div class="weui_cells weui_cells_form">
 					<div class="weui_cell">
@@ -140,7 +140,7 @@
         <div class="weui_panel weui_panel_access">
             <div class="weui_panel_hd" th:text="${'共有'+question.answers.size()+'个答案'}">共有0个答案</div>
             <div class="weui_panel_bd" th:each="answer : ${question.answers}" th:if="${question.recognizedAnswerId!=null and answer.id == question.recognizedAnswerId}">
-                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                <a href="javascript:void(0);" th:href="@{/wechat/expert/user(userId=${answer.answerer.userId})}" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
 					</div>
@@ -167,7 +167,7 @@
                 </div>
             </div>
             <div class="weui_panel_bd" th:each="answer : ${question.answers}" th:if="${question.recognizedAnswerId==null or answer.id != question.recognizedAnswerId}">
-                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                <a href="javascript:void(0);" th:href="@{/wechat/expert/user(userId=${answer.answerer.userId})}" class="weui_media_box weui_media_appmsg">
                     <div class="weui_media_hd">
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
 					</div>
