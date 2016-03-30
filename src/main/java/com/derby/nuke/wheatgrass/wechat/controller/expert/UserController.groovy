@@ -147,7 +147,6 @@ class UserController extends ExpertController {
 			throw new IllegalArgumentException("you have already added this skill's point");
 		}
 		userSkill.point++;
-		userSkillRepository.saveAndFlush(userSkill);
 		pointHistoryRepository.saveAndFlush(new PointHistory(operator:userRepository.getByUserId(userId),userSkill:userSkill,operationTime:new Date()));
 		return userSkill.point;
 	}
@@ -171,7 +170,6 @@ class UserController extends ExpertController {
 			throw new IllegalArgumentException("you have't added this skill's point");
 		}
 		userSkill.point--;
-		userSkillRepository.saveAndFlush(userSkill);
 		pointHistoryRepository.delete(pointHistory);
 		return userSkill.point;
 	}
