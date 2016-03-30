@@ -24,7 +24,7 @@ class OAuthInterceptor extends HandlerInterceptorAdapter  {
 	@Override
 	boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		def userId = request.getSession().getAttribute(Consts.USER_ID);
-		if(StringUtils.isNotBlank(userId)){
+		if(StringUtils.isNotBlank(userId) || !"GET".equalsIgnoreCase(request.getMethod())){
 			return true;
 		}
 
