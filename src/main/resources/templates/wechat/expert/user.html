@@ -90,11 +90,6 @@
 						<p class="weui_media_desc" th:text="${user.position}">职务</p>
 					</div>
 				</a>
-				<div>
-					<span th:each="medal : ${medals}">
-						<img th:src="@{'/img/medal/'+${medal.icon}}"/>
-					</span>
-				</div>
 			</div>
 			<div class="page profile_toggle" style="display: none;">
 				<div class="bd">

@@ -38,6 +38,9 @@
 				}
 			})
 		}
+		function toUserProfilePage(userId){
+			window.location.href = [[@{/wechat/expert/user}]] + "?userId=" + userId;
+		}
 		function agreeAnswer(answerId, ele){
 			disagreeOrAgreeAnswer(answerId, ele, "agree")
 		}
@@ -114,8 +117,8 @@
                         <li class="weui_media_info_meta weui_media_info_meta_extra" th:text="${'共有'+question.answers.size()+'个答案'}">文字来源</li>
                     </ul>
                 </div>
-                <a href="javascript:void(0);" th:href="@{/wechat/expert/user(userId=${question.proposer.userId})}" class="weui_media_box weui_media_appmsg">
-                    <div class="weui_media_hd">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd" th:onclick="'toUserProfilePage(\''+${question.proposer.userId}+'\')'" >
 						<img class="weui_media_appmsg_thumb" th:src="${question.proposer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
@@ -146,8 +149,8 @@
         <div class="weui_panel weui_panel_access">
             <div class="weui_panel_hd" th:text="${'共有'+question.answers.size()+'个答案'}">共有0个答案</div>
             <div class="weui_panel_bd" th:each="answer : ${question.answers}" th:if="${question.recognizedAnswerId!=null and answer.id == question.recognizedAnswerId}">
-                <a href="javascript:void(0);" th:href="@{/wechat/expert/user(userId=${answer.answerer.userId})}" class="weui_media_box weui_media_appmsg">
-                    <div class="weui_media_hd">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd" th:onclick="'toUserProfilePage(\''+${answer.answerer.userId}+'\')'" >
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
@@ -173,8 +176,8 @@
                 </div>
             </div>
             <div class="weui_panel_bd" th:each="answer : ${question.answers}" th:if="${question.recognizedAnswerId==null or answer.id != question.recognizedAnswerId}">
-                <a href="javascript:void(0);" th:href="@{/wechat/expert/user(userId=${answer.answerer.userId})}" class="weui_media_box weui_media_appmsg">
-                    <div class="weui_media_hd">
+                <a href="javascript:void(0);" class="weui_media_box weui_media_appmsg">
+                    <div class="weui_media_hd" th:onclick="'toUserProfilePage(\''+${answer.answerer.userId}+'\')'" >
 						<img class="weui_media_appmsg_thumb" th:src="${answer.answerer.imageUrl}" height="60" width="60"/>
 					</div>
                     <div class="weui_media_bd">
