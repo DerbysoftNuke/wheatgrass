@@ -28,6 +28,7 @@ class DefaultConfigurer extends PropertySourcesPlaceholderConfigurer {
 		configResource = new FileSystemResource(configPath+File.separator+fileName);
 		configProperties.load(new InputStreamReader(new FileInputStream(configResource.getPath()), "UTF-8"));
 		setLocations(new ClassPathResource("application.properties"), configResource);
+		setLocalOverride(true);
 	}
 	
 	@Override
