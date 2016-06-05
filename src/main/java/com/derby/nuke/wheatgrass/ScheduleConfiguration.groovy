@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component
 import com.derby.nuke.wheatgrass.entity.Sex
 import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.repository.UserRepository
+import com.derby.nuke.wheatgrass.wechat.service.BirthdayService
 import com.derby.nuke.wheatgrass.wechat.service.UserDownloadService
 import com.derby.nuke.wheatgrass.wechat.service.WechatService
-import com.googlecode.jsonrpc4j.JsonRpcService
 
 @Component
 @Configurable
@@ -24,6 +24,8 @@ class ScheduleConfiguration implements UserDownloadService {
 	UserRepository userRepository;
 	@Autowired
 	WechatService wechatService;
+	@Autowired
+	BirthdayService birthdayService;
 
 	@Scheduled(cron = '${download.users.cron}')
 	@Override
@@ -32,6 +34,11 @@ class ScheduleConfiguration implements UserDownloadService {
 		userList.each {item->
 			downloadUser(item.userid);
 		}
+	}
+	
+	@Scheduled(cron = '${birthday.reminder.cron}')
+	void birthdayReminders(){
+		birthdayService.sendReminder(LocalDate.now());
 	}
 
 	@Override
