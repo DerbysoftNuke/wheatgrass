@@ -178,7 +178,7 @@ class QuestionController extends ExpertController{
 		]
 		
 		if("true".equals(all) || "on".equals(all)){
-			wechatService.sendMessage(null, messageType, message);
+			wechatService.sendMessage(["@all"], messageType, message);
 		}else if(skillIds != null){
 			def userIds = userSkillRepository.getUserIdsBySkills(Sets.newHashSet(skillIds));
 			if(!userIds.isEmpty()){

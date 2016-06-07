@@ -1,6 +1,6 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
-import org.apache.commons.lang.StringUtils
+import org.apache.commons.collections.CollectionUtils
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.RequestBuilder
 import org.apache.http.entity.StringEntity
@@ -79,11 +79,11 @@ class WechatService{
 	}
 	
 	def sendMessage(userIds, type, message){
-		def accessToken = getAccessToken();
-		def touser = "@all";
-		if(userIds != null){
-			touser = Joiner.on("|").skipNulls().join(userIds);
+		if(CollectionUtils.isEmpty(userIds)){
+			return;
 		}
+		def accessToken = getAccessToken();
+		def	touser = Joiner.on("|").skipNulls().join(userIds);
 		
 		def request = ["touser": touser, "msgtype":type, "agentid":agentId, "safe":"0"];
 		message.each {key, value->

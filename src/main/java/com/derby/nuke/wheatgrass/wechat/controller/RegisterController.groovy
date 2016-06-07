@@ -30,7 +30,7 @@ class RegisterController extends WechatController{
 		try{
 			wechatService.register(userId);
 			def message = new ObjectMapper().readValue(welcomeMessageContent, Map.class);
-			wechatService.sendMessage(userId, welcomeMessageType, message);
+			wechatService.sendMessage([userId], welcomeMessageType, message);
 		}catch(WechatException e){
 			if(e.errorCode != "50004"){
 				throw e;

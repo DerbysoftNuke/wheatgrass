@@ -2,6 +2,7 @@ package com.derby.nuke.wheatgrass.wechat.service
 
 import java.time.LocalDate
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -46,7 +47,7 @@ class BirthdayService {
 				]
 			]
 		]
-//		userIds=["caochengkai"];
+		//userIds=["caochengkai"];
 		wechatService.sendMessage(userIds, messageType, message);
 	}
 }
