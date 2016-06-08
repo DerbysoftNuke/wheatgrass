@@ -1,4 +1,4 @@
-package com.derby.nuke.wheatgrass.wechat.controller.expert
+package com.derby.nuke.wheatgrass.wechat.controller.birthday
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -9,6 +9,7 @@ import com.derby.nuke.wheatgrass.wechat.controller.WechatController;
 
 @RequestMapping("/wechat/birthday")
 @OAuthRequired
+@RestController
 class BirthdayController extends WechatController{
 	def getViewPrefix(){
 		return "/wechat/birthday";
@@ -20,7 +21,7 @@ class BirthdayController extends WechatController{
 	
 	@RequestMapping(value="/showWish", method = RequestMethod.GET)
 	def showWish(){
-		return view("show_wish");
+		return view("show_wish",[:]);
 	}
 	
 }

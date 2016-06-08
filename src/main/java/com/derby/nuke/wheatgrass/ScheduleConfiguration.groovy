@@ -36,7 +36,7 @@ class ScheduleConfiguration implements UserDownloadService {
 		}
 	}
 	
-	@Scheduled(cron = '${birthday.reminder.cron}')
+//	@Scheduled(cron = '${birthday.reminder.cron}')
 	void birthdayReminders(){
 		birthdayService.sendReminder(LocalDate.now());
 	}
