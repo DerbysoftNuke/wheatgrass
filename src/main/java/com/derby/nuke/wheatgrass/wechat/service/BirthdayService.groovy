@@ -1,13 +1,15 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
 import java.time.LocalDate
+import java.time.temporal.TemporalAdjusters
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
+import com.derby.nuke.wheatgrass.entity.BirthdayWish
 import com.derby.nuke.wheatgrass.entity.User
+import com.derby.nuke.wheatgrass.repository.BirthdayWishRepository
 import com.derby.nuke.wheatgrass.repository.UserRepository
 import com.derby.nuke.wheatgrass.repository.UserSpecifications
 
@@ -16,6 +18,8 @@ class BirthdayService {
 
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	BirthdayWishRepository birthdayWishRepository;
 	@Autowired
 	WechatService wechatService;
 
@@ -50,4 +54,19 @@ class BirthdayService {
 		//userIds=["caochengkai"];
 		wechatService.sendMessage(userIds, messageType, message);
 	}
+	
+	List<BirthdayWish> findBirthdayWishes(LocalDate today){
+		LocalDate firstDate = today.with(TemporalAdjusters.firstDayOfMonth());
+		LocalDate lastDate = today.with(TemporalAdjusters.lastDayOfMonth());
+		return birthdayWishRepository.findByBirthdayBetween(firstDate, lastDate);
+	}
+	
+	BirthdayWish findOne(String birthdayWishId){
+		return birthdayWishRepository.findOne(birthdayWishId);
+	}
+	
+	void saveOrUpdate(BirthdayWish birthdayWish){
+		birthdayWishRepository.save(birthdayWish);
+	}
+	
 }
