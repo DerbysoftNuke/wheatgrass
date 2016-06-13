@@ -38,13 +38,13 @@ class BirthdayService {
 						title: "在这个特殊的日子里......",
 						description: "在这个特殊的日子里......",
 						url: externalUrl+"/wechat/birthday/showWish?birthday="+LocalDate.now(),
-						picurl: "PIC_URL"
+						picurl: externalUrl+"/img/birthday/cover1.jpg"
 					],
 					[
 						title: "快来，快来！收礼物！收礼物咯！！",
 						description: "快来，快来！收礼物！收礼物咯！！",
 						url: externalUrl+"/wechat/birthday/showWish?birthday="+LocalDate.now(),
-						picurl: "PIC_URL"
+						picurl: externalUrl+"/img/birthday/cover2.jpg"
 					]
 				]
 			]

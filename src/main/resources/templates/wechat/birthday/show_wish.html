@@ -38,15 +38,15 @@
 			height:100%;
 		}
 		.swiper-slide1{
-			background:url([[@{/img/birthday/test.jpg}]]) no-repeat left top;
+			background:url([[@{/img/birthday/wish1.jpg}]]) no-repeat left top;
 			background-size:100% 100%;
 		}
 		.swiper-slide2{
-			background:url([[@{/img/birthday/test.jpg}]]) no-repeat left top;
+			background:url([[@{/img/birthday/wish2.jpg}]]) no-repeat left top;
 			background-size:100% 100%;
 		}
 		.swiper-slide3{
-			background:url([[@{/img/birthday/test.jpg}]]) no-repeat left top;
+			background:url([[@{/img/birthday/wish3.jpg}]]) no-repeat left top;
 			background-size:100% 100%;
 		}
 		img{
@@ -95,11 +95,11 @@
     	<!--slide1-->
         <section class="swiper-slide swiper-slide1">
 
-        <div  class="ani resize" style="background-color:#F08080;color:#4169E1;width:248px;height:30px;line-height:30px;left:36px;top:185px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:text="'今天是'+${birthday}" /> 
-        <div  class="ani resize" style="background-color:#DAA520;color:#90EE90;width:248px;height:30px;line-height:30px;left:36px;top:220px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" th:text="今天是你加入德比软件的第XXX天" />
-        <div  class="ani resize" style="background-color:#FFFF00;color:#6A5ACD;width:248px;height:30px;line-height:30px;left:36px;top:255px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1s" th:text="但，最重要的！！" />
-        <div  class="ani resize" style="background-color:#9ACD32;color:#FF6A6A;width:248px;height:30px;line-height:30px;left:36px;top:290px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s" th:text="'今天是你'+${age}+'岁的生日'" />
-        <div  class="ani resize" style="background-color:#66CDAA;color:#0000FF;width:248px;height:45px;padding-top:10px;left:36px;top:325px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="2s" th:inline="text" >
+        <div  class="ani resize" style="background-color:#F08080;color:#4169E1;width:248px;height:30px;line-height:30px;left:36px;top:210px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:text="'今天是'+${birthday}" /> 
+        <div  class="ani resize" style="background-color:#DAA520;color:#90EE90;width:248px;height:30px;line-height:30px;left:36px;top:245px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" th:text="今天是你加入德比软件的第XXX天" />
+        <div  class="ani resize" style="background-color:#FFFF00;color:#6A5ACD;width:248px;height:30px;line-height:30px;left:36px;top:280px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1s" th:text="但，最重要的！！" />
+        <div  class="ani resize" style="background-color:#9ACD32;color:#FF6A6A;width:248px;height:30px;line-height:30px;left:36px;top:315px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s" th:text="'今天是你'+${age}+'岁的生日'" />
+        <div  class="ani resize" style="background-color:#66CDAA;color:#0000FF;width:248px;height:45px;padding-top:10px;left:36px;top:350px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="2s" th:inline="text" >
         	感谢你在德比[[${"xxx"}]]天来的辛勤付出！
         	<br/>
         	同时也送上德比大家庭对你的祝福！
@@ -108,30 +108,23 @@
         </section>
      	<!--slide2-->   
         <section class="swiper-slide swiper-slide2">
-        <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:185px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:inline="text" >
+        <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:195px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:inline="text" >
         德比伙伴为你送出了[[${#sets.size(birthdayWish.sendFlowerUserIds)}]]朵鲜花
         <br/>
         [[${#sets.size(birthdayWish.sendCakeUserIds)}]]块蛋糕
         <br/>
         [[${#sets.size(birthdayWish.sendFireworkUserIds)}]]份神秘礼物。
         </div> 
-        <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:325px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="1s"  th:text="再来看看大家送出的祝福吧！"/> 
+        <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:355px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="1s"  th:text="再来看看大家送出的祝福吧！"/> 
         
         </section>
      	<!--slide3-->
      	
         <section class="swiper-slide swiper-slide3" th:each="birthdayWishWords:${birthdayWishWordList}">
-        
-        <div th:each="birthdayWishWord,iteration:${birthdayWishWords}" class="ani resize" style="width:320px;height:40px;left:0px;position:relative;margin-top:15px;"  swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" th:attrappend="swiper-animate-delay=${iteration.index*0.5}+'s'"  th:text="${birthdayWishWord.content}"/> 
+        <div style="height:100px"></div>
+        <div th:each="birthdayWishWord,iteration:${birthdayWishWords}" class="ani resize" style="color:#0000FF;width:320px;height:40px;left:0px;position:relative;margin-top:15px;"  swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" th:attrappend="swiper-animate-delay=${iteration.index*0.5}+'s'"  th:text="${birthdayWishWord.content}"/> 
         
         </section>
-        <!-- slide4 --
-        <section class="swiper-slide swiper-slide4">
-        <img th:src="@{/img/expert/best-answer-1.jpg}" class="ani resize" style="width:320px;height:46px;left:0;top:20px;z-index:2;" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0s"   /> 
-        <img th:src="@{/img/expert/best-answer-1.jpg}"  class="ani resize" style="width:320px;height:327px;left:0px;top:100px;z-index:1;" swiper-animate-effect="zoomInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s"  />
- 
-        </section>
-        -->
     </div>
     
    <img th:src="@{/img/birthday/arrow.png}" style="width:20px;height:15px; top:460px; left:150px;" id="array" class="resize" /> 

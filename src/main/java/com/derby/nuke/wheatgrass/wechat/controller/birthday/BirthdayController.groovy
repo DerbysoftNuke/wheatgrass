@@ -53,7 +53,7 @@ class BirthdayController extends WechatController{
 		List<BirthdayWishWord> birthdayWishWords= birthdayWish.birthdayWishWords;
 		List<List<BirthdayWishWord>> birthdayWishWordList=Lists.newArrayList();
 		for(int index=0;index<birthdayWishWords.size();index++){
-			if(index%9==0){
+			if(index%7==0){
 				birthdayWishWordList.add(Lists.newArrayList());
 			}
 			birthdayWishWordList.get(birthdayWishWordList.size()-1).add(birthdayWishWords.get(index));
