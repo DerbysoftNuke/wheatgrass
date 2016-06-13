@@ -1,6 +1,7 @@
 package com.derby.nuke.wheatgrass.wechat.controller.birthday
 
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 import javax.servlet.http.HttpSession
 import javax.transaction.Transactional
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController
 import com.derby.nuke.wheatgrass.entity.BirthdayWish
 import com.derby.nuke.wheatgrass.entity.BirthdayWishWord
 import com.derby.nuke.wheatgrass.entity.User
+import com.derby.nuke.wheatgrass.repository.BirthdayWishRepository
 import com.derby.nuke.wheatgrass.wechat.Consts
 import com.derby.nuke.wheatgrass.wechat.OAuthRequired
 import com.derby.nuke.wheatgrass.wechat.controller.WechatController
 import com.derby.nuke.wheatgrass.wechat.service.BirthdayService
+import com.google.common.collect.Lists
 
 @RequestMapping("/wechat/birthday")
 @OAuthRequired
@@ -26,6 +29,9 @@ class BirthdayController extends WechatController{
 
 	@Autowired
 	BirthdayService birthdayService;
+	
+	@Autowired
+	BirthdayWishRepository birthdayWishRepository;
 
 	def getViewPrefix(){
 		return "/wechat/birthday";
@@ -36,8 +42,24 @@ class BirthdayController extends WechatController{
 	}
 
 	@RequestMapping(value="/showWish", method = RequestMethod.GET)
-	def showWish(){
-		return view("show_wish",[:]);
+	def showWish(HttpSession session,@RequestParam(value="birthday") birthday){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+		birthday=LocalDate.parse(birthday);
+		BirthdayWish birthdayWish=birthdayWishRepository.findByBirthdayAndUser(birthday,userId);
+		def age=birthday.year-birthdayWish.user.birthday.year;
+		List<BirthdayWishWord> birthdayWishWords= birthdayWish.birthdayWishWords;
+		List<List<BirthdayWishWord>> birthdayWishWordList=Lists.newArrayList();
+		for(int index=0;index<birthdayWishWords.size();index++){
+			if(index%9==0){
+				birthdayWishWordList.add(Lists.newArrayList());
+			}
+			birthdayWishWordList.get(birthdayWishWordList.size()-1).add(birthdayWishWords.get(index));
+		}
+
+		return view("show_wish",["birthdayWish":birthdayWish,"birthdayWishWordList":birthdayWishWordList,"age":age,"birthday":birthday.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"))]);
 	}
 
 	@RequestMapping(value="/listWish", method = RequestMethod.GET)

@@ -45,6 +45,10 @@
 			background:url([[@{/img/birthday/test.jpg}]]) no-repeat left top;
 			background-size:100% 100%;
 		}
+		.swiper-slide3{
+			background:url([[@{/img/birthday/test.jpg}]]) no-repeat left top;
+			background-size:100% 100%;
+		}
 		img{
 			display:block;
 		}
@@ -91,10 +95,10 @@
     	<!--slide1-->
         <section class="swiper-slide swiper-slide1">
 
-        <div  class="ani resize" style="background-color:#F08080;color:#4169E1;width:248px;height:30px;line-height:30px;left:36px;top:185px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:text="今天是2016年X月X日" /> 
+        <div  class="ani resize" style="background-color:#F08080;color:#4169E1;width:248px;height:30px;line-height:30px;left:36px;top:185px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:text="'今天是'+${birthday}" /> 
         <div  class="ani resize" style="background-color:#DAA520;color:#90EE90;width:248px;height:30px;line-height:30px;left:36px;top:220px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" th:text="今天是你加入德比软件的第XXX天" />
         <div  class="ani resize" style="background-color:#FFFF00;color:#6A5ACD;width:248px;height:30px;line-height:30px;left:36px;top:255px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1s" th:text="但，最重要的！！" />
-        <div  class="ani resize" style="background-color:#9ACD32;color:#FF6A6A;width:248px;height:30px;line-height:30px;left:36px;top:290px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s" th:text="今天是你XX岁的生日" />
+        <div  class="ani resize" style="background-color:#9ACD32;color:#FF6A6A;width:248px;height:30px;line-height:30px;left:36px;top:290px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s" th:text="'今天是你'+${age}+'岁的生日'" />
         <div  class="ani resize" style="background-color:#66CDAA;color:#0000FF;width:248px;height:45px;padding-top:10px;left:36px;top:325px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="2s" th:inline="text" >
         	感谢你在德比[[${"xxx"}]]天来的辛勤付出！
         	<br/>
@@ -105,32 +109,29 @@
      	<!--slide2-->   
         <section class="swiper-slide swiper-slide2">
         <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:185px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:inline="text" >
-        德比伙伴为你送出了XX朵鲜花
+        德比伙伴为你送出了[[${#sets.size(birthdayWish.sendFlowerUserIds)}]]朵鲜花
         <br/>
-        XX块蛋糕
+        [[${#sets.size(birthdayWish.sendCakeUserIds)}]]块蛋糕
         <br/>
-        XX份神秘礼物。
+        [[${#sets.size(birthdayWish.sendFireworkUserIds)}]]份神秘礼物。
         </div> 
         <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:325px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="1s"  th:text="再来看看大家送出的祝福吧！"/> 
         
         </section>
      	<!--slide3-->
-        <section class="swiper-slide swiper-slide3">
+     	
+        <section class="swiper-slide swiper-slide3" th:each="birthdayWishWords:${birthdayWishWordList}">
         
-        <img th:src="@{/img/expert/best-answer-1.jpg}" class="ani resize" style="width:320px;height:66px;left:0px;top:30px;z-index:5; " swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s"  /> 
-      	<img th:src="@{/img/expert/best-answer-1.jpg}" class="ani resize" style="width:320px;height:192px;left:0px;top:220px;z-index:4;" swiper-animate-effect="bounceInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="1s"  /> 
-        <img th:src="@{/img/expert/best-answer-1.jpg}" class="ani resize" style="width:320px;height:77px;left:0px;top:110px;z-index:3;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s"  /> 
-        <img th:src="@{/img/expert/best-answer-1.jpg}" class="ani resize" style="width:320px;height:192px;left:0px;top:220px;z-index:2;" swiper-animate-effect="bounceInRight" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s"   /> 
-       
+        <div th:each="birthdayWishWord,iteration:${birthdayWishWords}" class="ani resize" style="width:320px;height:40px;left:0px;position:relative;margin-top:15px;"  swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" th:attrappend="swiper-animate-delay=${iteration.index*0.5}+'s'"  th:text="${birthdayWishWord.content}"/> 
         
         </section>
-        <!-- slide4 -->
+        <!-- slide4 --
         <section class="swiper-slide swiper-slide4">
         <img th:src="@{/img/expert/best-answer-1.jpg}" class="ani resize" style="width:320px;height:46px;left:0;top:20px;z-index:2;" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="0s"   /> 
         <img th:src="@{/img/expert/best-answer-1.jpg}"  class="ani resize" style="width:320px;height:327px;left:0px;top:100px;z-index:1;" swiper-animate-effect="zoomInLeft" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s"  />
  
         </section>
-        
+        -->
     </div>
     
    <img th:src="@{/img/birthday/arrow.png}" style="width:20px;height:15px; top:460px; left:150px;" id="array" class="resize" /> 
@@ -141,15 +142,15 @@
 	scaleW=window.innerWidth/320;
 	scaleH=window.innerHeight/480;
 	var resizes = document.querySelectorAll('.resize');
-	          for (var j=0; j<resizes.length; j++) {
-	           resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-			   resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-			   if(resizes[j].style["line-height"]){
-			   	resizes[j].style["line-height"]=resizes[j].style.height;
-			   }
-			   resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-			   resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
-	          }
+    for (var j=0; j<resizes.length; j++) {
+           resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
+		   resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
+		   if(resizes[j].style["line-height"]){
+		   	resizes[j].style["line-height"]=resizes[j].style.height;
+		   }
+		   resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
+		   resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
+      }
 			  
 	  var mySwiper = new Swiper ('.swiper-container', {
 	   direction : 'vertical',

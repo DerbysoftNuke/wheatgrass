@@ -40,6 +40,11 @@ class ScheduleConfiguration implements UserDownloadService {
 	void birthdayReminders(){
 		birthdayService.sendReminder(LocalDate.now());
 	}
+	
+//	@Scheduled(cron = '${birthday.wish.record.cron}')
+	void birthdayWishRecord(){
+		birthdayService.birthdayWishRecord(LocalDate.now());
+	}
 
 	@Override
 	void downloadUser(userId){

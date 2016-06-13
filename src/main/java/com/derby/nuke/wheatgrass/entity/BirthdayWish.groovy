@@ -14,6 +14,8 @@ import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
+import javax.persistence.Table
+import javax.persistence.UniqueConstraint
 
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.Parameter
@@ -41,6 +43,7 @@ import com.google.common.collect.Sets
 @EqualsAndHashCode(excludes=[])
 @ToString(excludes=[])
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@Table(uniqueConstraints=[@UniqueConstraint(columnNames=["user_id", "birthday"])])
 class BirthdayWish{
 
 	@GeneratedValue(generator = "uuid")

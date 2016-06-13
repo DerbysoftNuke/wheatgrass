@@ -19,4 +19,7 @@ interface UserRepository extends JpaRepository<User, String>,JpaSpecificationExe
 
 	@Query("from User order by name")
 	List<User> findAll();
+	
+	@Query("from User where birthday like ?")
+	List<User> findByBirthdayLike(String pattern);
 }
