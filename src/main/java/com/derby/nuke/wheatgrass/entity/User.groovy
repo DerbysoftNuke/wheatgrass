@@ -48,6 +48,9 @@ class User{
 	@JsonDeserialize(using = LocalDateDeserializer.class)
 	@JsonSerialize(using = LocalDateSerializer.class)
 	LocalDate birthday;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	LocalDate entryday;
 	String birthplace;
 	@Enumerated(EnumType.STRING)
 	Sex sex;

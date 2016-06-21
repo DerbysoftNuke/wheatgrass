@@ -26,6 +26,8 @@ class BirthdayService {
 
 	@Value('${web.external.url}')
 	def externalUrl;
+	@Value('${assistant.agent.id ?: "0"}')
+	def assistantAgentId;
 
 	def sendReminder(LocalDate today){
 		Collection<String> birthdayWishs=birthdayWishRepository.findUserIdsByBirthday(today);
@@ -49,7 +51,7 @@ class BirthdayService {
 				]
 			]
 		]
-		wechatService.sendMessage(birthdayWishs, messageType, message);
+		wechatService.sendMessage(birthdayWishs, messageType, message, assistantAgentId);
 	}
 
 	List<BirthdayWish> findBirthdayWishes(LocalDate today){

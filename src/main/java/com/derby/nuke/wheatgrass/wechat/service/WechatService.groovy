@@ -79,6 +79,10 @@ class WechatService{
 	}
 	
 	def sendMessage(userIds, type, message){
+		sendMessage(userIds, type, message, agentId);
+	}
+	
+	def sendMessage(userIds, type, message, agentId){
 		if(CollectionUtils.isEmpty(userIds)){
 			return;
 		}

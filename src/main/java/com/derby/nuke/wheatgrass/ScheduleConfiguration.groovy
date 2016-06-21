@@ -36,12 +36,12 @@ class ScheduleConfiguration implements UserDownloadService {
 		}
 	}
 	
-//	@Scheduled(cron = '${birthday.reminder.cron}')
+	@Scheduled(cron = '${birthday.reminder.cron}')
 	void birthdayReminders(){
 		birthdayService.sendReminder(LocalDate.now());
 	}
 	
-//	@Scheduled(cron = '${birthday.wish.record.cron}')
+	@Scheduled(cron = '${birthday.wish.record.cron}')
 	void birthdayWishRecord(){
 		birthdayService.birthdayWishRecord(LocalDate.now());
 	}
@@ -69,6 +69,8 @@ class ScheduleConfiguration implements UserDownloadService {
 				user.birthday = LocalDate.parse(attr.value);
 			}else if(attr.name == "籍贯"){
 				user.birthplace = attr.value;
+			}else if(attr.name == "入职日期" && attr.value != null && attr.value != ""){
+				user.entryday = LocalDate.parse(attr.value);
 			}
 		}
 		if(userInfo.department!=null && userInfo.department.size() > 0){
