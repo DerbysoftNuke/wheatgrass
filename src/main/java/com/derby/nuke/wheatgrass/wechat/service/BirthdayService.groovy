@@ -11,11 +11,12 @@ import com.derby.nuke.wheatgrass.entity.BirthdayWish
 import com.derby.nuke.wheatgrass.entity.User
 import com.derby.nuke.wheatgrass.repository.BirthdayWishRepository
 import com.derby.nuke.wheatgrass.repository.UserRepository
-import com.derby.nuke.wheatgrass.repository.UserSpecifications;
+import com.derby.nuke.wheatgrass.repository.UserSpecifications
+import com.derby.nuke.wheatgrass.wechat.service.support.BirthdayRpcService
 import com.google.common.collect.Lists
 
 @Service
-class BirthdayService {
+class BirthdayService implements BirthdayRpcService{
 
 	@Autowired
 	UserRepository userRepository;
