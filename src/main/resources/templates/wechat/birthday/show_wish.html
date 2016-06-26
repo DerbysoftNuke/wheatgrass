@@ -78,7 +78,8 @@
 		}
 		.ani{
 			position:absolute;
-			}
+			font-size: 16px;
+		}
 		.txt{
 			position:absolute;
 		}
@@ -96,11 +97,11 @@
         <section class="swiper-slide swiper-slide1">
 
         <div  class="ani resize" style="background-color:#F08080;color:#4169E1;width:248px;height:30px;line-height:30px;left:36px;top:210px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:text="'今天是'+${birthday}" /> 
-        <div  class="ani resize" style="background-color:#DAA520;color:#90EE90;width:248px;height:30px;line-height:30px;left:36px;top:245px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" th:text="今天是你加入德比软件的第XXX天" />
+        <div  class="ani resize" style="background-color:#DAA520;color:#90EE90;width:248px;height:30px;line-height:30px;left:36px;top:245px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="0.5s" th:text="'今天是你加入德比软件的第'+${entrydays}+'天'" />
         <div  class="ani resize" style="background-color:#FFFF00;color:#6A5ACD;width:248px;height:30px;line-height:30px;left:36px;top:280px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1s" th:text="但，最重要的！！" />
         <div  class="ani resize" style="background-color:#9ACD32;color:#FF6A6A;width:248px;height:30px;line-height:30px;left:36px;top:315px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="1.5s" th:text="'今天是你'+${age}+'岁的生日'" />
         <div  class="ani resize" style="background-color:#66CDAA;color:#0000FF;width:248px;height:45px;padding-top:10px;left:36px;top:350px;-webkit-border-radius: 8px;-moz-border-radius: 8px;" swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" swiper-animate-delay="2s" th:inline="text" >
-        	感谢你在德比[[${"xxx"}]]天来的辛勤付出！
+        	感谢你在德比[[${entrydays}]]天来的辛勤付出！
         	<br/>
         	同时也送上德比大家庭对你的祝福！
         </div>

@@ -57,7 +57,7 @@ class HttpLoggingFilter extends AbstractRequestLoggingFilter {
 	@Override
 	protected boolean shouldLog(HttpServletRequest request) {
 		def uri = request.getRequestURI();
-		return logger.isInfoEnabled() && !uri.contains("/js") && !uri.contains("/img") && !uri.contains("/css") && !uri.contains("favicon.ico");
+		return logger.isInfoEnabled() && !uri.contains("/js") && !uri.contains("/img") && !uri.contains("/css") && !uri.contains("favicon.ico") && !uri.contains(".ttf");
 	}
 
 	/**

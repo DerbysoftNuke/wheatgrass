@@ -67,12 +67,15 @@ class BirthdayWish{
 	List<BirthdayWishWord> birthdayWishWords=new ArrayList<>();
 
 	@Type(type = "setType")
+	@Column(length = 16777215)
 	Set<String> sendFlowerUserIds = new HashSet();
 	
 	@Type(type = "setType")
+	@Column(length = 16777215)
 	Set<String> sendCakeUserIds = new HashSet();
 	
 	@Type(type = "setType")
+	@Column(length = 16777215)
 	Set<String> sendFireworkUserIds = new HashSet();
 	
 	Set<String> getSendWishWordUserIds (){

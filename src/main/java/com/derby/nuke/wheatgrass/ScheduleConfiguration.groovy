@@ -43,7 +43,7 @@ class ScheduleConfiguration implements UserDownloadService {
 	
 	@Scheduled(cron = '${birthday.wish.record.cron}')
 	void birthdayWishRecord(){
-		birthdayService.birthdayWishRecord(LocalDate.now());
+		birthdayService.birthdayWishRecord(LocalDate.now().plusMonths(1));
 	}
 
 	@Override

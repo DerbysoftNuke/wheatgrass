@@ -2,6 +2,7 @@ package com.derby.nuke.wheatgrass.wechat.controller.birthday
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 import javax.servlet.http.HttpSession
 import javax.transaction.Transactional
@@ -42,7 +43,7 @@ class BirthdayController extends WechatController{
 	}
 
 	@RequestMapping(value="/showWish", method = RequestMethod.GET)
-	def showWish(HttpSession session,@RequestParam(value="birthday") birthday){
+	def showWish(HttpSession session, @RequestParam(value="birthday") birthday){
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
@@ -59,16 +60,24 @@ class BirthdayController extends WechatController{
 			birthdayWishWordList.get(birthdayWishWordList.size()-1).add(birthdayWishWords.get(index));
 		}
 
-		return view("show_wish",["birthdayWish":birthdayWish,"birthdayWishWordList":birthdayWishWordList,"age":age,"birthday":birthday.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日"))]);
+		def params = ["birthdayWish":birthdayWish,"birthdayWishWordList":birthdayWishWordList,"age":age,"birthday":birthday.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日")), entrydays: "XXX"];
+		
+		def entryday = birthdayWish.user.entryday;
+		if(entryday != null){
+			def days = ChronoUnit.DAYS.between(entryday, birthday);
+			params["entrydays"] = days;
+		}
+		return view("show_wish",params);
 	}
 
 	@RequestMapping(value="/listWish", method = RequestMethod.GET)
-	def listWish(HttpSession session){
+	def listWish(HttpSession session, @RequestParam(value="date") date){
 		def userId = session.getAttribute(Consts.USER_ID);
 		if(userId == null){
 			throw new IllegalArgumentException("UserId not found");
 		}
-		LocalDate nextMonth = LocalDate.now().plusMonths(1);
+		
+		LocalDate nextMonth = LocalDate.parse(date);
 		List<BirthdayWish> birthdayWishes = birthdayService.findBirthdayWishes(nextMonth);
 		return view("list_wish",["userId":userId, "birthdayWishes": birthdayWishes, "month": nextMonth.getMonthValue()]);
 	}
@@ -112,5 +121,29 @@ class BirthdayController extends WechatController{
 			birthdayService.saveOrUpdate(birthdayWish);
 			return ["wisherCounts":birthdayWish.getSendWishWordUserIds().size()];
 		}
+	}
+	
+	@RequestMapping(value="/gift", method = RequestMethod.GET)
+	def gift(HttpSession session, @RequestParam(value="date") date){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+		date=LocalDate.parse(date);
+		
+		BirthdayWish birthdayWish=birthdayWishRepository.findByBirthdayAndUser(date,userId);
+		int flowerSize = birthdayWish.sendFlowerUserIds.size();
+		int cakeSize = birthdayWish.sendCakeUserIds.size();
+		int fireworkSize = birthdayWish.sendFireworkUserIds.size();
+		int maxSize = Collections.max(Lists.newArrayList(flowerSize, cakeSize, fireworkSize));
+		def viewName = null;
+		if(maxSize == cakeSize){
+			viewName = "gift_cake";
+		}else if(maxSize == flowerSize){
+			viewName = "gift_flower";
+		}else{
+			viewName = "gift_secret";
+		}
+		return view(viewName,[count: maxSize]);
 	}
 }
