@@ -88,9 +88,9 @@ class BirthdayService implements BirthdayRpcService{
 			news: [
 				articles: [
 					[
-						title: "${nextMonth.getMonthValue()}月寿星",
-						description: "${nextMonth.getMonthValue()}月就要来临了, 快来为${nextMonth.getMonthValue()}月的寿星送礼、送祝福吧！",
-						url: externalUrl+"/wechat/listWish?date="+nextMonth
+						title: nextMonth.getMonthValue()+"月寿星",
+						description: nextMonth.getMonthValue()+"月就要来临了, 快来为"+nextMonth.getMonthValue()+"月的寿星送礼、送祝福吧！",
+						url: externalUrl+"/wechat/birthday/listWish?date="+nextMonth
 					]
 				]
 			]
