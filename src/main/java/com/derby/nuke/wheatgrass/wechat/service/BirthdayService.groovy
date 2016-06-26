@@ -47,7 +47,7 @@ class BirthdayService implements BirthdayRpcService{
 						title: "快来，快来！收礼物！收礼物咯！！",
 						description: "快来，快来！收礼物！收礼物咯！！",
 						url: externalUrl+"/wechat/birthday/gift?date="+today,
-						picurl: externalUrl+"/img/birthday/cover2.jpg"
+						picurl: externalUrl+"/img/birthday/cover2.png"
 					]
 				]
 			]
