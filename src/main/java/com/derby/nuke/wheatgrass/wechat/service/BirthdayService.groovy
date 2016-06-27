@@ -89,7 +89,7 @@ class BirthdayService implements BirthdayRpcService{
 						title: nextMonth.getMonthValue()+"月寿星",
 						description: "点击图片进入",
 						url: externalUrl+"/wechat/birthday/listWish?date="+nextMonth,
-						picurl: externalUrl+"/img/birthday/birthday_cover_"+nextMonth.getMonthValue()+".png"
+						picurl: externalUrl+"/img/birthday/birthday_cover_"+nextMonth.getMonthValue()+".jpg"
 					]
 				]
 			]
