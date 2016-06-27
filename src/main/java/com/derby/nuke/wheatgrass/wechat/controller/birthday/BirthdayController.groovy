@@ -64,7 +64,7 @@ class BirthdayController extends WechatController{
 		
 		def entryday = birthdayWish.user.entryday;
 		if(entryday != null){
-			def days = ChronoUnit.DAYS.between(entryday, birthday);
+			def days = ChronoUnit.DAYS.between(entryday, LocalDate.now());
 			params["entrydays"] = days;
 		}
 		return view("show_wish",params);
