@@ -39,13 +39,11 @@ class BirthdayService implements BirthdayRpcService{
 				articles: [
 					[
 						title: "在这个特殊的日子里......",
-						description: "在这个特殊的日子里......",
 						url: externalUrl+"/wechat/birthday/showWish?birthday="+today,
 						picurl: externalUrl+"/img/birthday/cover1.jpg"
 					],
 					[
 						title: "快来，快来！收礼物！收礼物咯！！",
-						description: "快来，快来！收礼物！收礼物咯！！",
 						url: externalUrl+"/wechat/birthday/gift?date="+today,
 						picurl: externalUrl+"/img/birthday/cover2.png"
 					]
@@ -89,8 +87,9 @@ class BirthdayService implements BirthdayRpcService{
 				articles: [
 					[
 						title: nextMonth.getMonthValue()+"月寿星",
-						description: nextMonth.getMonthValue()+"月就要来临了, 快来为"+nextMonth.getMonthValue()+"月的寿星送礼、送祝福吧！",
-						url: externalUrl+"/wechat/birthday/listWish?date="+nextMonth
+						description: "点击图片进入",
+						url: externalUrl+"/wechat/birthday/listWish?date="+nextMonth,
+						picurl: externalUrl+"/img/birthday/birthday_cover_"+nextMonth.getMonthValue()+".png"
 					]
 				]
 			]
