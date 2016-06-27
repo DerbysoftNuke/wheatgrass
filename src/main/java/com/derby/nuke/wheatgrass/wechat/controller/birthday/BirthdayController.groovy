@@ -92,9 +92,6 @@ class BirthdayController extends WechatController{
 		BirthdayWish birthdayWish = birthdayService.findOne(birthdayWishId);
 
 		if(type!=null){
-			birthdayWish.sendFlowerUserIds.remove(userId);
-			birthdayWish.sendCakeUserIds.remove(userId);
-			birthdayWish.sendFireworkUserIds.remove(userId);
 			if("flower".equals(type)){
 				birthdayWish.sendFlowerUserIds.add(userId);
 			} else if("cake".equals(type)){
@@ -106,7 +103,6 @@ class BirthdayController extends WechatController{
 			return [
 				"flowerCounts": birthdayWish.sendFlowerUserIds.size(),
 				"cakeCounts": birthdayWish.sendCakeUserIds.size(), 
-				
 				"fireworkCounts": birthdayWish.sendFireworkUserIds.size()
 			];
 		} else if(word!=null){
