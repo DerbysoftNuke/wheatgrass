@@ -94,6 +94,8 @@ class BirthdayService implements BirthdayRpcService{
 				]
 			]
 		]
-		wechatService.sendMessage(["@all"], messageType, message, assistantAgentId);
+		if(users.size() > 0){
+			wechatService.sendMessage(["@all"], messageType, message, assistantAgentId);
+		}
 	}
 }
