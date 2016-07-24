@@ -109,21 +109,21 @@
         </section>
      	<!--slide2-->   
         <section class="swiper-slide swiper-slide2">
-        <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:195px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:inline="text" >
+        <div class="ani resize" style="color:#d73877;width:248px;height:30px;line-height:30px;left:36px;top:195px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="0s" th:inline="text" >
         德比伙伴为你送出了[[${#sets.size(birthdayWish.sendFlowerUserIds)}]]朵鲜花
         <br/>
         [[${#sets.size(birthdayWish.sendCakeUserIds)}]]块蛋糕
         <br/>
         [[${#sets.size(birthdayWish.sendFireworkUserIds)}]]份神秘礼物。
         </div> 
-        <div class="ani resize" style="color:#B22222;width:248px;height:30px;line-height:30px;left:36px;top:355px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="1s"  th:text="再来看看大家送出的祝福吧！"/> 
+        <div class="ani resize" style="color:#a5223a;width:248px;height:30px;line-height:30px;left:36px;top:355px;" swiper-animate-effect="bounce" swiper-animate-duration="0.5s" swiper-animate-delay="1s"  th:text="再来看看大家送出的祝福吧！"/> 
         
         </section>
      	<!--slide3-->
      	
         <section class="swiper-slide swiper-slide3" th:each="birthdayWishWords:${birthdayWishWordList}">
         <div style="height:100px"></div>
-        <div th:each="birthdayWishWord,iteration:${birthdayWishWords}" class="ani resize" style="color:#0000FF;width:320px;height:40px;left:0px;position:relative;margin-top:15px;"  swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" th:attrappend="swiper-animate-delay=${iteration.index*0.5}+'s'"  th:text="${birthdayWishWord.content}"/> 
+        <div th:each="birthdayWishWord,iteration:${birthdayWishWords}" class="ani resize" style="color:#a32b72;width:320px;height:40px;left:0px;position:relative;margin-top:15px;"  swiper-animate-effect="zoomIn" swiper-animate-duration="0.5s" th:attrappend="swiper-animate-delay=${iteration.index*0.5}+'s'"  th:text="${birthdayWishWord.content}"/> 
         
         </section>
     </div>
