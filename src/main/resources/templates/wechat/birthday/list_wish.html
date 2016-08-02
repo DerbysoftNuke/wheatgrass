@@ -11,8 +11,9 @@
 				color: blue;
 			}
 			.background{
-				background: url([[@{/img/birthday/wish-list.png}]]);
-				background-size: 100% 100%;
+				background: url([[@{/img/birthday/wish-list-2.png}]]);
+				background-size: 100% 300px;
+				background-repeat: repeat-y;
 			}
 			.weui_panel{
 				background-color:transparent;
@@ -131,7 +132,7 @@
 	</head>
 <body class="background">
 	<div class="weui_panel weui_panel_access">
-        <div class="weui_panel_hd"><h2 class="weui_media_title" style="color:red;">&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;</h2></div>
+        <img th:src="@{/img/birthday/wish-list-1.png}" style="width:100%;" />
         <div class="weui_panel_bd">
             <div class="weui_media_box weui_media_text">
                 <h4 class="weui_media_title" style="font-weight:bold;color:#9c296d">各位德比小伙伴：</h4>
@@ -154,11 +155,11 @@
                 	<ul class="weui_media_info" style="vertical-align: middle;">
 	                     <li class="weui_media_info_meta" >
 	                     	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'sendFlowerWish(\''+${birthdayWish.id}+'\',this)'" th:src="@{/img/birthday/flower.png}" height="20" width="20"/>
-	                     	<span class="flower" style="vertical-align:middle;margin-right:15px;" th:text="${'['+birthdayWish.sendFlowerUserIds.size()+']'}">[100]</span>
+	                     	<span class="flower" style="vertical-align:middle;margin-right:15px;color:black;" th:text="${'['+birthdayWish.sendFlowerUserIds.size()+']'}">[100]</span>
 	                     	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'sendCakeWish(\''+${birthdayWish.id}+'\',this)'" th:src="@{/img/birthday/cake.png}" height="20" width="20"/>
-	                     	<span class="cake" style="vertical-align:middle;margin-right:15px;" th:text="${'['+birthdayWish.sendCakeUserIds.size()+']'}">[100]</span>
+	                     	<span class="cake" style="vertical-align:middle;margin-right:15px;color:black;" th:text="${'['+birthdayWish.sendCakeUserIds.size()+']'}">[100]</span>
 	                     	<img class="weui_media_appmsg_thumb agree_answer" th:onclick="'sendFireworkWish(\''+${birthdayWish.id}+'\',this)'" th:src="@{/img/birthday/firework.png}" height="20" width="20"/>
-	                     	<span class="firework" style="vertical-align:middle;margin-right:15px;" th:text="${'['+birthdayWish.sendFireworkUserIds.size()+']'}">[100]</span>
+	                     	<span class="firework" style="vertical-align:middle;margin-right:15px;color:black;" th:text="${'['+birthdayWish.sendFireworkUserIds.size()+']'}">[100]</span>
 	                     </li>
 	                 </ul>
                 </p>
