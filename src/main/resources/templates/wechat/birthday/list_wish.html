@@ -11,7 +11,7 @@
 				color: blue;
 			}
 			.background{
-				background: url([[@{/img/birthday/wish-list.jpg}]]);
+				background: url([[@{/img/birthday/wish-list.png}]]);
 				background-size: 100% 100%;
 			}
 			.weui_panel{
@@ -131,16 +131,16 @@
 	</head>
 <body class="background">
 	<div class="weui_panel weui_panel_access">
-        <div class="weui_panel_hd"><h2 class="weui_media_title" style="color:red;">送祝福啦！</h2></div>
+        <div class="weui_panel_hd"><h2 class="weui_media_title" style="color:red;">&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>&nbsp;</h2></div>
         <div class="weui_panel_bd">
             <div class="weui_media_box weui_media_text">
-                <h4 class="weui_media_title" style="font-weight:bold;">各位德比小伙伴：</h4>
-                <p class="weui_media_desc" style="font-weight:bold;font-size:20px;color:#551A8B
-;"><span th:text="${month+'月'}"></span>就要来临，快来为<span th:text="${month+'月'}"></span>的寿星们送礼，送祝福吧！</p>
+                <h4 class="weui_media_title" style="font-weight:bold;color:#9c296d">各位德比小伙伴：</h4>
+                <p class="weui_media_desc" style="font-weight:bold;font-size:20px;color:#9c296d
+;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${month+'月'}"></span>就要来临，快来为<span th:text="${month+'月'}"></span>的寿星们送礼，送祝福吧！</p>
             </div>
             <div class="weui_media_box weui_media_text">
-                <h4 class="weui_media_title" style="font-weight:bold;"><span th:text="${month+'月'}"></span>寿星：</h4>
-                <p class="weui_media_desc" style="font-weight:bold;font-size:20px;"><span style="margin-right:10px;" th:each="birthdayWish : ${birthdayWishes}" th:text="${birthdayWish.user.name} "></span></p>
+                <h4 class="weui_media_title" style="font-weight:bold;color:#79328b"><span th:text="${month+'月'}"></span>寿星：</h4>
+                <p class="weui_media_desc" style="font-weight:bold;font-size:20px;color:#79328b"><span style="margin-right:10px;" th:each="birthdayWish : ${birthdayWishes}" th:text="${birthdayWish.user.name} "></span></p>
             </div>
         </div>
     </div>
@@ -149,7 +149,7 @@
         <!-- <div class="weui_panel_hd">送祝福啦！</div> -->
         <div class="weui_panel_bd">
             <div class="weui_media_box weui_media_text">
-                <h4 class="weui_media_title" th:text="${birthdayWish.user.name + ' [' +birthdayWish.user.department + ']'}" style="font-weight:bold;">张三（部门）</h4>
+                <h4 class="weui_media_title" th:text="${birthdayWish.user.name + ' [' +birthdayWish.user.department + ']'}" style="font-weight:bold;color:#291c8d">张三（部门）</h4>
                 <p class="weui_media_desc">
                 	<ul class="weui_media_info" style="vertical-align: middle;">
 	                     <li class="weui_media_info_meta" >
@@ -164,7 +164,7 @@
                 </p>
             </div>
             <div class="weui_media_box weui_media_text">
-                 已有[<span class="wisherCounts" th:text="${birthdayWish.birthdayWishWords.size()}"></span>]人送出了祝福，<a class="send_wish" style="font-weight:bold;">我也要说2句</a><br/>
+                 <span style="color:#64605e">已有[<span class="wisherCounts" th:text="${birthdayWish.birthdayWishWords.size()}"></span>]人送出了祝福</span>，<a class="send_wish" style="font-weight:bold;color:#2615a5">我也要说2句</a><br/>
                  <form class="wish_form" style="display: none;" th:id="${birthdayWish.id}" th:if="${!#lists.contains(birthdayWish.getSendWishWordUserIds(), userId)}">
 					<div class="weui_cells weui_cells_form">
 							<div class="weui_cell">
