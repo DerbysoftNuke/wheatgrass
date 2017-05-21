@@ -25,7 +25,7 @@ class RobotService{
 	def invoke(params){
 		def xmlRequest = new StringWriter();
 		marshaller.marshal(MessageContext.get().inputMessage, xmlRequest);
-		def response = client.execute(RequestBuilder.post().setUri(url).setEntity(new StringEntity(xmlRequest.toString(), "application/json", "UTF-8")).build());
+		def response = client.execute(RequestBuilder.post().setUri(url).setEntity(new StringEntity(xmlRequest.toString(), "text/xml", "UTF-8")).build());
 		return unmarshaller.unmarshal(response.getEntity().getContent());
 	}
 	

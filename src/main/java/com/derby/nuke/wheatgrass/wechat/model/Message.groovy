@@ -69,7 +69,9 @@ class Message{
 	@XmlElementWrapper(name="Articles") @XmlElement(name="item") def List<Article> articles;
 	
 	@XmlElement(name="MsgId") def String msgId;
-	
+
+	@XmlElement(name="Image") def Image image;
+
 	enum MessageType{
 		text, image, voice, video, location, link, music, news
 	}
@@ -84,4 +86,10 @@ class Article{
 	@XmlElement(name="PicUrl") def String picUrl;
 	@XmlElement(name="Url") def String Url;
 	
+}
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Image")
+class Image{
+	@XmlElement(name="MediaId") def String mediaId;
 }
