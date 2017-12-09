@@ -1,5 +1,6 @@
-package com.derby.nuke.wheatgrass.integration;
+package com.derby.nuke.wheatgrass.integration
 
+import com.derby.nuke.wheatgrass.wechat.service.support.BirthdayRpcService
 import org.junit.Test
 import org.springframework.boot.test.TestRestTemplate
 
@@ -10,6 +11,8 @@ import com.derby.nuke.wheatgrass.wechat.service.UserDownloadService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient
 import com.googlecode.jsonrpc4j.ProxyUtil
+
+import java.time.LocalDate
 
 class JsonRpcTools {
 	
@@ -82,6 +85,17 @@ class JsonRpcTools {
 				
 			}
 		}
+	}
+
+	@Test
+	void birthdayWishRecord(){
+		JsonRpcHttpClient client = new JsonRpcHttpClient(new URL("http://127.0.0.1:8080/birthday.ci"));
+
+		BirthdayRpcService service = ProxyUtil.createClientProxy(
+				getClass().getClassLoader(),
+				BirthdayRpcService.class,
+				client);
+		println service.birthdayWishRecord(LocalDate.now())
 	}
 
 }

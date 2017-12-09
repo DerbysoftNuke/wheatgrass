@@ -41,6 +41,7 @@ class User{
 	@JsonIgnore
 	String password;
 	String name;
+	String englishName;
 	String nickName;
 	String department;
 	String position;

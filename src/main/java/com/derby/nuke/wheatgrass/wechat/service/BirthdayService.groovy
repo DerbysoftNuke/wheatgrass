@@ -27,7 +27,7 @@ class BirthdayService implements BirthdayRpcService{
 
 	@Value('${web.external.url}')
 	def externalUrl;
-	@Value('${assistant.agent.id ?: "0"}')
+	@Value('${wechat.birthday.agent.id ?: "0"}')
 	def assistantAgentId;
 
 	def sendReminder(LocalDate today){
