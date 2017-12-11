@@ -25,7 +25,6 @@ class WechatService {
     @Value('${wechat.agent.id}')
     def agentId;
 
-    private def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
     private final def cache = CacheBuilder.from("expireAfterWrite=1h").build();
 
     def getAccessToken() {
@@ -100,15 +99,25 @@ class WechatService {
     }
 
     private def get(uri) {
-        def response = client.execute(new HttpGet(url + uri));
-        return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);
+        def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
+        try {
+            def response = client.execute(new HttpGet(url + uri));
+            return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);
+        } finally {
+            client.close()
+        }
     }
 
     private def post(uri, json) {
         StringWriter out = new StringWriter();
         new ObjectMapper().writeValue(out, json);
         def request = RequestBuilder.post().setUri(url + uri).addHeader("Content-Type", "applicatoin/json;charset=UTF-8").setEntity(new StringEntity(out.toString(), "UTF-8")).build();
-        def response = client.execute(request);
-        return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);
+        def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
+        try {
+            def response = client.execute(request);
+            return new ObjectMapper().readValue(response.getEntity().getContent(), Map.class);
+        } finally {
+            client.close()
+        }
     }
 }
