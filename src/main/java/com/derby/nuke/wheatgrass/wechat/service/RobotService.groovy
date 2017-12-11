@@ -24,16 +24,19 @@ class RobotService {
     def marshaller = JAXBContext.newInstance(Message.class).createMarshaller();
     def unmarshaller = JAXBContext.newInstance(Message.class).createUnmarshaller();
 
-    private def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
-
     def invoke(params) {
         def xmlRequest = new StringWriter();
         marshaller.marshal(MessageContext.get().inputMessage, xmlRequest);
         logger.info("Send request >| {}", xmlRequest.toString());
-        def response = client.execute(RequestBuilder.post().setUri(url).setEntity(new StringEntity(xmlRequest.toString(), "text/xml", "UTF-8")).build());
-        def xmlReponse = IOUtils.toString(response.getEntity().content)
-        logger.info("Receive response <| {}", xmlReponse.toString());
-        return unmarshaller.unmarshal(new StringReader(xmlReponse));
+        def client = HttpClients.custom().setDefaultCookieStore(new BasicCookieStore()).build();
+        try {
+            def response = client.execute(RequestBuilder.post().setUri(url).setEntity(new StringEntity(xmlRequest.toString(), "text/xml", "UTF-8")).build());
+            def xmlReponse = IOUtils.toString(response.getEntity().content)
+            logger.info("Receive response <| {}", xmlReponse.toString());
+            return unmarshaller.unmarshal(new StringReader(xmlReponse));
+        } finally {
+            client.close();
+        }
     }
 
 }
