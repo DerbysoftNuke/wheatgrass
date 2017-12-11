@@ -1,20 +1,18 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
+import com.derby.nuke.wheatgrass.wechat.model.Message
+import com.derby.nuke.wheatgrass.wechat.model.MessageContext
 import org.apache.commons.io.IOUtils
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
-import javax.xml.bind.JAXBContext
-
 import org.apache.http.client.methods.RequestBuilder
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.BasicCookieStore
 import org.apache.http.impl.client.HttpClients
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
-import com.derby.nuke.wheatgrass.wechat.model.Message
-import com.derby.nuke.wheatgrass.wechat.model.MessageContext
+import javax.xml.bind.JAXBContext
 
 @Service
 class RobotService {
@@ -35,7 +33,7 @@ class RobotService {
         def response = client.execute(RequestBuilder.post().setUri(url).setEntity(new StringEntity(xmlRequest.toString(), "text/xml", "UTF-8")).build());
         def xmlReponse = IOUtils.toString(response.getEntity().content)
         logger.info("Receive response <| {}", xmlReponse.toString());
-        return unmarshaller.unmarshal(new ByteArrayOutputStream(xmlReponse.getBytes("UTF-8")));
+        return unmarshaller.unmarshal(new StringReader(xmlReponse));
     }
 
 }
