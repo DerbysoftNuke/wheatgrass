@@ -193,4 +193,18 @@ class BirthdayController extends WechatController{
 			return AjaxResponse.fail("AlreadySendWish");
 		}
 	}
+
+	@RequestMapping(value = "/wish", method = RequestMethod.GET)
+	@Transactional
+	def listWish(HttpSession session, @RequestParam(value = "birthdayWishId") String birthdayWishId) {
+		def userId = session.getAttribute(Consts.USER_ID)
+		if (userId == null) {
+			throw new IllegalArgumentException("UserId not found")
+		}
+
+		BirthdayWish birthdayWish = birthdayService.findOne(birthdayWishId)
+		List<BirthdayWishWord> birthdayWishWords = birthdayService.findBirthdayWishWords(birthdayWishId)
+
+		return view("wish", ["userId": userId, "birthdayWish": birthdayWish, "birthdayWishWords": birthdayWishWords]);
+	}
 }
