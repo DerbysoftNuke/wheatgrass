@@ -46,6 +46,10 @@ class BirthdayWishWord{
 	@Column(length = 16777215)
 	String content;
 
+	@Type(type = "setType")
+	@Column(length = 16777215)
+	Set<String> gifts = new HashSet();
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "wisher_id")
 	User wisher;

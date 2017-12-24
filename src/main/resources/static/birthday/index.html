@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"  content="width=device-width,maximum-scale=1,minimum-scale=1,initial-scale=1,user-scalable=no">
+<title>Birthday Greetings</title>
+<link type="text/css" rel="stylesheet" href="css/style.css">
+<script src="js/jquery-3.2.1.js"></script>
+<script>
+	$(document).ready(function(){
+		/*	hide arrow when scroll */
+		$(window).scroll(function(){ 
+		if ($(window).scrollTop() > 0) {
+			$(".arrow").fadeOut();
+		} else {
+			$(".arrow").fadeIn();
+		}
+		});
+		
+		/* toggle btnGift */
+		$(".btnGift span").click(function() {
+            if($(this).hasClass("active")){
+                 $(this).removeClass("active");
+            } else {
+				$(this).addClass("active").siblings().removeClass("active");
+            }
+
+        });
+		
+		/* toggle btnComment */
+		$(".btnComment").click(function() {
+            if($(this).hasClass("disabled")){
+                 $(this).removeClass("disabled").next(".widgetComment").fadeOut();
+            } else {
+				$(this).addClass("disabled").next(".widgetComment").fadeIn();;
+            }
+
+        });
+		
+		
+			
+		
+	});
+</script>
+</head>
+
+<body>
+
+	<div class="toast success">发送成功</div>
+	<div class="toast failed">发送失败</div>
+	
+	<header>
+		<img src="images/banner.png"/>
+		<div class="month">1</div>
+	</header>
+	<div class="main">
+		<div class="title">1月寿星</div>
+		<div class="list">
+			<span>赵倩</span><span>张天晓</span><span>邱爽</span><span>赵倩</span><span>张天晓</span><span>邱爽</span><span>赵倩</span><span>张天晓</span><span>邱爽</span><span>赵倩</span><span>张天晓</span><span>邱爽</span><span>赵倩</span><span>张天晓</span><span>邱爽</span><span>赵倩</span><span>张天晓</span><span>邱爽</span>
+		</div>
+	</div>
+	<ul class="details">
+		<li>
+			<div class="portrait">
+				<img src="images/portrait.png">
+				<div class="info">
+					<h1>赵倩 Jodie Zhao</h1>
+					<h2>产品支持部</h2>	
+				</div>
+			</div>
+			<div class="giftList">
+				<span class="icon-icon-cake">12</span>
+				<span class="icon-icon-bag">1</span>
+				<span class="icon-icon-kiss">199</span>
+			</div>
+			<button class="btnComment icon-icon-heart">我要送祝福</button>
+			<div class="widgetComment">
+				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+				<div class="btnGift">
+					<span class="icon-icon-cake"></span>
+					<span class="icon-icon-bag"></span>
+					<span class="icon-icon-kiss"></span>
+				</div>
+				<button class="btnSend">立即送出</button>
+			</div>
+		</li>
+		<li>
+			<div class="portrait">
+				<img src="images/portrait.png">
+				<div class="info">
+					<h1>赵倩 Jodie Zhao</h1>
+					<h2>产品支持部</h2>	
+				</div>
+			</div>
+			<div class="giftList">
+				<span class="icon-icon-cake">199</span>
+				<span class="icon-icon-bag">199</span>
+				<span class="icon-icon-kiss">199</span>
+			</div>
+			<button class="btnComment icon-icon-heart">我要送祝福</button>
+			<div class="widgetComment">
+				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+				<div class="btnGift">
+					<span class="icon-icon-cake"></span>
+					<span class="icon-icon-bag"></span>
+					<span class="icon-icon-kiss"></span>
+				</div>
+				<button class="btnSend">立即送出</button>
+			</div>
+		</li>
+		<li>
+			<div class="portrait">
+				<img src="images/portrait.png">
+				<div class="info">
+					<h1>赵倩 Jodie Zhao</h1>
+					<h2>产品支持部</h2>	
+				</div>
+			</div>
+			<div class="giftList">
+				<span class="icon-icon-cake">199</span>
+				<span class="icon-icon-bag">199</span>
+				<span class="icon-icon-kiss">199</span>
+			</div>
+			<button class="btnComment icon-icon-heart">我要送祝福</button>
+			<div class="widgetComment">
+				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+				<div class="btnGift">
+					<span class="icon-icon-cake"></span>
+					<span class="icon-icon-bag"></span>
+					<span class="icon-icon-kiss"></span>
+				</div>
+				<button class="btnSend">立即送出</button>
+			</div>
+		</li>
+		<li>
+			<div class="portrait">
+				<img src="images/portrait.png">
+				<div class="info">
+					<h1>赵倩 Jodie Zhao</h1>
+					<h2>产品支持部</h2>	
+				</div>
+			</div>
+			<div class="giftList">
+				<span class="icon-icon-cake">199</span>
+				<span class="icon-icon-bag">199</span>
+				<span class="icon-icon-kiss">199</span>
+			</div>
+			<button class="btnComment icon-icon-heart">我要送祝福</button>
+			<div class="widgetComment">
+				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+				<div class="btnGift">
+					<span class="icon-icon-cake"></span>
+					<span class="icon-icon-bag"></span>
+					<span class="icon-icon-kiss"></span>
+				</div>
+				<button class="btnSend">立即送出</button>
+			</div>
+		</li>
+		<li>
+			<div class="portrait">
+				<img src="images/portrait.png">
+				<div class="info">
+					<h1>赵倩 Jodie Zhao</h1>
+					<h2>产品支持部</h2>	
+				</div>
+			</div>
+			<div class="giftList">
+				<span class="icon-icon-cake">199</span>
+				<span class="icon-icon-bag">199</span>
+				<span class="icon-icon-kiss">199</span>
+			</div>
+			<button class="btnComment icon-icon-heart">我要送祝福</button>
+			<div class="widgetComment">
+				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+				<div class="btnGift">
+					<span class="icon-icon-cake"></span>
+					<span class="icon-icon-bag"></span>
+					<span class="icon-icon-kiss"></span>
+				</div>
+				<button class="btnSend">立即送出</button>
+			</div>
+		</li>
+		<li>
+			<div class="portrait">
+				<img src="images/portrait.png">
+				<div class="info">
+					<h1>赵倩 Jodie Zhao</h1>
+					<h2>产品支持部</h2>	
+				</div>
+			</div>
+			<div class="giftList">
+				<span class="icon-icon-cake">199</span>
+				<span class="icon-icon-bag">199</span>
+				<span class="icon-icon-kiss">199</span>
+			</div>
+			<button class="btnComment icon-icon-heart">我要送祝福</button>
+			<div class="widgetComment">
+				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+				<div class="btnGift">
+					<span class="icon-icon-cake"></span>
+					<span class="icon-icon-bag"></span>
+					<span class="icon-icon-kiss"></span>
+				</div>
+				<button class="btnSend">立即送出</button>
+			</div>
+		</li>
+		
+	</ul>
+	<div class="arrow"></div>
+</body>
+</html>

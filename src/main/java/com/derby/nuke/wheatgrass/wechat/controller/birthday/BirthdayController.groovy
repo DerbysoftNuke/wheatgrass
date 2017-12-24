@@ -142,4 +142,59 @@ class BirthdayController extends WechatController{
 		}
 		return view(viewName,[count: maxSize]);
 	}
+
+	/*改版*/
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	def list(HttpSession session, @RequestParam(value="date") String date){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+
+		LocalDate nextMonth = LocalDate.parse(date);
+		List<BirthdayWish> birthdayWishes = birthdayService.findBirthdayWishes(nextMonth);
+		return view("list",["userId":userId, "birthdayWishes": birthdayWishes, "month": nextMonth.getMonthValue()]);
+	}
+
+	@RequestMapping(value="/wish/send", method = RequestMethod.POST)
+	@Transactional
+	def sendBirthdayWish(HttpSession session, @RequestParam(value="birthdayWishId") String birthdayWishId, @RequestParam(value="gift", required=false) String gift, @RequestParam(value="word", required=false)String word){
+		def userId = session.getAttribute(Consts.USER_ID);
+		if(userId == null){
+			throw new IllegalArgumentException("UserId not found");
+		}
+		BirthdayWish birthdayWish = birthdayService.findOne(birthdayWishId);
+		BirthdayWishWord birthdayWishWord = birthdayService.findBirthdayWishWord(birthdayWishId, userId)
+//		if(birthdayWishWord==null){
+//
+//		} else {
+//
+//		}
+		/*if(type!=null){
+			if("flower".equals(type)){
+				birthdayWish.sendFlowerUserIds.add(userId);
+			} else if("cake".equals(type)){
+				birthdayWish.sendCakeUserIds.add(userId);
+			} else if("firework".equals(type)){
+				birthdayWish.sendFireworkUserIds.add(userId);
+			}
+			birthdayService.saveOrUpdate(birthdayWish);
+			return [
+					"flowerCounts": birthdayWish.sendFlowerUserIds.size(),
+					"cakeCounts": birthdayWish.sendCakeUserIds.size(),
+					"fireworkCounts": birthdayWish.sendFireworkUserIds.size()
+			];
+		} else if(word!=null){
+			Set<String> wisherIds = birthdayWish.getSendWishWordUserIds();
+			BirthdayWishWord birthdayWishWord = new BirthdayWishWord();
+			birthdayWishWord.setContent(word);
+			birthdayWishWord.setCreateTime(new Date());
+			User user = userRepository.getByUserId(userId);
+			birthdayWishWord.setWisher(user);
+			birthdayWishWord.setBirthdayWish(birthdayWish);
+			birthdayWish.getBirthdayWishWords().add(birthdayWishWord);
+			birthdayService.saveOrUpdate(birthdayWish);
+			return ["wisherCounts":birthdayWish.getSendWishWordUserIds().size()];
+		}*/
+	}
 }

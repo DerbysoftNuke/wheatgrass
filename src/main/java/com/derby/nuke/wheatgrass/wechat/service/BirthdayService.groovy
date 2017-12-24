@@ -1,5 +1,8 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
+import com.derby.nuke.wheatgrass.entity.BirthdayWishWord
+import com.derby.nuke.wheatgrass.repository.BirthdayWishWordRepository
+
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 
@@ -22,6 +25,8 @@ class BirthdayService implements BirthdayRpcService{
 	UserRepository userRepository;
 	@Autowired
 	BirthdayWishRepository birthdayWishRepository;
+	@Autowired
+	BirthdayWishWordRepository birthdayWishWordRepository;
 	@Autowired
 	WechatService wechatService;
 
@@ -65,6 +70,10 @@ class BirthdayService implements BirthdayRpcService{
 
 	void saveOrUpdate(BirthdayWish birthdayWish){
 		birthdayWishRepository.save(birthdayWish);
+	}
+
+	BirthdayWishWord findBirthdayWishWord(String birthdayWishId, String userId){
+		return birthdayWishWordRepository.findByBirthdayWishIdAndWisherId(birthdayWishId,userRepository.getByUserId(userId).getId())
 	}
 
 	def birthdayWishRecord(LocalDate nextMonth){
