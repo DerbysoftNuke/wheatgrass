@@ -82,4 +82,15 @@ class BirthdayWish{
 		return userIds;
 	}
 
+	def countGifts(Collection<String> gifts){
+		for (String  gift: gifts) {
+			countGift(gift)
+		}
+	}
+    def countGift(String gift){
+        Integer count = giftCounts.getOrDefault(gift, 0) + 1
+        giftCounts.put(gift, count)
+        return count
+    }
+
 }

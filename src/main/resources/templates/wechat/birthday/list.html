@@ -21,72 +21,63 @@
 				dataType:"json",
 				success: function(data){
 					showToast();
-					$(ele).siblings("span.flower").text("["+data.flowerCounts+"]");
-					$(ele).siblings("span.cake").text("["+data.cakeCounts+"]");
-					$(ele).siblings("span.firework").text("["+data.fireworkCounts+"]");
+
 				}
 			})
 		}
 		
-		function sendBirthdayWishWord(birthdayWishId, word){
+		function sendBirthdayWishWord(birthdayWishId, word, gift){
 			$.ajax({
-				url:[[@{/wechat/birthday/sendWish}]],
+				url:[[@{/wechat/birthday/wish/send}]],
 				type: "POST",
 				data:{
 					"word": word,
+					"gifts": gift, //可以传数组 aaa,bbb,ccc
 					"birthdayWishId": birthdayWishId
 				},
 				dataType:"json",
 				success: function(data){
-					showToast();
-					//$("#"+birthdayWishId).hide();
-					//$("#"+birthdayWishId).find(":input[name='content']").val("");
-					$("#"+birthdayWishId).siblings("span").find("span.wisherCounts").text(data.wisherCounts);
-					$("#"+birthdayWishId).remove();
+					if(data.success){
+                        showSuccessToast("发送成功");
+					} else {
+					    if(data.message=='AlreadySendWish'){
+                            showErrorToast("你已经发送过祝福！");
+						} else {
+                        	showErrorToast("发送失败");
+						}
+					}
+					var $ele = $("li[data-wish-id='"+birthdayWishId+"']");
+                	$ele.find(".widgetComment,.btnComment").hide();
+					$.each(data.data.giftCounts, function(i,e){
+						$ele.find(".icon-icon-"+i).text(e);
+					})
 				}
 			})
 		}
-		function toUserProfilePage(userId){
-			window.location.href = [[@{/wechat/expert/user}]] + "?userId=" + userId;
-		}
-		function sendFlowerWish(birthdayWishId, ele){
-			sendBirthdayWish(birthdayWishId, ele, "flower")
-		}
-		function sendCakeWish(birthdayWishId, ele){
-			sendBirthdayWish(birthdayWishId, ele, "cake")
-		}
-		function sendFireworkWish(birthdayWishId, ele){
-			sendBirthdayWish(birthdayWishId, ele, "firework")
-		}
-		function showToast() {
-            var $toast = $('#toast');
-			if ($toast.css('display') != 'none') {
-				return;
-			}
-			$toast.show();
-			setTimeout(function () {
-				$toast.hide();
-			}, 1500);
-        }
-		function showLoadingToast() {
-            var $loadingToast = $('#loadingToast');
-            if ($loadingToast.css('display') != 'none') {
-                return;
-            }
 
-            $loadingToast.show();
-            /*setTimeout(function () {
-                $loadingToast.hide();
-            }, 2000);*/
+        function showToast(config) {
+		    config = $.extend(true, {
+				success: true,
+				message: "操作成功",
+				delay: 1500
+			}, config);
+            var $toast = $('<div class="toast '+(config.success?'success':'failed')+'" style="position: fixed">'+config.message+'</div>');
+            $toast.appendTo($("body"));
+            $toast.show();
+            setTimeout(function () {
+                $toast.hide();
+            }, config.delay);
         }
-		function showDialog(content){
-			var $dialog = $('#dialog');
-            $dialog.show();
-            $dialog.find(".weui_dialog_bd").html(content);
-            $dialog.find('.weui_btn_dialog').one('click', function () {
-                $dialog.hide();
-            });
-	    }
+
+        function showSuccessToast(message) {
+            if (!message) message = "操作成功";
+            showToast({message: message});
+        }
+
+        function showErrorToast(message) {
+            if (!message) message = "操作失败";
+            showToast({success: false, message: message});
+        }
 		
 		$(document).ready(function(){
             /*	hide arrow when scroll */
@@ -123,33 +114,34 @@
 				if(form[0]){
 					form.toggle();
 				} else {
-					showDialog("你已送过祝福！");
+					showErrorToast("你已送过祝福！");
 				}
 			});
-			$("button.send_wish").click(function(){
-				var form = $(this).parents("form");
-				var content = form.find(":input[name='content']").val();
-				
-				if(!content){
-			    	showDialog("内容不能为空");
-			    	return;
-			    }
-			    if(content.length>200){
-			    	showDialog("内容字数超过200");
-			    	return;
-			    }
-			    var birthdayWishId = form.attr("id");
-			    sendBirthdayWishWord(birthdayWishId, content);
+
+			$("button.btnSend").click(function(){
+                var parent = $(this).parents("li")
+				var content = parent.find("textarea[name='content']").val();
+				var $gifts = parent.find(".btnGift span.active");
+                if(content == ''){
+                    if($gifts[0]==null){
+                        showErrorToast("请选择礼物");
+                        return;
+                    }
+				} else {
+                    if(content.length>20){
+                        showErrorToast("内容字数不能超过20");
+                        return false;
+                    }
+				}
+			    var birthdayWishId = parent.data("wish-id");
+			    var gift = $gifts.first().data("gift");
+			    sendBirthdayWishWord(birthdayWishId, content, gift);
 			});
 		});
 		/*]]>*/
 		</script>
 	</head>
 	<body>
-
-	<div class="toast success">发送成功</div>
-	<div class="toast failed">发送失败</div>
-
 	<header>
 		<img th:src="@{/birthday/images/banner.png}" src=""/>
 		<div class="month">1</div>
@@ -161,7 +153,7 @@
 		</div>
 	</div>
 	<ul class="details">
-		<li th:each="birthdayWish : ${birthdayWishes}">
+		<li th:each="birthdayWish : ${birthdayWishes}" th:attr="data-wish-id=${birthdayWish.id}" >
 			<div class="portrait">
 				<img th:src="${birthdayWish.user.imageUrl}"/>
 				<div class="info">
@@ -170,17 +162,17 @@
 				</div>
 			</div>
 			<div class="giftList">
-				<span class="icon-icon-cake" th:text="${birthdayWish.giftCounts.get('cake')}">0</span>
-				<span class="icon-icon-bag" th:text="${birthdayWish.giftCounts.get('bag')}">0</span>
-				<span class="icon-icon-kiss" th:text="${birthdayWish.giftCounts.get('kiss')}">0</span>
+				<span class="icon-icon-cake" th:text="${birthdayWish.giftCounts.getOrDefault('cake',0)}">0</span>
+				<span class="icon-icon-bag" th:text="${birthdayWish.giftCounts.getOrDefault('bag',0)}">0</span>
+				<span class="icon-icon-kiss" th:text="${birthdayWish.giftCounts.getOrDefault('kiss',0)}">0</span>
 			</div>
-			<button class="btnComment icon-icon-heart">我要送祝福</button>
-			<div class="widgetComment">
-				<textarea placeholder="送出你的祝福（限20个字以内）…"></textarea>
+			<button class="btnComment icon-icon-heart" th:unless="${#sets.contains(birthdayWishIds, birthdayWish.id) || birthdayWish.user.userId == userId}">我要送祝福</button>
+			<div class="widgetComment" >
+				<textarea placeholder="送出你的祝福（限20个字以内）…" name="content"></textarea>
 				<div class="btnGift">
-					<span class="icon-icon-cake"></span>
-					<span class="icon-icon-bag"></span>
-					<span class="icon-icon-kiss"></span>
+					<span class="icon-icon-cake" data-gift="cake"></span>
+					<span class="icon-icon-bag" data-gift="bag"></span>
+					<span class="icon-icon-kiss" data-gift="kiss"></span>
 				</div>
 				<button class="btnSend">立即送出</button>
 			</div>
