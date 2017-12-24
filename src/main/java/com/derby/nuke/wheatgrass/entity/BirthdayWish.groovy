@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
-import com.google.common.collect.Sets
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.hibernate.annotations.GenericGenerator
@@ -22,65 +21,42 @@ import java.time.LocalDate
 
 @Entity
 @TypeDefs([
-	@TypeDef(name = "setType", typeClass = SimpleCollectionType.class, parameters = [
-		@Parameter(name = SimpleCollectionType.SPLIT, value = ","),
-		@Parameter(name = SimpleCollectionType.ITEM_TYPE, value = "java.lang.String"),
-		@Parameter(name = SimpleCollectionType.COLLECTION_TYPE, value = "java.util.HashSet")
-	]),
-	@TypeDef(name = "dataMapType", typeClass = DataMapUserType.class, parameters = [
-			@Parameter(name = DataMapUserType.KEY_TYPE, value = "java.lang.String"),
-			@Parameter(name = DataMapUserType.VALUE_TYPE, value = "java.lang.Integer")
-	])
+        @TypeDef(name = "setType", typeClass = SimpleCollectionType.class, parameters = [
+                @Parameter(name = SimpleCollectionType.SPLIT, value = ","),
+                @Parameter(name = SimpleCollectionType.ITEM_TYPE, value = "java.lang.String"),
+                @Parameter(name = SimpleCollectionType.COLLECTION_TYPE, value = "java.util.HashSet")
+        ]),
+        @TypeDef(name = "dataMapType", typeClass = DataMapUserType.class, parameters = [
+                @Parameter(name = DataMapUserType.KEY_TYPE, value = "java.lang.String"),
+                @Parameter(name = DataMapUserType.VALUE_TYPE, value = "java.lang.Integer")
+        ])
 ])
-@EqualsAndHashCode(excludes=[])
-@ToString(excludes=[])
+@EqualsAndHashCode(excludes = [])
+@ToString(excludes = [])
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
-@Table(uniqueConstraints=[@UniqueConstraint(columnNames=["user_id", "birthday"])])
-class BirthdayWish{
+@Table(uniqueConstraints = [@UniqueConstraint(columnNames = ["user_id", "birthday"])])
+class BirthdayWish {
 
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid")
-	@Column(columnDefinition = "CHAR(32)")
-	@Id
-	String id;
-	
-	Date createTime;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(32)")
+    @Id
+    String id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	User user;
+    Date createTime;
 
-	// birthday of this year
-	@JsonDeserialize(using = LocalDateDeserializer.class)
-	@JsonSerialize(using = LocalDateSerializer.class)
-	LocalDate birthday;
-	
-	@OneToMany(mappedBy = "birthdayWish", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-	List<BirthdayWishWord> birthdayWishWords=new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    User user;
 
-	@Type(type = "dataMapType")
-	@Column
-	Map<String, Integer> giftCounts = new HashMap<>();
+    // birthday of this year
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    LocalDate birthday;
 
-	@Type(type = "setType")
-	@Column(length = 16777215)
-	Set<String> sendFlowerUserIds = new HashSet();
-	
-	@Type(type = "setType")
-	@Column(length = 16777215)
-	Set<String> sendCakeUserIds = new HashSet();
-	
-	@Type(type = "setType")
-	@Column(length = 16777215)
-	Set<String> sendFireworkUserIds = new HashSet();
-	
-	Set<String> getSendWishWordUserIds (){
-		Set<String> userIds = Sets.newHashSet();
-		for(birthdayWishWord in birthdayWishWords){
-			userIds.add(birthdayWishWord.getWisher().getUserId());
-		}
-		return userIds;
-	}
+    @Type(type = "dataMapType")
+    @Column
+    Map<String, Integer> giftCounts = new HashMap<>();
 
 	def countGifts(Collection<String> gifts){
 		for (String  gift: gifts) {
@@ -93,4 +69,11 @@ class BirthdayWish{
         return count
     }
 
+	Integer getTotalGiftCount() {
+		def totalCount = 0;
+		giftCounts.each {type,count->
+			totalCount += count
+		}
+		return totalCount
+	}
 }
