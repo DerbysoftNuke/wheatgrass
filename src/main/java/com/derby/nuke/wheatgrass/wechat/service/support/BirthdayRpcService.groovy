@@ -1,4 +1,9 @@
-package com.derby.nuke.wheatgrass.wechat.service.support;
+package com.derby.nuke.wheatgrass.wechat.service.support
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -6,9 +11,11 @@ import com.googlecode.jsonrpc4j.JsonRpcService;
 
 @JsonRpcService("/birthday.ci")
 interface BirthdayRpcService {
-	
-	def sendReminder(LocalDate today);
-	
-	def birthdayWishRecord(LocalDate today);
+
+    def sendReminder(
+            @JsonSerialize(using = LocalDateSerializer) @JsonDeserialize(using = LocalDateDeserializer) LocalDate today);
+
+    def birthdayWishRecord(
+            @JsonSerialize(using = LocalDateSerializer) @JsonDeserialize(using = LocalDateDeserializer) LocalDate today);
 
 }

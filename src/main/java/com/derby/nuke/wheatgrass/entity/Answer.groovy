@@ -54,7 +54,10 @@ class Answer{
 	Date createTime;
 
 	@Type(type = "setType")
+	@Column(length = 16777215)
 	Set<String> markUsefulUserIds = new HashSet();
+
 	@Type(type = "setType")
+	@Column(length = 16777215)
 	Set<String> markUnusefulUserIds = new HashSet();
 }
