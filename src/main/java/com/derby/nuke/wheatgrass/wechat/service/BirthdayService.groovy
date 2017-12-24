@@ -76,6 +76,10 @@ class BirthdayService implements BirthdayRpcService{
 		return birthdayWishWordRepository.findByBirthdayWishIdAndWisherId(birthdayWishId,userRepository.getByUserId(userId).getId())
 	}
 
+	List<BirthdayWishWord> findBirthdayWishWords(String birthdayWishId){
+		return birthdayWishWordRepository.findByBirthdayWishId(birthdayWishId)
+	}
+
 	def birthdayWishRecord(LocalDate nextMonth){
  		List<User> users=userRepository.findAll(UserSpecifications.birthdayPattern("%-"+nextMonth.toString().split("-")[1]+"-%"));
 		for(User user:users){
@@ -83,13 +87,13 @@ class BirthdayService implements BirthdayRpcService{
 			if (!nextMonth.isLeapYear() && nextMonth.getMonthValue() == 2 && day == 29) {
 				day=28;
 			}
-			
+
 			LocalDate birthday=LocalDate.of(nextMonth.year,nextMonth.monthValue,day);
 			try{
 				birthdayWishRepository.save(new BirthdayWish("createTime":new Date(),"user":user,"birthday":birthday));
 			}catch(e){}
 		}
-		
+
 		def messageType = "news";
 		def message = [
 			news: [
