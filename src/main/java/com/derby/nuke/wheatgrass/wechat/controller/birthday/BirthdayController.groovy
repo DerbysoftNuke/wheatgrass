@@ -87,17 +87,27 @@ class BirthdayController extends WechatController{
 		}
 	}
 
-	@RequestMapping(value = "/wish", method = RequestMethod.GET)
+	@RequestMapping(value = "/showWish", method = RequestMethod.GET)
 	@Transactional
-	def listWish(HttpSession session, @RequestParam(value = "birthdayWishId") String birthdayWishId) {
+	def showWish(HttpSession session, @RequestParam(value = "birthdayWishId") String birthdayWishId) {
 		def userId = session.getAttribute(Consts.USER_ID)
 		if (userId == null) {
 			throw new IllegalArgumentException("UserId not found")
 		}
-
 		BirthdayWish birthdayWish = birthdayService.findOne(birthdayWishId)
 		List<BirthdayWishWord> birthdayWishWords = birthdayService.findBirthdayWishWords(birthdayWishId)
 
-		return view("wish", ["userId": userId, "birthdayWish": birthdayWish, "birthdayWishWords": birthdayWishWords]);
+		return view("showWish", ["userId": userId, "birthdayWish": birthdayWish, "birthdayWishWords": birthdayWishWords]);
+	}
+
+	@RequestMapping(value = "/wish", method = RequestMethod.GET)
+	@Transactional
+	def wish(HttpSession session, @RequestParam(value = "birthday") String birthday) {
+        def userId = session.getAttribute(Consts.USER_ID)
+        if (userId == null) {
+            throw new IllegalArgumentException("UserId not found")
+        }
+        BirthdayWish birthdayWish = birthdayWishRepository.findByBirthdayAndUser(LocalDate.parse(birthday), userId)
+        return view("wish", ["userId": userId, "birthdayWish": birthdayWish])
 	}
 }

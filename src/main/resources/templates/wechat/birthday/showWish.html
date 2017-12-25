@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
+    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
+    <link rel="stylesheet" th:href="@{/birthday/css/style.css}"/>
+    <title>Birthday Greetings</title>
+    <style type="text/css" th:inline="javascript">
+    </style>
+</head>
+<body id="blessing_list">
+<div class="total">Hi<b th:text="${birthdayWish.user.name + ' ' + birthdayWish.user.englishName}"></b>, 你一共收到了<i th:text="${birthdayWish.getTotalGiftCount()}"></i>个祝福:</div>
+
+<div class="mainContent">
+    <div class="account">
+        <span class="icon-icon-cake"><b th:text="${birthdayWish.giftCounts['cake']}"></b></span>
+        <span class="icon-icon-bag"><b th:text="${birthdayWish.giftCounts['bag']}"></b></span>
+        <span class="icon-icon-kiss"><b th:text="${birthdayWish.giftCounts['kiss']}"></b></span>
+    </div>
+    <ul>
+        <li th:each="birthdayWishWord : ${birthdayWishWords}">
+            <img th:src="${birthdayWishWord.wisher.imageUrl}"/>
+
+            <div class="content" th:switch="${birthdayWishWord.gifts[0]}">
+                <h1 th:text="${birthdayWishWord.wisher.name + ' ' + birthdayWishWord.wisher.englishName}"></h1>
+                <h2 th:case="'cake'">给你送了一个蛋糕<span class="icon-icon-cake"></span></h2>
+                <h2 th:case="'bag'">给你送了一个红包<span class="icon-icon-bag"></span></h2>
+                <h2 th:case="'kiss'">给你送了一个热吻<span class="icon-icon-kiss"></span></h2>
+
+                <p th:text="${(birthdayWishWord.content == null || #strings.isEmpty(birthdayWishWord.content)) ? '祝你生日快乐！' : birthdayWishWord.content }"></p>
+            </div>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

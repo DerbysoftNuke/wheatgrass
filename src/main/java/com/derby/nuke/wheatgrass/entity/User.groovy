@@ -2,6 +2,7 @@ package com.derby.nuke.wheatgrass.entity;
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import org.joda.time.Days
 
 import java.time.LocalDate
 
@@ -61,4 +62,8 @@ class User{
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserMedal> medals = new HashSet<>();
+
+	def getEntryDays(){
+		return Days.daysBetween(org.joda.time.LocalDate.parse(entryday.toString()),org.joda.time.LocalDate.now()).getDays()
+	}
 }

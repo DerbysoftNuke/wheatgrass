@@ -64,6 +64,10 @@ class BirthdayService implements BirthdayRpcService {
 		return birthdayWishRepository.findByBirthdayBetween(firstDate, lastDate);
 	}
 
+	BirthdayWish findByBirthdayAndUser(LocalDate birthday,String userId){
+		return birthdayWishRepository.findByBirthdayAndUser(birthday,userId)
+	}
+
 	BirthdayWish findOne(String birthdayWishId) {
 		return birthdayWishRepository.findOne(birthdayWishId);
 	}

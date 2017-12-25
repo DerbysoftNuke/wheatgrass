@@ -5,32 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.4.min.js"/>
     <link rel="stylesheet" th:href="@{/birthday/css/style.css}"/>
+    <title>Birthday Greetings</title>
     <style type="text/css" th:inline="javascript">
     </style>
+    <script type="text/javascript" th:inline="javascript">
+
+        $(document).ready(function(){
+            function showDate(){
+                var today = new Date();
+                var str = "今天是" + today.getFullYear() + "年";
+                str += (today.getMonth()+1) + "月";
+                str += today.getDate() + "日～";
+                $("#show_date").html(str)
+            }
+
+            showDate()
+		});
+    </script>
 </head>
-<body id="blessing_list">
-<div class="total">Hi<b th:text="${birthdayWish.user.name + ' ' + birthdayWish.user.englishName}"></b>, 你一共收到了<i th:text="${birthdayWish.getTotalGiftCount()}"></i>个祝福:</div>
-
-<div class="mainContent">
-    <div class="account">
-        <span class="icon-icon-cake"><b th:text="${birthdayWish.giftCounts['cake']}"></b></span>
-        <span class="icon-icon-bag"><b th:text="${birthdayWish.giftCounts['bag']}"></b></span>
-        <span class="icon-icon-kiss"><b th:text="${birthdayWish.giftCounts['kiss']}"></b></span>
+<body id="blessing_girl">
+    <div class="content">
+        <p id="show_date" class="date"></p>
+        <p class="blessing">感谢你在德比软件<b th:text="${birthdayWish.user.getEntryDays()}"></b>天来的辛勤付出！同时也送出DerbySoft对你最好的祝福！</p>
+        <a class="submit" th:href="@{'/wechat/birthday/showWish?birthdayWishId='+ ${birthdayWish.id}}"></a>
     </div>
-    <ul>
-        <li th:each="birthdayWishWord : ${birthdayWishWords}">
-            <img th:src="${birthdayWishWord.wisher.imageUrl}"/>
-
-            <div class="content" th:switch="${birthdayWishWord.gifts[0]}">
-                <h1 th:text="${birthdayWishWord.wisher.name + ' ' + birthdayWishWord.wisher.englishName}"></h1>
-                <h2 th:case="'cake'">给你送了一个蛋糕<span class="icon-icon-cake"></span></h2>
-                <h2 th:case="'bag'">给你送了一个红包<span class="icon-icon-bag"></span></h2>
-                <h2 th:case="'kiss'">给你送了一个热吻<span class="icon-icon-kiss"></span></h2>
-
-                <p th:text="${#strings.isEmpty(birthdayWishWord.content) ? '祝你生日快乐！' : birthdayWishWord.content }"></p>
-            </div>
-        </li>
-    </ul>
-</div>
 </body>
 </html>
