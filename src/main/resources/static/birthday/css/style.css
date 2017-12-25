@@ -361,13 +361,13 @@ ul.details > li {
 	margin-right: 0;
 }
 
-#blessing_girl {
+.blessing_girl {
 	background:#FFDBDB url(../images/bg_girl.png) no-repeat;
 	background-size: 100% auto;
 	background-color: #EF0509；
  }
 
-#blessing_girl .content {
+.blessing_girl .content {
 	position: relative;
 	width: 340px;
 	height: 226px;
@@ -376,7 +376,7 @@ ul.details > li {
 	background-size: 340px 226px; 
 }
 
-#blessing_girl .content p.date {
+.blessing_girl .content p.date {
 	position: absolute;
 	left: 20px;
 	display: block;
@@ -386,7 +386,7 @@ ul.details > li {
 	font-size: 16px;
 }
 
-#blessing_girl .content p.blessing {
+.blessing_girl .content p.blessing {
 	position: absolute;
 	left: 40px;
 	top: 65px;
@@ -399,7 +399,7 @@ ul.details > li {
 	font-size: 16px;
 }
 
-#blessing_girl .content p.blessing b {
+.blessing_girl .content p.blessing b {
 	padding: 0 8px;
 	color: #FC5F62;
 	font-weight: bold;
@@ -407,7 +407,7 @@ ul.details > li {
 }
 
 
-#blessing_girl .content a.submit {
+.blessing_girl .content a.submit {
 	position: absolute;
 	left: 66px;
 	bottom: 0px;
@@ -417,13 +417,13 @@ ul.details > li {
 	background-color: transparent;
 }
 
-#blessing_boy {
+.blessing_boy {
 	background:#FFDBDB url(../images/bg_boy.png) no-repeat;
 	background-size: 100% auto;
 	background-color: #EF0509；
  }
 
-#blessing_boy .content {
+.blessing_boy .content {
 	position: relative;
 	width: 340px;
 	height: 226px;
@@ -433,7 +433,7 @@ ul.details > li {
 
 }
 
-#blessing_boy .content p.date {
+.blessing_boy .content p.date {
 	position: absolute;
 	left: 20px;
 	display: block;
@@ -443,7 +443,7 @@ ul.details > li {
 	font-size: 16px;
 }
 
-#blessing_boy .content p.blessing {
+.blessing_boy .content p.blessing {
 	position: absolute;
 	left: 40px;
 	top: 65px;
@@ -456,7 +456,7 @@ ul.details > li {
 	font-size: 16px;
 }
 
-#blessing_boy .content p.blessing b {
+.blessing_boy .content p.blessing b {
 	padding: 0 8px;
 	color: #FC5F62;
 	font-weight: bold;
@@ -464,7 +464,7 @@ ul.details > li {
 }
 
 
-#blessing_boy .content a.submit {
+.blessing_boy .content a.submit {
 	position: absolute;
 	left: 66px;
 	bottom: 0px;
