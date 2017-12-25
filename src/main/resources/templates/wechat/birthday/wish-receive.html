@@ -14,9 +14,9 @@
 
 <div class="mainContent">
     <div class="account">
-        <span class="icon-icon-cake"><b th:text="${birthdayWish.giftCounts['cake']}"></b></span>
-        <span class="icon-icon-bag"><b th:text="${birthdayWish.giftCounts['bag']}"></b></span>
-        <span class="icon-icon-kiss"><b th:text="${birthdayWish.giftCounts['kiss']}"></b></span>
+        <span class="icon-icon-cake"><b th:text="${birthdayWish.giftCounts.getOrDefault('cake',0)}"></b></span>
+        <span class="icon-icon-bag"><b th:text="${birthdayWish.giftCounts.getOrDefault('bag',0)}"></b></span>
+        <span class="icon-icon-kiss"><b th:text="${birthdayWish.giftCounts.getOrDefault('kiss',0)}"></b></span>
     </div>
     <ul>
         <li th:each="birthdayWishWord : ${birthdayWishWords}">
