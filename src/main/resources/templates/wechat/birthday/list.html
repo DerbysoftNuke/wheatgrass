@@ -122,17 +122,14 @@
                 var parent = $(this).parents("li")
 				var content = parent.find("textarea[name='content']").val();
 				var $gifts = parent.find(".btnGift span.active");
-                if(content == ''){
-                    if($gifts[0]==null){
-                        showErrorToast("请选择礼物");
-                        return;
-                    }
-				} else {
-                    if(content.length>20){
-                        showErrorToast("内容字数不能超过20");
-                        return false;
-                    }
+				if($gifts[0]==null){
+					showErrorToast("请选择礼物");
+					return;
 				}
+                if(content.length>20){
+                    showErrorToast("内容字数不能超过20");
+                    return false;
+                }
 			    var birthdayWishId = parent.data("wish-id");
 			    var gift = $gifts.first().data("gift");
 			    sendBirthdayWishWord(birthdayWishId, content, gift);
@@ -143,8 +140,7 @@
 	</head>
 	<body>
 	<header>
-		<img th:src="@{/birthday/images/banner.png}" src=""/>
-		<div class="month">1</div>
+		<img th:src="@{/birthday/images/month/{month}.png(month=${month})}"/>
 	</header>
 	<div class="main">
 		<div class="title" th:text="${month+'月寿星'}">寿星</div>
@@ -157,7 +153,7 @@
 			<div class="portrait">
 				<img th:src="${birthdayWish.user.imageUrl}"/>
 				<div class="info">
-					<h1 th:text="${birthdayWish.user.name}">姓名</h1>
+					<h1 th:text="${birthdayWish.user.name + ' ' + birthdayWish.user.englishName}">姓名</h1>
 					<h2 th:text="${birthdayWish.user.department}">部门</h2>
 				</div>
 			</div>

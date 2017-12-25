@@ -58,11 +58,12 @@ header img {
 
 header .month {
 	position: absolute;
-	top: 97px;
+	top: 0;
 	width: 60px;
 	font: bold 52px/1.5em "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	text-align: center;
 	color: #AE2F48;
+	padding-top: 83px;
 }
 
 .main {
@@ -281,12 +282,13 @@ ul.details > li {
 	color: #666;
 	padding:10px 10px 10px 36px;
 	border-radius: 4px;
-	width: 50px;
+	width: 60px;
 	left: 50%;
 	top: 50%;
-	margin-left: -48px;
+	margin-left: -53px;
 	margin-top: -15px;
 	display: none;
+
 
 }
 
@@ -406,6 +408,63 @@ ul.details > li {
 
 
 #blessing_girl .content a.submit {
+	position: absolute;
+	left: 66px;
+	bottom: 0px;
+	width: 178px;
+	height: 49px;
+	border: none;
+	background-color: transparent;
+}
+
+#blessing_boy {
+	background:#FFDBDB url(../images/bg_boy.png) no-repeat;
+	background-size: 100% auto;
+	background-color: #EF0509；
+ }
+
+#blessing_boy .content {
+	position: relative;
+	width: 340px;
+	height: 226px;
+	margin: 312px auto 0;
+	background: url(../images/sub_bg_boys.png) no-repeat;
+	background-size: 340px 226px; 
+
+}
+
+#blessing_boy .content p.date {
+	position: absolute;
+	left: 20px;
+	display: block;
+	width: 274px;
+	line-height: 48px;
+	text-align: center;
+	font-size: 16px;
+}
+
+#blessing_boy .content p.blessing {
+	position: absolute;
+	left: 40px;
+	top: 65px;
+	display: block;
+	width: 200px;
+	height: 85px;
+	padding: 10px 30px 0;
+	line-height: 1.5em;
+	text-align: left;
+	font-size: 16px;
+}
+
+#blessing_boy .content p.blessing b {
+	padding: 0 8px;
+	color: #FC5F62;
+	font-weight: bold;
+	
+}
+
+
+#blessing_boy .content a.submit {
 	position: absolute;
 	left: 66px;
 	bottom: 0px;
