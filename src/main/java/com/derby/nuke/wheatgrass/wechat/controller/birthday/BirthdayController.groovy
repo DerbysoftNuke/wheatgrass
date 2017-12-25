@@ -87,7 +87,7 @@ class BirthdayController extends WechatController{
 		}
 	}
 
-	@RequestMapping(value = "/showWish", method = RequestMethod.GET)
+	@RequestMapping(value = "/wish/receive", method = RequestMethod.GET)
 	@Transactional
 	def showWish(HttpSession session, @RequestParam(value = "birthdayWishId") String birthdayWishId) {
 		def userId = session.getAttribute(Consts.USER_ID)
@@ -97,7 +97,7 @@ class BirthdayController extends WechatController{
 		BirthdayWish birthdayWish = birthdayService.findOne(birthdayWishId)
 		List<BirthdayWishWord> birthdayWishWords = birthdayService.findBirthdayWishWords(birthdayWishId)
 
-		return view("showWish", ["userId": userId, "birthdayWish": birthdayWish, "birthdayWishWords": birthdayWishWords]);
+		return view("wish-receive", ["userId": userId, "birthdayWish": birthdayWish, "birthdayWishWords": birthdayWishWords]);
 	}
 
 	@RequestMapping(value = "/wish", method = RequestMethod.GET)
