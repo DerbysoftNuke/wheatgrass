@@ -101,7 +101,7 @@ class BirthdayService implements BirthdayRpcService {
 		List<User> users = userRepository.findAll(UserSpecifications.birthdayPattern("%-" + nextMonth.toString().split("-")[1] + "-%"));
 		for (User user : users) {
 			def day = user.birthday.day;
-			if (nextMonth.isLeapYear() && nextMonth.getMonthValue() == 2 && day == 29) {
+			if (!nextMonth.isLeapYear() && nextMonth.getMonthValue() == 2 && day == 29) {
 				day = 28;
 			}
 
