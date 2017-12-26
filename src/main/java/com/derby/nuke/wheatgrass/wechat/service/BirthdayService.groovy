@@ -1,8 +1,12 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
 import com.derby.nuke.wheatgrass.entity.BirthdayWishWord
+import com.derby.nuke.wheatgrass.entity.Sex
 import com.derby.nuke.wheatgrass.repository.BirthdayWishWordRepository
+import com.google.common.collect.HashMultimap
 import com.google.common.collect.Sets
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
@@ -21,6 +25,8 @@ import com.derby.nuke.wheatgrass.wechat.service.support.BirthdayRpcService
 @Service
 class BirthdayService implements BirthdayRpcService {
 
+	def Logger logger = LoggerFactory.getLogger(BirthdayService);
+
 	@Autowired
 	UserRepository userRepository;
 	@Autowired
@@ -36,21 +42,32 @@ class BirthdayService implements BirthdayRpcService {
 	def assistantAgentId;
 
 	def happyBirthday(LocalDate today) {
-		Collection<String> birthdayWishs = birthdayWishRepository.findUserIdsByBirthday(today);
+		Collection<User> users = birthdayWishRepository.findUsersByBirthday(today);
 
-		def messageType = "news";
-		def message = [
-				news: [
-						articles: [
-								[
-										title : "在这个特殊的日子里......",
-										url   : externalUrl + "/wechat/birthday/wish?birthday=" + today,
-										picurl: externalUrl + "/birthday/banner/banner_girls.jpg"
+		def userIdsBySex = HashMultimap.create()
+		users.each {user->
+			userIdsBySex.put(user.sex, user.userId)
+		}
+
+		userIdsBySex.asMap().each {sex, userIds->
+			try{
+				def messageType = "news";
+				def message = [
+						news: [
+								articles: [
+										[
+												title : "在这个特殊的日子里......",
+												url   : externalUrl + "/wechat/birthday/wish?birthday=" + today,
+												picurl: externalUrl + "/birthday/banner/banner_${sex==Sex.Male?'boy':'girl'}.jpg"
+										]
 								]
 						]
 				]
-		]
-		wechatService.sendMessage(birthdayWishs, messageType, message, assistantAgentId);
+				wechatService.sendMessage(userIds, messageType, message, assistantAgentId);
+			}catch (e){
+				logger.error("HappyBirthday failed by ${sex} and ${userIds}", e)
+			}
+		}
 	}
 
 	List<BirthdayWish> findBirthdayWishes(LocalDate date) {
