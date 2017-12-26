@@ -126,8 +126,8 @@
 					showErrorToast("请选择礼物");
 					return;
 				}
-                if(content.length>20){
-                    showErrorToast("内容字数不能超过20");
+                if(content.length>40){
+                    showErrorToast("内容字数不能超过40");
                     return false;
                 }
 			    var birthdayWishId = parent.data("wish-id");
@@ -164,7 +164,7 @@
 			</div>
 			<button class="btnComment icon-icon-heart" th:unless="${#sets.contains(birthdayWishIds, birthdayWish.id) || birthdayWish.user.userId == userId}">我要送祝福</button>
 			<div class="widgetComment" >
-				<textarea placeholder="送出你的祝福（限20个字以内）…" name="content"></textarea>
+				<textarea placeholder="送出你的祝福（限40个字以内）…" name="content"></textarea>
 				<div class="btnGift">
 					<span class="icon-icon-cake" data-gift="cake"></span>
 					<span class="icon-icon-bag" data-gift="bag"></span>
