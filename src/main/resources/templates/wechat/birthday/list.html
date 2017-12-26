@@ -48,7 +48,7 @@
 						}
 					}
 					var $ele = $("li[data-wish-id='"+birthdayWishId+"']");
-                	//$ele.find(".widgetComment,.btnComment").hide();
+                	$ele.find(".btnComment").click();
                 	$ele.find(".btnSend").hide();
                 	$ele.find(".content").attr("readonly","readonly")
                 	$ele.find(".btnComment").text("祝福已送出")
