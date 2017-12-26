@@ -144,9 +144,7 @@
 	</header>
 	<div class="main">
 		<div class="title" th:text="${month+'月寿星'}">寿星</div>
-		<div class="list">
-			<span th:each="birthdayWish : ${birthdayWishes}" th:text="${birthdayWish.user.name} ">寿星名字</span>
-		</div>
+		<div class="list"><span th:each="birthdayWish : ${birthdayWishes}" th:text="${birthdayWish.user.name} ">寿星名字</span></div>
 	</div>
 	<ul class="details">
 		<li th:each="birthdayWish : ${birthdayWishes}" th:attr="data-wish-id=${birthdayWish.id}" >
