@@ -69,6 +69,15 @@ class BirthdayWish {
         return count
     }
 
+    boolean containsGift(birthdayWishWords, gift){
+        if(birthdayWishWords == null || birthdayWishWords[id] == null){
+            return false
+        }
+
+        def birthdayWishWord = birthdayWishWords[id]
+        return birthdayWishWord.gifts.contains(gift)
+    }
+
 	Integer getTotalGiftCount() {
 		def totalCount = 0;
 		giftCounts.each {type,count->

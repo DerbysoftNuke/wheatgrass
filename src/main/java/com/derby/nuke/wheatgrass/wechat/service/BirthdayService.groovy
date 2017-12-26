@@ -98,14 +98,6 @@ class BirthdayService implements BirthdayRpcService {
 		return birthdayWishWordRepository.findByWisherIdAndBirthdayWishBirthdayBetween(userRepository.getByUserId(userId).getId(), firstDate, lastDate)
 	}
 
-	Set<String> findSendingOutWishIds(String userId, LocalDate date) {
-		Set<String> ids = Sets.newHashSet()
-		for (BirthdayWishWord birthdayWishWord : this.findSendingOutBirthdayWishWords(userId, date)) {
-			ids.add(birthdayWishWord.getBirthdayWish().getId());
-		}
-		return ids
-	}
-
 	void saveOrUpdate(BirthdayWishWord birthdayWishWord) {
 		birthdayWishWordRepository.save(birthdayWishWord);
 	}

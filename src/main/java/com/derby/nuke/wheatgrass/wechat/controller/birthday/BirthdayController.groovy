@@ -51,8 +51,13 @@ class BirthdayController extends WechatController{
         }
         LocalDate localDate = LocalDate.parse(date);
         List<BirthdayWish> birthdayWishes = birthdayService.findBirthdayWishes(localDate);
-        Set<String> birthdayWishIds = birthdayService.findSendingOutWishIds(userId, localDate);
-        return view("list", ["month": localDate.getMonthValue(), "userId": userId, "birthdayWishes": birthdayWishes, "birthdayWishIds": birthdayWishIds]);
+//        Set<String> birthdayWishIds = birthdayService.findSendingOutWishIds(userId, localDate);
+		def words = birthdayService.findSendingOutBirthdayWishWords(userId, localDate)
+		def myBirthdayWishWords = [:]
+		for (BirthdayWishWord birthdayWishWord : words) {
+			myBirthdayWishWords[birthdayWishWord.birthdayWish.id] = birthdayWishWord
+		}
+        return view("list", ["month": localDate.getMonthValue(), "userId": userId, "birthdayWishes": birthdayWishes, "myBirthdayWishWords": myBirthdayWishWords]);
     }
 
 	@RequestMapping(value="/wish/send", method = RequestMethod.POST)

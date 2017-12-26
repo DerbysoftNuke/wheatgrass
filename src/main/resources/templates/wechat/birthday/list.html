@@ -44,10 +44,15 @@
                             showErrorToast("你已经发送过祝福！");
 						} else {
                         	showErrorToast("发送失败");
+                        	return;
 						}
 					}
 					var $ele = $("li[data-wish-id='"+birthdayWishId+"']");
-                	$ele.find(".widgetComment,.btnComment").hide();
+                	//$ele.find(".widgetComment,.btnComment").hide();
+                	$ele.find(".btnSend").hide();
+                	$ele.find(".content").attr("readonly","readonly")
+                	$ele.find(".btnComment").text("祝福已送出")
+                	$ele.addClass('alreadySend')
 					$.each(data.data.giftCounts, function(i,e){
 						$ele.find(".icon-icon-"+i).text(e);
 					})
@@ -147,7 +152,7 @@
 		<div class="list"><span th:each="birthdayWish : ${birthdayWishes}" th:text="${birthdayWish.user.name} ">寿星名字</span></div>
 	</div>
 	<ul class="details">
-		<li th:each="birthdayWish : ${birthdayWishes}" th:attr="data-wish-id=${birthdayWish.id}" >
+		<li th:each="birthdayWish : ${birthdayWishes}" th:attr="data-wish-id=${birthdayWish.id}" th:classappend="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)} ? alreadySend : none">
 			<div class="portrait">
 				<img th:src="${birthdayWish.user.imageUrl}"/>
 				<div class="info">
@@ -160,15 +165,16 @@
 				<span class="icon-icon-bag" th:text="${birthdayWish.giftCounts.getOrDefault('bag',0)}">0</span>
 				<span class="icon-icon-kiss" th:text="${birthdayWish.giftCounts.getOrDefault('kiss',0)}">0</span>
 			</div>
-			<button class="btnComment icon-icon-heart" th:unless="${#sets.contains(birthdayWishIds, birthdayWish.id) || birthdayWish.user.userId == userId}">我要送祝福</button>
+			<button class="btnComment icon-icon-heart" th:unless="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id) || birthdayWish.user.userId == userId}">我要送祝福</button>
+			<button class="btnComment icon-icon-heart" th:if="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)}">祝福已送出</button>
 			<div class="widgetComment" >
-				<textarea placeholder="送出你的祝福（限40个字以内）…" name="content"></textarea>
+				<textarea placeholder="送出你的祝福（限40个字以内）…" name="content" class="content" th:readonly="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)}" th:text="${myBirthdayWishWords[birthdayWish.id]?.content}"></textarea>
 				<div class="btnGift">
-					<span class="icon-icon-cake" data-gift="cake"></span>
-					<span class="icon-icon-bag" data-gift="bag"></span>
-					<span class="icon-icon-kiss" data-gift="kiss"></span>
+					<span class="icon-icon-cake" data-gift="cake" th:classappend="${birthdayWish.containsGift(myBirthdayWishWords, 'cake')} ? active : none"></span>
+					<span class="icon-icon-bag" data-gift="bag" th:classappend="${birthdayWish.containsGift(myBirthdayWishWords, 'bag')} ? active : none"></span>
+					<span class="icon-icon-kiss" data-gift="kiss" th:classappend="${birthdayWish.containsGift(myBirthdayWishWords, 'kiss')} ? active : none"></span>
 				</div>
-				<button class="btnSend">立即送出</button>
+				<button class="btnSend" th:unless="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id) || birthdayWish.user.userId == userId}">立即送出</button>
 			</div>
 		</li>
 	</ul>
