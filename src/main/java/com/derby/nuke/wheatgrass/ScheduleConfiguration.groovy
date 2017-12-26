@@ -67,7 +67,7 @@ class ScheduleConfiguration implements UserDownloadService {
         user.email = userInfo.email;
         user.nickName = userInfo.weixinid;
         user.position = userInfo.position;
-        user.englishName = userInfo.english_name
+        user.englishName = userInfo.english_name?:""
         if (userInfo.gender == "1") {
             user.sex = Sex.Male;
         } else if (userInfo.gender == "2") {
