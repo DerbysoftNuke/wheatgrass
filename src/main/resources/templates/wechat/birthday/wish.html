@@ -16,18 +16,28 @@
                 var str = "今天是" + today.getFullYear() + "年";
                 str += (today.getMonth()+1) + "月";
                 str += today.getDate() + "日～";
-                $("#show_date").html(str)
+                $("#show_date").html(str);
+
+                var sexValue = $("#user_sex_id").val();
+                if("Male" == sexValue ){
+                    $("#wish_body_id").attr('class', 'blessing_boy');
+                }else{
+                    $("#wish_body_id").attr('class', 'blessing_girl');
+                }
             }
 
-            showDate()
+            showDate();
 		});
+
     </script>
 </head>
-<body id="blessing_girl">
-    <div class="content">
-        <p id="show_date" class="date"></p>
-        <p class="blessing">感谢你在德比软件<b th:text="${birthdayWish.user.getEntryDays()}"></b>天来的辛勤付出！同时也送出DerbySoft对你最好的祝福！</p>
-        <a class="submit" th:href="@{'/wechat/birthday/wish/receive?birthdayWishId='+ ${birthdayWish.id}}"></a>
-    </div>
+<body id="wish_body_id" class="blessing_girl">
+<div class="content">
+    <p id="show_date" class="date"></p>
+    <p class="blessing">感谢你在德比软件<b th:text="${birthdayWish.user.getEntryDays()}"></b>天来的辛勤付出！同时也送出DerbySoft对你最好的祝福！</p>
+    <a class="submit" th:href="@{'/wechat/birthday/wish/receive?birthdayWishId='+ ${birthdayWish.id}}"></a>
+
+    <input type="hidden" id="user_sex_id" th:value="${birthdayWish.user.sex}"/>
+</div>
 </body>
 </html>

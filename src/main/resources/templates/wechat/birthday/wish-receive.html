@@ -23,7 +23,7 @@
             <img th:src="${birthdayWishWord.wisher.imageUrl}"/>
 
             <div class="content" th:switch="${birthdayWishWord.gifts[0]}">
-                <h1 th:text="${birthdayWishWord.wisher.name + ' ' + birthdayWishWord.wisher.englishName}"></h1>
+                <h1><b th:text="${birthdayWishWord.wisher.name + ' ' + birthdayWishWord.wisher.englishName}"></b><span th:text="${'(' + birthdayWishWord.wisher.department + ')'}"></span></h1>
                 <h2 th:case="'cake'">给你送了一个蛋糕<span class="icon-icon-cake"></span></h2>
                 <h2 th:case="'bag'">给你送了一个红包<span class="icon-icon-bag"></span></h2>
                 <h2 th:case="'kiss'">给你送了一个热吻<span class="icon-icon-kiss"></span></h2>
