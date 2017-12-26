@@ -13,7 +13,7 @@ interface BirthdayWishRepository extends JpaRepository<BirthdayWish, String> {
 
     List<BirthdayWish> findByBirthdayBetween(LocalDate startDate, LocalDate endDate);
 
-    @Query("select distinct user from BirthdayWish where birthday=?")
+    @Query("select bw.user from BirthdayWish bw inner join bw.user where bw.birthday=?")
     Collection<User> findUsersByBirthday(LocalDate birthday);
 
     @Query("from BirthdayWish where birthday=? and user.userId=?")
