@@ -6,7 +6,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource
 
 import java.time.LocalDate
 
-@RepositoryRestResource(path = "birthdayWish")
+@RepositoryRestResource(path = "birthdayWishWord")
 interface BirthdayWishWordRepository extends JpaRepository<BirthdayWishWord, String> {
 
 	List<BirthdayWishWord> findByWisherIdAndBirthdayWishBirthdayBetween(String wisherId, LocalDate startDate, LocalDate endDate);
