@@ -12,10 +12,10 @@ import com.googlecode.jsonrpc4j.JsonRpcService;
 @JsonRpcService("/birthday.ci")
 interface BirthdayRpcService {
 
-    def sendReminder(
+    def happyBirthday(
             @JsonSerialize(using = LocalDateSerializer) @JsonDeserialize(using = LocalDateDeserializer) LocalDate today);
 
-    def birthdayWishRecord(
+    def announceBirthdayPersons(
             @JsonSerialize(using = LocalDateSerializer) @JsonDeserialize(using = LocalDateDeserializer) LocalDate today);
 
 }

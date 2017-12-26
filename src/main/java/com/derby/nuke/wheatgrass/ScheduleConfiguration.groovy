@@ -45,14 +45,14 @@ class ScheduleConfiguration implements UserDownloadService {
         }
     }
 
-    @Scheduled(cron = '${birthday.reminder.cron}')
-    void birthdayReminders() {
-        birthdayService.sendReminder(LocalDate.now());
+    @Scheduled(cron = '${notice.happy.birthday.cron}')
+    void happyBirthday() {
+        birthdayService.happyBirthday(LocalDate.now());
     }
 
-    @Scheduled(cron = '${birthday.wish.record.cron}')
-    void birthdayWishRecord() {
-        birthdayService.birthdayWishRecord(LocalDate.now().plusMonths(1));
+    @Scheduled(cron = '${announce.birthday.cron}')
+    void announceBirthdayPersons() {
+        birthdayService.announceBirthdayPersons(LocalDate.now().plusMonths(1));
     }
 
     @Override

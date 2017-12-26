@@ -35,7 +35,7 @@ class BirthdayService implements BirthdayRpcService {
 	@Value('${wechat.birthday.agent.id ?: "0"}')
 	def assistantAgentId;
 
-	def sendReminder(LocalDate today) {
+	def happyBirthday(LocalDate today) {
 		Collection<String> birthdayWishs = birthdayWishRepository.findUserIdsByBirthday(today);
 
 		def messageType = "news";
@@ -97,11 +97,11 @@ class BirthdayService implements BirthdayRpcService {
 		return birthdayWishWordRepository.findByBirthdayWishId(birthdayWishId)
 	}
 
-	def birthdayWishRecord(LocalDate nextMonth) {
+	def announceBirthdayPersons(LocalDate nextMonth) {
 		List<User> users = userRepository.findAll(UserSpecifications.birthdayPattern("%-" + nextMonth.toString().split("-")[1] + "-%"));
 		for (User user : users) {
 			def day = user.birthday.day;
-			if (!nextMonth.isLeapYear() && nextMonth.getMonthValue() == 2 && day == 29) {
+			if (nextMonth.isLeapYear() && nextMonth.getMonthValue() == 2 && day == 29) {
 				day = 28;
 			}
 
