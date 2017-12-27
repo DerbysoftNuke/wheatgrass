@@ -199,7 +199,11 @@ ul.details > li {
 	height: 60px;
 	border: none;
 	background-color: #eee;
-	
+}
+
+.widgetComment textarea:disabled {
+	-webkit-text-fill-color: rgba(0, 0, 0, 1);
+   	-webkit-opacity: 1;
 }
 
 .btnGift {
