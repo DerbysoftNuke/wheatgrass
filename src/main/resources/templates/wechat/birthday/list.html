@@ -48,14 +48,14 @@
 						}
 					}
 					var $ele = $("li[data-wish-id='"+birthdayWishId+"']");
-                	$ele.find(".btnComment").click();
                 	$ele.find(".btnSend").hide();
-                	$ele.find(".content").attr("readonly","readonly")
+                	$ele.find(".content").attr("readonly","readonly").attr("disabled","disabled")
                 	$ele.find(".btnComment").text("祝福已送出")
                 	$ele.addClass('alreadySend')
 					$.each(data.data.giftCounts, function(i,e){
 						$ele.find(".icon-icon-"+i).text(e);
 					})
+					$ele.find(".btnComment").click();
 				}
 			})
 		}
@@ -168,7 +168,7 @@
 			<button class="btnComment icon-icon-heart" th:unless="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id) || birthdayWish.user.userId == userId}">我要送祝福</button>
 			<button class="btnComment icon-icon-heart" th:if="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)}">祝福已送出</button>
 			<div class="widgetComment" >
-				<textarea placeholder="送出你的祝福（限40个字以内）…" name="content" class="content" th:readonly="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)}" th:text="${myBirthdayWishWords[birthdayWish.id]?.content}"></textarea>
+				<textarea placeholder="送出你的祝福（限40个字以内）…" name="content" maxlength="40" class="content" th:readonly="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)}" th:disabled="${#maps.containsKey(myBirthdayWishWords, birthdayWish.id)}" th:text="${myBirthdayWishWords[birthdayWish.id]?.content}"></textarea>
 				<div class="btnGift">
 					<span class="icon-icon-cake" data-gift="cake" th:classappend="${birthdayWish.containsGift(myBirthdayWishWords, 'cake')} ? active : none"></span>
 					<span class="icon-icon-bag" data-gift="bag" th:classappend="${birthdayWish.containsGift(myBirthdayWishWords, 'bag')} ? active : none"></span>
