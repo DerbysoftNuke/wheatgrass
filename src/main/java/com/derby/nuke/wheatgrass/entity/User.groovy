@@ -64,6 +64,6 @@ class User{
 	Set<UserMedal> medals = new HashSet<>();
 
 	def getEntryDays(){
-		return Days.daysBetween(org.joda.time.LocalDate.parse(entryday.toString()),org.joda.time.LocalDate.now()).getDays()
+		return entryday?Days.daysBetween(org.joda.time.LocalDate.parse(entryday.toString()),org.joda.time.LocalDate.now()).getDays():0
 	}
 }
