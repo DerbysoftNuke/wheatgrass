@@ -18,7 +18,7 @@ import com.googlecode.jsonrpc4j.JsonRpcService
 interface WechatRpcService {
 
     @JsonRpcMethod("sendMessage")
-    def Map sendMessage(
+    def boolean sendMessage(
             @JsonSerialize(using = CollectionSerializer) @JsonDeserialize(using = CollectionDeserializer) userIds,
             @JsonSerialize(using = StringSerializer) @JsonDeserialize(using = StringDeserializer) type,
             @JsonSerialize(using = MapSerializer) @JsonDeserialize(using = MapDeserializer) message,
