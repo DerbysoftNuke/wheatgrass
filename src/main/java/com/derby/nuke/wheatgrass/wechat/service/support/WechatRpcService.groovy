@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @JsonRpcService("/**/wechat.ci")
 interface WechatRpcService {
 
-    def boolean sendMessage(userIds, type, message, agentId);
+    @JsonRpcMethod("sendMessage")
+    def boolean sendMessage4rpc(List<String> userIds, String type, Map message, String agentId);
 
 }

@@ -81,6 +81,11 @@ class WechatService implements WechatRpcService {
         sendMessage(userIds, type, message, agentId);
     }
 
+    @Override
+    def boolean sendMessage4rpc(List<String> userIds, String type, Map message, String agentId){
+        this.sendMessage(userIds, type, message, agentId)
+    }
+
     def boolean sendMessage(userIds, type, message, agentId) {
         if (CollectionUtils.isEmpty(userIds)) {
             return;
