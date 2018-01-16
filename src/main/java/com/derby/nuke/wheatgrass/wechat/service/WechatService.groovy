@@ -82,7 +82,11 @@ class WechatService implements WechatRpcService {
     }
 
     @Override
-    def boolean sendMessage(userIds, type, message, agentId) {
+    Map sendMessage4rpc(List<String> userIds, String type, Map message, String agentId) {
+        return sendMessage(userIds, type, message, agentId)
+    }
+
+    def sendMessage(userIds, type, message, agentId) {
         if (CollectionUtils.isEmpty(userIds)) {
             return;
         }
@@ -94,7 +98,6 @@ class WechatService implements WechatRpcService {
             request[key] = value;
         }
         post("/cgi-bin/message/send?access_token=${accessToken}", request);
-        return true;
     }
 
     def getUrlForCode(redirectUri) {
