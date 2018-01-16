@@ -1,6 +1,7 @@
 package com.derby.nuke.wheatgrass.wechat.service
 
 import com.derby.nuke.wheatgrass.wechat.WechatException
+import com.derby.nuke.wheatgrass.wechat.service.support.WechatRpcService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Joiner
 import com.google.common.cache.CacheBuilder
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class WechatService {
+class WechatService implements WechatRpcService {
 
     @Value('${wechat.url}')
     def url = "wechat.url";
@@ -80,6 +81,7 @@ class WechatService {
         sendMessage(userIds, type, message, agentId);
     }
 
+    @Override
     def sendMessage(userIds, type, message, agentId) {
         if (CollectionUtils.isEmpty(userIds)) {
             return;
