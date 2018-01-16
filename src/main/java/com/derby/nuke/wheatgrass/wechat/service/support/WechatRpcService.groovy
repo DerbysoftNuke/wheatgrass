@@ -14,11 +14,11 @@ import com.googlecode.jsonrpc4j.JsonRpcService
 /**
  * Created by Passyt on 2018/1/16.
  */
-@JsonRpcService("/wechat.ci")
+@JsonRpcService("wechat.ci")
 interface WechatRpcService {
 
     @JsonRpcMethod("sendMessage")
-    def sendMessage(
+    def Map sendMessage(
             @JsonSerialize(using = CollectionSerializer) @JsonDeserialize(using = CollectionDeserializer) userIds,
             @JsonSerialize(using = StringSerializer) @JsonDeserialize(using = StringDeserializer) type,
             @JsonSerialize(using = MapSerializer) @JsonDeserialize(using = MapDeserializer) message,

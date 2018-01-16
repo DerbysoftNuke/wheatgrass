@@ -82,7 +82,7 @@ class WechatService implements WechatRpcService {
     }
 
     @Override
-    def sendMessage(userIds, type, message, agentId) {
+    def Map sendMessage(userIds, type, message, agentId) {
         if (CollectionUtils.isEmpty(userIds)) {
             return;
         }
