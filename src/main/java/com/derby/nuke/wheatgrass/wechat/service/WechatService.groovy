@@ -2,7 +2,6 @@ package com.derby.nuke.wheatgrass.wechat.service
 
 import com.derby.nuke.wheatgrass.wechat.WechatException
 import com.derby.nuke.wheatgrass.wechat.service.support.MessageRpcService
-import com.derby.nuke.wheatgrass.wechat.service.support.WechatRpcService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.common.base.Joiner
 import com.google.common.cache.CacheBuilder
