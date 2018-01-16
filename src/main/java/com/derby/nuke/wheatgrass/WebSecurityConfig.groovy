@@ -24,7 +24,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/api/**").authenticated()
-//                .antMatchers("/wechat.ci").authenticated()
+                .antMatchers("/**/wechat.ci").authenticated()
                 .antMatchers("/**").permitAll()
 				.and()
 			.httpBasic();
