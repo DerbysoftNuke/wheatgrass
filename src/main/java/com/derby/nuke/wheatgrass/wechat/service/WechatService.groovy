@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class WechatService implements WechatRpcService {
+class WechatService implements MessageRpcService {
 
     @Value('${wechat.url}')
     def url = "wechat.url";
@@ -82,10 +82,6 @@ class WechatService implements WechatRpcService {
     }
 
     @Override
-    def Map sendMessage4rpc(List<String> userIds, String type, Map message, String agentId){
-        return this.sendMessage(userIds, type, message, agentId)
-    }
-
     def sendMessage(userIds, type, message, agentId) {
         if (CollectionUtils.isEmpty(userIds)) {
             return;

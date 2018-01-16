@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.ResponseBody
 /**
  * Created by Passyt on 2018/1/16.
  */
-@JsonRpcService("/**/wechat.ci")
-interface WechatRpcService {
+@JsonRpcService("/message.ci")
+interface MessageRpcService {
 
-    @JsonRpcMethod("sendMessage")
-    def Map sendMessage4rpc(List<String> userIds, String type, Map message, String agentId);
+    def sendMessage(userIds, type, message, agentId);
 
 }
