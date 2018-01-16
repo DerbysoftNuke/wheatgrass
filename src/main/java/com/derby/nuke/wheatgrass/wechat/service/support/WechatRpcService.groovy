@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 /**
  * Created by Passyt on 2018/1/16.
  */
-@JsonRpcService("/*/wechat.ci")
+@JsonRpcService("/**/wechat.ci")
 interface WechatRpcService {
 
     def boolean sendMessage(userIds, type, message, agentId);
