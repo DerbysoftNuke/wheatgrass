@@ -55,7 +55,10 @@ class ScheduleConfiguration implements UserDownloadService {
             }
         } catch (ex) {
             logger.error("Download users failed", ex);
+        } finally {
+            logger.info("Done of downloading users");
         }
+
     }
 
     @Scheduled(cron = '${notice.happy.birthday.cron}')
@@ -78,6 +81,7 @@ class ScheduleConfiguration implements UserDownloadService {
 
     @Override
     void downloadUser(userId) {
+        logger.info("Downloading user {}", userId);
         def userInfo = wechatService.getUserInfo(userId);
         def user = userRepository.getByUserId(userId);
         if (user == null) {
