@@ -36,7 +36,7 @@ class User{
 	String id;
 	@Column(unique=true)
 	String userId;
-	@Column(unique=true)
+	@Column
 	String email;
 
 	@JsonIgnore
