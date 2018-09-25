@@ -1,5 +1,6 @@
 package com.derby.nuke.wheatgrass
 
+import com.google.common.collect.Sets
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory;
 
@@ -35,24 +36,44 @@ class ScheduleConfiguration implements UserDownloadService {
     @Scheduled(cron = '${download.users.cron}')
     @Override
     void downloadUsers() {
-        def userList = wechatService.getUsersByDepartment("1");
-        userList.each { item ->
-            try {
-                downloadUser(item.userid);
-            } catch (e) {
-                logger.error("Download user failed by ${item.userid}", e)
+        try {
+            def userList = wechatService.getUsersByDepartment("1");
+            def useIds = Sets.newHashSet();
+            userList.each { item ->
+                try {
+                    useIds.add(item.userid);
+                    downloadUser(item.userid);
+                } catch (e) {
+                    logger.error("Download user failed by ${item.userid}", e)
+                }
             }
+            userRepository.findAll().each { user ->
+                if (!useIds.contains(user.userId)) {
+                    user.birthday = null;
+                    userRepository.saveAndFlush(user);
+                }
+            }
+        } catch (ex) {
+            logger.error("Download users failed", ex);
         }
     }
 
     @Scheduled(cron = '${notice.happy.birthday.cron}')
     void happyBirthday() {
-        birthdayService.happyBirthday(LocalDate.now());
+        try {
+            birthdayService.happyBirthday(LocalDate.now());
+        } catch (e) {
+            logger.error("happyBirthday failed", e);
+        }
     }
 
     @Scheduled(cron = '${announce.birthday.cron}')
     void announceBirthdayPersons() {
-        birthdayService.announceBirthdayPersons(LocalDate.now().plusMonths(1));
+        try {
+            birthdayService.announceBirthdayPersons(LocalDate.now().plusMonths(1));
+        } catch (e) {
+            logger.error("announceBirthdayPersons failed", e);
+        }
     }
 
     @Override
@@ -67,7 +88,7 @@ class ScheduleConfiguration implements UserDownloadService {
         user.email = userInfo.email;
         user.nickName = userInfo.weixinid;
         user.position = userInfo.position;
-        user.englishName = userInfo.english_name?:""
+        user.englishName = userInfo.english_name ?: ""
         if (userInfo.gender == "1") {
             user.sex = Sex.Male;
         } else if (userInfo.gender == "2") {
@@ -76,11 +97,19 @@ class ScheduleConfiguration implements UserDownloadService {
         user.imageUrl = userInfo.avatar;
         userInfo.extattr.attrs.each { attr ->
             if (attr.name == "生日" && attr.value != null && attr.value != "") {
-                user.birthday = LocalDate.parse(attr.value);
+                try {
+                    user.birthday = LocalDate.parse(attr.value);
+                } catch (e) {
+                    user.birthday = null;
+                }
             } else if (attr.name == "籍贯") {
                 user.birthplace = attr.value;
             } else if (attr.name == "入职日期" && attr.value != null && attr.value != "") {
-                user.entryday = LocalDate.parse(attr.value);
+                try {
+                    user.entryday = LocalDate.parse(attr.value);
+                } catch (e) {
+                    user.entryday = null;
+                }
             }
         }
         if (userInfo.department != null && userInfo.department.size() > 0) {
