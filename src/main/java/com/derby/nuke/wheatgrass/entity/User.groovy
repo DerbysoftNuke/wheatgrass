@@ -2,6 +2,9 @@ package com.derby.nuke.wheatgrass.entity;
 
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
+import org.hibernate.annotations.SQLDelete
+import org.hibernate.annotations.Type
+import org.hibernate.annotations.Where
 import org.joda.time.Days
 
 import java.time.LocalDate
@@ -27,6 +30,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 @Entity
 @EqualsAndHashCode(excludes=["skills","medals"])
 @ToString(excludes=["skills","medals"])
+@SQLDelete(sql = "update user set IS_DEL = 1 where id = ?")
+@Where(clause = "IS_DEL = 0")
 class User{
 
 	@GeneratedValue(generator = "uuid")
@@ -62,6 +67,10 @@ class User{
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	Set<UserMedal> medals = new HashSet<>();
+
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	@Column(name = "IS_DEL")
+	private boolean isDel = false;
 
 	def getEntryDays(){
 		return entryday?Days.daysBetween(org.joda.time.LocalDate.parse(entryday.toString()),org.joda.time.LocalDate.now()).getDays():0

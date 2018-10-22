@@ -38,19 +38,20 @@ class ScheduleConfiguration implements UserDownloadService {
     void downloadUsers() {
         try {
             def userList = wechatService.getUsersByDepartment("1");
-            def useIds = Sets.newHashSet();
+            def userIds = Sets.newHashSet();
             userList.each { item ->
                 try {
-                    useIds.add(item.userid);
+                    userIds.add(item.userid);
                     downloadUser(item.userid);
                 } catch (e) {
                     logger.error("Download user failed by ${item.userid}", e)
                 }
             }
             userRepository.findAll().each { user ->
-                if (!useIds.contains(user.userId)) {
+                if (!userIds.contains(user.userId)) {
                     user.birthday = null;
                     userRepository.saveAndFlush(user);
+                    userRepository.delete(user)
                 }
             }
         } catch (ex) {
