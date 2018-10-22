@@ -51,6 +51,7 @@ class BirthdayService implements BirthdayRpcService {
 
 		userIdsBySex.asMap().each {sex, userIds->
 			try{
+				logger.info("Send happyBirthday message to $userIds")
 				def messageType = "news";
 				def message = [
 						news: [
@@ -135,6 +136,7 @@ class BirthdayService implements BirthdayRpcService {
 				]
 		]
 		if (users.size() > 0) {
+			logger.info("send message for ${nextMonth.getMonthValue()}月寿星")
 			wechatService.sendMessage(["@all"], messageType, message, assistantAgentId);
 		}
 	}

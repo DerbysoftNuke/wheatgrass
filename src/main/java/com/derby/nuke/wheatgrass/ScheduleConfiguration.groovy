@@ -67,6 +67,8 @@ class ScheduleConfiguration implements UserDownloadService {
             birthdayService.happyBirthday(LocalDate.now());
         } catch (e) {
             logger.error("happyBirthday failed", e);
+        } finally {
+            logger.info("Done of happyBirthday");
         }
     }
 
@@ -76,6 +78,8 @@ class ScheduleConfiguration implements UserDownloadService {
             birthdayService.announceBirthdayPersons(LocalDate.now().plusMonths(1));
         } catch (e) {
             logger.error("announceBirthdayPersons failed", e);
+        } finally {
+            logger.info("Done of announceBirthdayPersons");
         }
     }
 
