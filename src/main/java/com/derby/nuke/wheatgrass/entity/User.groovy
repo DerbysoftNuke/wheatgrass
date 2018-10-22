@@ -30,8 +30,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
 @Entity
 @EqualsAndHashCode(excludes=["skills","medals"])
 @ToString(excludes=["skills","medals"])
-@SQLDelete(sql = "update user set IS_DEL = 1 where id = ?")
-@Where(clause = "IS_DEL = 0")
+//@SQLDelete(sql = "update user set IS_DEL = 1 where id = ?")
+//@Where(clause = "IS_DEL = 0")
 class User{
 
 	@GeneratedValue(generator = "uuid")
@@ -70,7 +70,7 @@ class User{
 
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "IS_DEL")
-	private boolean isDel = false;
+	boolean isDel = false;
 
 	def getEntryDays(){
 		return entryday?Days.daysBetween(org.joda.time.LocalDate.parse(entryday.toString()),org.joda.time.LocalDate.now()).getDays():0

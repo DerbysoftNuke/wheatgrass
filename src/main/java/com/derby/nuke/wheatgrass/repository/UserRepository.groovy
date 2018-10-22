@@ -17,9 +17,9 @@ interface UserRepository extends JpaRepository<User, String>,JpaSpecificationExe
 
 	User getByUserId(@Param("userId") String userId);
 
-	@Query("from User order by name")
+	@Query("from User where isDel = false order by name")
 	List<User> findAll();
 	
-	@Query("from User where birthday like ?")
+	@Query("from User where birthday like ? and isDel = false")
 	List<User> findByBirthdayLike(String pattern);
 }

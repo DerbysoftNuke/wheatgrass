@@ -51,8 +51,9 @@ class ScheduleConfiguration implements UserDownloadService {
                 if (!userIds.contains(user.userId)) {
                     logger.info(user.userId+"/"+user.name+ " is deleted")
                     user.birthday = null;
+                    user.isDel = true
                     userRepository.saveAndFlush(user);
-                    userRepository.delete(user)
+//                    userRepository.delete(user)
                 }
             }
         } catch (ex) {
@@ -127,6 +128,7 @@ class ScheduleConfiguration implements UserDownloadService {
             user.department = department.name;
         }
 
+        user.isDel = false
         userRepository.saveAndFlush(user);
     }
 }
