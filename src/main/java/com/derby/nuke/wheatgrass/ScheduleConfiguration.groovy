@@ -49,6 +49,7 @@ class ScheduleConfiguration implements UserDownloadService {
             }
             userRepository.findAll().each { user ->
                 if (!userIds.contains(user.userId)) {
+                    logger.info(user.userId+"/"+user.name+ " is deleted")
                     user.birthday = null;
                     userRepository.saveAndFlush(user);
                     userRepository.delete(user)
